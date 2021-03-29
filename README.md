@@ -24,9 +24,9 @@ Stylist see hundreds of clients each month and being able to track and prepare f
 
 #### MVP
 
-Ability to log an appointment and technique used
-Provide a user's daily calendar
-uplaod a photo of the service 
+- Ability to log an appointment and technique used
+- Provide a user's daily calendar
+- uplaod a photo of the service 
 
 #### 2.0
 
