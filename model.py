@@ -1,5 +1,9 @@
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from faker import Faker
+
+fake = Faker()
 
 app = Flask(__name__)
 
@@ -17,7 +21,7 @@ class User(db.Model):
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String)
 
-    user_appt = db.relationship('Appointment_rec')
+    user_appt = db.relationship('Appointment_rec', backref='appointment_recs')
 
     def __repr__(self):
         """Show info about user"""
@@ -53,29 +57,29 @@ class Appointment_rec(db.Model):
     service_notes = db.Column(db.String, nullable=False)
     tools_used = db.Column(db.String, nullable=False)
 
-    user_id = db.Column(db.Integer, 
-                    db.ForeignKey('appointment_recs.user_id'),
+    userid = db.Column(db.Integer, 
+                    db.ForeignKey('users.user_id'),
                     nullable=False)
-    client_id = db.Column(db.Integer, 
+    clientid = db.Column(db.Integer, 
                     db.ForeignKey('clients.client_id'),
                     nullable=False)
-    service = db.Column(db.String, 
+    serviceid = db.Column(db.Integer, 
                     db.ForeignKey('services.service_id'),
                     nullable=False)
-    product_id = db.Column(db.Integer, 
+    productid = db.Column(db.Integer, 
                     db.ForeignKey('products.product_id'),
                     nullable=False)
 
-    user = db.relationship('User')
-    client = db.relationship('Client')
-    service = db.relationship('Service')
-    product = db.relationship('Product')
+    # user = db.relationship('User')
+    # client = db.relationship('Client')
+    # service = db.relationship('Service')
+    # product = db.relationship('Product')
 
     def __repr__(self):
         """Show appointment records info"""
         return f'<Appointment_rec appt_rec_id={self.appt_rec_id} user_id={self.user_id} client_id={self.client_id}>'
 
-class Appt_img(db.model):
+class Appt_img(db.Model):
     """Image taken of service"""
 
     __tablename__ = 'appt_imgs'
@@ -89,8 +93,8 @@ class Appt_img(db.model):
                         nullable=False)
 
     def __repr__(self):
-    """Show image info"""
-    return f'<Appt_img img_id={self.img_id} appt_rec_id={self.appt_rec_id}>'   
+        """Show image info"""
+        return f'<Appt_img img_id={self.img_id} appt_rec_id={self.appt_rec_id}>'   
 
 class Product_category(db.Model):
     """Category a product is used in"""
@@ -100,9 +104,9 @@ class Product_category(db.Model):
     product_category_id = db.Column(db.Integer, 
                                 autoincrement=True,
                                 primary_key=True)
-    category = db.Column(db.String, nullable=False)
+    category = db.Column(db.String, nullable=False, unique=True)
 
-    product = db.relationship('Product') 
+    # product = db.relationship('Product') 
 
     def __repr__(self):
         """Show product category"""
@@ -119,11 +123,11 @@ class Product(db.Model):
     product_name = db.Column(db.String, nullable=False)
     price = db.Column(db.Integer, nullable=False)
     
-    category = db.Column(db.String, 
+    category_name = db.Column(db.String, 
                     db.ForeignKey('product_categories.category'), 
                     nullable=True)
     
-    category = db.relationship('Product_category')
+    # category = db.relationship('Product_category')
 
     def __repr__(self):
         return f'<Product product_id={self.product_id} product_name={self.product_name}>'
@@ -160,10 +164,13 @@ class Service_and_tool(db.Model):
                     db.ForeignKey('tools.tool_id'))
     
     tool = db.relationship('Tool')
-    service = db.relationship('Service')
+    # service = db.relationship('Service')
+    
 
 class Tool(db.Model):
     """Tools used by the user"""
+
+    __tablename__ = 'tools'
 
     tool_id = db.Column(db.Integer,
                     autoincrement=True,
@@ -186,3 +193,6 @@ def connect_to_db(flask_app, db_uri='postgresql:///retame', echo=True):
 
 if __name__ == "__main__":
     from server import app
+
+
+    connect_to_db(app)
