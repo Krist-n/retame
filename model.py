@@ -1,8 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-# from faker import Faker
 
-# fake = Faker()
 app = Flask(__name__)
 
 db = SQLAlchemy()
@@ -40,8 +38,8 @@ class Client(db.Model):
     client_appt = db.relationship('Appointment_rec')
 
     def __repr__(self):
-    """Show info about client"""
-    return f'<Client client_id={self.user_id} email={self.email}>'
+        """Show info about client"""
+        return f'<Client client_id={self.user_id} email={self.email}>'
 
 class Appointment_rec(db.Model):
     """Appointment Records."""
@@ -54,10 +52,19 @@ class Appointment_rec(db.Model):
     appt_date = db.Column(db.DateTime, nullable=False)
     service_notes = db.Column(db.String, nullable=False)
     tools_used = db.Column(db.String, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('appointment_recs.user_id'))
-    client_id = db.Column(db.Integer, db.ForeignKey('clients.client_id'))
-    service = db.Column(db.String, db.ForeignKey('services.service_id'))
-    product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'))
+
+    user_id = db.Column(db.Integer, 
+                    db.ForeignKey('appointment_recs.user_id'),
+                    nullable=False)
+    client_id = db.Column(db.Integer, 
+                    db.ForeignKey('clients.client_id'),
+                    nullable=False)
+    service = db.Column(db.String, 
+                    db.ForeignKey('services.service_id'),
+                    nullable=False)
+    product_id = db.Column(db.Integer, 
+                    db.ForeignKey('products.product_id'),
+                    nullable=False)
 
     user = db.relationship('User')
     client = db.relationship('Client')
@@ -77,7 +84,9 @@ class Appt_img(db.model):
                         autoincrement=True,
                         primary_key=True)
     url = db.Column(db.String, nullable=False)
-    appt_rec_id = db.Column(db.Integer, db.ForeignKey('appointment_recs.appt_rec_id'), nullable=False)
+    appt_rec_id = db.Column(db.Integer, 
+                        db.ForeignKey('appointment_recs.appt_rec_id'), 
+                        nullable=False)
 
     def __repr__(self):
     """Show image info"""
@@ -109,7 +118,10 @@ class Product(db.Model):
                         primary_key=True)
     product_name = db.Column(db.String, nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    category = db.Column(db.String, db.ForeignKey('product_categories.category'), nullable=True)
+    
+    category = db.Column(db.String, 
+                    db.ForeignKey('product_categories.category'), 
+                    nullable=True)
     
     category = db.relationship('Product_category')
 
@@ -142,8 +154,10 @@ class Service_and_tool(db.Model):
     service_and_tool_id = db.Column(db.Integer,
                                 autoincrement=True,
                                 primary_key=True)
-    service_id = db.Column(db.Integer, db.ForeignKey('services.service_id'))
-    tool_id = db.Column(db.Integer, db.ForeignKey('tools.tool_id'))
+    service_id = db.Column(db.Integer, 
+                        db.ForeignKey('services.service_id'))
+    tool_id = db.Column(db.Integer, 
+                    db.ForeignKey('tools.tool_id'))
     
     tool = db.relationship('Tool')
     service = db.relationship('Service')
@@ -158,21 +172,15 @@ class Tool(db.Model):
     service_specific_tool = db.Column(db.String, nullable=True)
 
 
-# def connect_to_db(flask_app, db_uri='postgresql:///ratings', echo=True):
-#     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-#     flask_app.config['SQLALCHEMY_ECHO'] = echo
-#     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+def connect_to_db(flask_app, db_uri='postgresql:///retame', echo=True):
+    flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    flask_app.config['SQLALCHEMY_ECHO'] = echo
+    flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-#     db.app = flask_app
-#     db.init_app(flask_app)
+    db.app = flask_app
+    db.init_app(flask_app)
 
-    # print('Connected to the db!')
-
-
-
-    
-
-
+    print('Connected to the db!')
 
 
 
