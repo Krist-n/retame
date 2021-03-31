@@ -17,7 +17,7 @@ class User(db.Model):
     user_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    user_name = db.Column(db.String(15), unique=True)
+    user_name = db.Column(db.String(20), unique=True)
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String)
 
@@ -43,7 +43,7 @@ class Client(db.Model):
 
     def __repr__(self):
         """Show info about client"""
-        return f'<Client client_id={self.user_id} email={self.email}>'
+        return f'<Client client_id={self.client_id} email={self.email}>'
 
 class Appointment_rec(db.Model):
     """Appointment Records."""
@@ -68,7 +68,7 @@ class Appointment_rec(db.Model):
                     nullable=False)
     productid = db.Column(db.Integer, 
                     db.ForeignKey('products.product_id'),
-                    nullable=False)
+                    nullable=True)
 
     # user = db.relationship('User')
     # client = db.relationship('Client')
