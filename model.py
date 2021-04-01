@@ -52,16 +52,16 @@ class Appointment_rec(db.Model):
     service_notes = db.Column(db.String, nullable=False)
     tools_used = db.Column(db.String, nullable=False)
 
-    userid = db.Column(db.Integer, 
+    user_id = db.Column(db.Integer, 
                     db.ForeignKey('users.user_id'),
                     nullable=False)
-    clientid = db.Column(db.Integer, 
+    client_id = db.Column(db.Integer, 
                     db.ForeignKey('clients.client_id'),
                     nullable=False)
-    serviceid = db.Column(db.Integer, 
+    service_id = db.Column(db.Integer, 
                     db.ForeignKey('services.service_id'),
                     nullable=False)
-    productid = db.Column(db.Integer, 
+    product_id = db.Column(db.Integer, 
                     db.ForeignKey('products.product_id'),
                     nullable=True)
 

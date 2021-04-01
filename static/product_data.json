@@ -1,0 +1,249 @@
+[
+    {
+        "product_name": "Angel.Wash",
+        "product_category": "Wash",
+        "price": 33.00
+    },
+
+    {
+        "product_name": "Balancing.Wash",
+        "product_category": "Wash",
+        "price": 33.00
+    },
+
+    {
+        "product_name": "Blonde.Angel.Wash",
+        "product_category": "Wash",
+        "price": 33.00
+    },
+
+    {
+        "product_name": "Hydrate-Me.Wash",
+        "product_category": "Wash",
+        "price": 33.00
+    },
+
+    {
+        "product_name": "Maxi.Wash",
+        "product_category": "Wash",
+        "price": 33.00
+    },
+
+    {
+        "product_name": "Plumping.Wash",
+        "product_category": "Wash",
+        "price": 33.00
+    },
+
+    {
+        "product_name": "Repair-Me.Wash",
+        "product_category": "Wash",
+        "price": 33.00
+    },
+
+    {
+        "product_name": "Scalp.Spa.Wash",
+        "product_category": "Wash",
+        "price": 33.00
+    },
+
+    {
+        "product_name": "Smooth.Again.Wash",
+        "product_category": "Wash",
+        "price": 33.00
+    },
+
+    {
+        "product_name": "Stimulate.Me.Wash",
+        "product_category": "Wash",
+        "price": 33.00
+    },
+
+    {
+        "product_name": "Young.Again.Wash",
+        "product_category": "Wash",
+        "price": 33.00
+    },
+
+    {
+        "product_name": "Angel.Rinse",
+        "product_category": "Rinse",
+        "price": 32.00
+    },
+
+    {
+        "product_name": "Hydrate-Me.Rinse",
+        "product_category": "Rinse",
+        "price": 32.00
+    },
+
+    {
+        "product_name": "Plumping.Rinse",
+        "product_category": "Rinse",
+        "price": 38.00
+    },
+
+    {
+        "product_name": "Repair-Me.Rinse",
+        "product_category": "Rinse",
+        "price": 38.00
+    },
+
+    {
+        "product_name": "Smooth.Again.Rinse",
+        "product_category": "Rinse",
+        "price": 32.00
+    },
+
+    {
+        "product_name": "Stimulate.Me.Rinse",
+        "product_category": "Rinse",
+        "price": 32.00
+    },
+
+    {
+        "product_name": "Young.Again.Rinse",
+        "product_category": "Rinse",
+        "price": 38.00
+    },
+
+    {
+        "product_name": "Anti.Gravity.Lotion",
+        "product_category": "Styling",
+        "price": 30.00
+    },
+
+    {
+        "product_name": "Anti.Gravity.Spray",
+        "product_category": "Styling",
+        "price": 30.00
+    },
+
+    {
+        "product_name": "Bodybuilder",
+        "product_category": "Styling",
+        "price": 30.00
+    },
+
+    {
+        "product_name": "Easy.Rider",
+        "product_category": "Styling",
+        "price": 30.00
+    },
+
+    {
+        "product_name": "Ever.Bounce",
+        "product_category": "Styling",
+        "price": 34.00
+    },
+
+    {
+        "product_name": "Ever.Lift",
+        "product_category": "Styling",
+        "price": 34.00
+    },
+
+    {
+        "product_name": "Anti.Gravity.Lotion",
+        "product_category": "Styling",
+        "price": 34.00
+    },
+
+    {
+        "product_name": "Ever.Smooth",
+        "product_category": "Styling",
+        "price": 34.00
+    },
+
+    {
+        "product_name": "Free.Hold",
+        "product_category": "Styling",
+        "price": 30.00
+    }, 
+    
+    {
+        "product_name": "Full.Again",
+        "product_category": "Styling",
+        "price": 30.00
+    },
+
+    {
+        "product_name": "Hair.Resort.Spray",
+        "product_category": "Styling",
+        "price": 30.00
+    },
+
+    {
+        "product_name": "Killer.Curls",
+        "product_category": "Styling",
+        "price": 34.00
+    },
+
+    {
+        "product_name": "Killer.Waves",
+        "product_category": "Styling",
+        "price": 32.00
+    },
+
+    {
+        "product_name": "Motion.Lotion",
+        "product_category": "Styling",
+        "price": 30.00
+    },
+
+    {
+        "product_name": "Night.Rider",
+        "product_category": "Styling",
+        "price": 30.00
+    },
+
+    {
+        "product_name": "Powder.Puff",
+        "product_category": "Styling",
+        "price": 30.00
+    },
+
+    {
+        "product_name": "Rough.Rider",
+        "product_category": "Styling",
+        "price": 30.00
+    },
+
+    {
+        "product_name": "Shimmer.Me.Blonde",
+        "product_category": "Styling",
+        "price": 29.00
+    },
+    
+    {
+        "product_name": "Shimmer.Shine",
+        "product_category": "Styling",
+        "price": 29.00
+    },
+
+    {
+        "product_name": "Super.Goo",
+        "product_category": "Styling",
+        "price": 30.00
+    },
+
+    {
+        "product_name": "Bedroom.Hair",
+        "product_category": "Styling",
+        "price": 30.00
+    },
+
+    {
+        "product_name": "Body.Builder",
+        "product_category": "Styling",
+        "price": 30.00
+    },
+
+    {
+        "product_name": "Doo.Over",
+        "product_category": "Styling",
+        "price": 30.00
+    }
+
+ 
+]

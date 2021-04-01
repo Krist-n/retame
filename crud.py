@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, User, Client, Appointment_rec, Service, connect_to_db
+from model import db, User, Client, Appointment_rec, Service, Product, connect_to_db
 from datetime import datetime
 from faker import Faker
 
@@ -67,9 +67,82 @@ def get_services():
     return Service.query.all()
 
 def get_services_by_name(service_name):
-    """return a list of all users"""
+    """return a service"""
     
     return Service.query.filter(Service.service_name == service_name).first()
+
+def create_appointment_rec(user_id, client_id, appt_date, service_notes, tools_used):
+    """creating appointment records"""
+
+    appointment_rec = Appointment_rec(user_id=user_id, client_id=client_id, appt_date=appt_date, service_notes=service_notes, tools_used=tools_used)
+
+    db.session.add(appointment_rec)
+    db.commit()
+
+    return appointment_rec
+
+def get_appointment_recs():
+    """return a list of all appointment recs"""
+
+    return Appointment_rec.query.all()
+
+def get_appointment_recs_by_user_id(user_id):
+    """return a list of all appointment records for specific user_id"""
+
+    return Appointment_rec.query.filter(Appointment_rec.user_id == user_id).all()
+
+def get_appointment_recs_by_client_id(client_id):
+     """return a list of all appointment records for specific client_id"""
+
+     return Appointment_rec.query.filter(Appointment_rec.client_id == client_id).all()
+
+def get_appointment_recs_by_date(appt_date):
+    """return a list of all appointment records for specific date"""
+
+    return Appointment_rec.query.filter(Appointment_rec.appt_date == appt_date).all()
+
+def get_appointment_recs_by_appt_rec_id(appt_rec_id):
+    """Return appointment record with this appt_rec_id"""
+
+    return Appointment_rec.query.filter(Appointment_rec.appt_rec_id == appt_rec_id).first()
+
+def get_appointment_recs_by_product_id(product_id):
+    """Return a list of all appointment_recs with this product id."""
+
+    return Appointment_rec.query.filter(Appointment_rec.product_id == product_id).all()
+
+def get_appointment_recs_by_tools_used(tools_used, tool):
+    """Return a list of all appointment recs with this tool used"""
+    
+    for tool in tools_used:
+        if tool in tools_used:
+            return Appointment_rec.query.filter(Appointment_rec.tools_used == tool).all()
+
+def create_product(product_name, product_categories, price):
+    """create and return a new product"""
+
+    product = product_name=product_name, product_categories=product_categories, price=price
+
+    db.session.add(product)
+    db.session.commit()
+
+def get_product_by_id(product_id):
+    """return product by id"""
+
+    return Product.query.filter(Product.product_id == product_id).first()
+
+def get_product_by_name(product_name):
+    """return product by name"""
+
+    return Product.query.filter(Product.product_name == product_name).first()
+
+def get_product_by_product_categories(product_categories):
+    """return a list of all products in the category"""
+
+    return Product.query(Product.product_categories == product_categories).all()
+
+
+
 
     
 
