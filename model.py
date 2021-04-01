@@ -1,11 +1,6 @@
-from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
-from faker import Faker
 
-fake = Faker()
 
-app = Flask(__name__)
 
 db = SQLAlchemy()
 
@@ -96,21 +91,6 @@ class Appt_img(db.Model):
         """Show image info"""
         return f'<Appt_img img_id={self.img_id} appt_rec_id={self.appt_rec_id}>'   
 
-class Product_category(db.Model):
-    """Category a product is used in"""
-
-    __tablename__ = 'product_categories'
-
-    product_category_id = db.Column(db.Integer, 
-                                autoincrement=True,
-                                primary_key=True)
-    category = db.Column(db.String, nullable=False, unique=True)
-
-    # product = db.relationship('Product') 
-
-    def __repr__(self):
-        """Show product category"""
-        return f'<Product_category product_category_id={self.product_category_id} category={self.category}>'   
 
 class Product(db.Model):
     """A product."""
@@ -150,33 +130,7 @@ class Service(db.Model):
     def __repr__(self):
         return f'<Service service_id={self.service_id} service_name={self.service_name}>'
 
-class Service_and_tool(db.Model):
-    """Association table"""
 
-    __tablename__ = 'services_and_tools'
-
-    service_and_tool_id = db.Column(db.Integer,
-                                autoincrement=True,
-                                primary_key=True)
-    service_id = db.Column(db.Integer, 
-                        db.ForeignKey('services.service_id'))
-    tool_id = db.Column(db.Integer, 
-                    db.ForeignKey('tools.tool_id'))
-    
-    tool = db.relationship('Tool')
-    # service = db.relationship('Service')
-    
-
-class Tool(db.Model):
-    """Tools used by the user"""
-
-    __tablename__ = 'tools'
-
-    tool_id = db.Column(db.Integer,
-                    autoincrement=True,
-                    primary_key=True)
-    tool_name = db.Column(db.String, nullable=False)
-    service_specific_tool = db.Column(db.String, nullable=True)
 
 
 def connect_to_db(flask_app, db_uri='postgresql:///retame', echo=True):

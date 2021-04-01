@@ -34,11 +34,10 @@ for client in client_data:
 
 
 
-     # dictionary dumped as json in a json file 
-    with open('data_file.json', 'w') as write_file: 
-        json.dump(user_data, write_file) 
-    with open('data_file.json', 'w') as write_file: 
-        json.dump(client_data, write_file) 
+
+    with open('service_data/services.json') as f: 
+        service_data = json.loads(f.read()) 
+
     
 users_in_db = []
 clients_in_db = []
