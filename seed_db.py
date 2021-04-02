@@ -2,7 +2,7 @@ import os
 import json
 from datetime import datetime
 from faker import Faker
-from random import randint
+from random import randint, choice
 
 import model
 import crud
@@ -37,6 +37,9 @@ for client in client_data:
 
 
     with open('service_data/services.json') as f: 
+        service_data = json.loads(f.read()) 
+
+    with open('product_data/products.json') as f: 
         service_data = json.loads(f.read()) 
 
     
@@ -80,7 +83,8 @@ for appointment_rec in range(10):
     client_id = random.randint(1, 100)
     service_id = random.randint(1, 16)
     product_id = random.randint(1, 40)
-    
+    appt_img = random.choice(os.listdir("/Users/md7992/src/project/images"))
+
 
         
 
