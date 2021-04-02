@@ -64,6 +64,9 @@ class Appointment_rec(db.Model):
     product_id = db.Column(db.Integer, 
                     db.ForeignKey('products.product_id'),
                     nullable=True)
+    appt_img_id =db.Column(db.Integer, 
+                    db.ForeignKey('appt_imgs.appt_img_id'),
+                    nullable=True)
 
     # user = db.relationship('User')
     # client = db.relationship('Client')
@@ -82,6 +85,7 @@ class Appt_img(db.Model):
     img_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
+    img_date = db.Column(db.datetime,nullable=False)
     url = db.Column(db.String, nullable=False)
     appt_rec_id = db.Column(db.Integer, 
                         db.ForeignKey('appointment_recs.appt_rec_id'), 
