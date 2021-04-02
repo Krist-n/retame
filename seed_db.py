@@ -72,7 +72,7 @@ path = '/home/vagrant/src/project/static'
 appt_img = choice([x for x in os.listdir(path) 
                             if os.path.isfile(os.path.join(path, x))])
                           
-for img in appt_img:
+for img in range(10):
     url = appt_img
     img_date = fake.past_datetime()
 
@@ -91,25 +91,32 @@ service_notes_word_list = ['taper', 'fade', 'gradutation', 'sheers', 'theirs', '
 tools_used_word_list = ['shears', 'thinning shears', 'razor', 'straight blade', 'clippers', 'trimmers', 'texture shears']
 appt_rec_in_db = []
 
+random_past_date = fake.past_datetime()
+
+# random_service_notes = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
+# random_tools_used = fake.word(ext_word_list=tools_used_word_list)
 
 # Creating fake appointment records
+with open('data/appointment_rec_data.json') as f: 
+        appointment_data = json.loads(f.read())
+
 Faker.seed(0)
-for appointment_rec in range(10):
-    appt_date = fake.past_datetime()
-    service_notes = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
-    tools_used = fake.word(ext_word_list=tools_used_word_list)
-    num = 1
-    num += 1
-    user_id = num
-    client_id = num
-    service_id = num
-    product_id = num
-    img_id = num
- 
-    
-    appt_rec_in_db.append(appointment_rec)
-    appt_rec = crud.create_appointment_rec(appt_date, service_notes, tools_used, user_id, \
-        client_id, service_id, product_id, img_id)
+for record in appointment_data:
+    record['appt_date'] = fake.past_datetime()
+    appt_date = record['appt_date']
+    record['service_notes'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
+    service_notes = record['service_notes']
+    record['tools_used'] = fake.word(ext_word_list=tools_used_word_list)
+    tools_used = record['tools_used']
+    user_id, client_id, service_id, product_id, img_id = (record['user_id'],
+                                                        record['client_id'],
+                                                        record['service_id'],
+                                                        record['product_id'],
+                                                        record['img_id'])
+
+    appt_rec_in_db.append(appointment_data)
+    appt_rec = crud.create_appointment_rec(appt_date, service_notes, tools_used, \
+        user_id, client_id, service_id, product_id, img_id)
 
 
 
