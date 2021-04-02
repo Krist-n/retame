@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-
+from datetime import datetime
 
 
 db = SQLAlchemy()
@@ -64,8 +64,8 @@ class Appointment_rec(db.Model):
     product_id = db.Column(db.Integer, 
                     db.ForeignKey('products.product_id'),
                     nullable=True)
-    appt_img_id =db.Column(db.Integer, 
-                    db.ForeignKey('appt_imgs.appt_img_id'),
+    img_id = db.Column(db.Integer, 
+                    db.ForeignKey('appt_imgs.img_id'),
                     nullable=True)
 
     # user = db.relationship('User')
@@ -85,15 +85,15 @@ class Appt_img(db.Model):
     img_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    img_date = db.Column(db.datetime,nullable=False)
+    img_date = db.Column(db.DateTime,nullable=False)
     url = db.Column(db.String, nullable=False)
-    appt_rec_id = db.Column(db.Integer, 
-                        db.ForeignKey('appointment_recs.appt_rec_id'), 
-                        nullable=False)
+    # appt_rec_id = db.Column(db.Integer, 
+    #                     db.ForeignKey('appointment_recs.appt_rec_id'), 
+    #                     nullable=False)
 
     def __repr__(self):
         """Show image info"""
-        return f'<Appt_img img_id={self.img_id} appt_rec_id={self.appt_rec_id}>'   
+        return f'<Appt_img img_id={self.img_id}>'   
 
 
 class Product(db.Model):
@@ -105,13 +105,9 @@ class Product(db.Model):
                         autoincrement=True,
                         primary_key=True)
     product_name = db.Column(db.String, nullable=False)
-    price = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    product_category = db.Column(db.String, nullable=True)
     
-    category_name = db.Column(db.String, 
-                    db.ForeignKey('product_categories.category'), 
-                    nullable=True)
-    
-    # category = db.relationship('Product_category')
 
     def __repr__(self):
         return f'<Product product_id={self.product_id} product_name={self.product_name}>'
@@ -126,10 +122,9 @@ class Service(db.Model):
                         primary_key=True)
     service_name = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=False)
-    price = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, nullable=False)
 
     appt_service = db.relationship('Appointment_rec')
-    service_tools = db.relationship('Service_and_tool')
 
     def __repr__(self):
         return f'<Service service_id={self.service_id} service_name={self.service_name}>'

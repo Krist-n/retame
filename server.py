@@ -9,13 +9,14 @@ app = Flask(__name__)
 app.secret_key = "top-secret"
 app.jinja_env.undefined = StrictUndefined
 
-@app.route('/schedule')
+
+@app.route('/')
 def schedule():
     """view schedulle"""
-    user_name = request.form['email']
+    user_name = request.form['user_name']
     password = request.form['password']
 
-    return render_template('schedule.html')
+    return render_template('homepage.html')
 
 @app.route('/services')
 def all_services():    

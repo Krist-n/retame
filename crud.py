@@ -42,35 +42,39 @@ def create_service(service_name, description, price):
     return service
 
 
-def create_appointment_rec(appt_date, service_notes, tools_used, user_id, client_id, service_id, product_id, appt_img_id):
+def create_appointment_rec(appt_date, service_notes, tools_used, user_id, client_id, service_id, product_id, img_id):
     """creating appointment records"""
 
     appointment_rec = Appointment_rec(appt_date=appt_date, service_notes=service_notes, \
         tools_used=tools_used, user_id=user_id, client_id=client_id, service_id=service_id,\
-        product_id=product_id, appt_img_id=appt_img_id)
+        product_id=product_id, img_id=img_id)
 
     db.session.add(appointment_rec)
-    db.commit()
+    db.session.commit()
 
     return appointment_rec
 
 
-def create_appt_img(appt_img_id, url, appt_rec_id, img_date):
+def create_appt_img(url, img_date):
     """create and return an appointment image"""
 
-    appt_img = appt_img_id=appt_img_id, url=url, appt_rec_id=appt_rec_id, img_date=img_date
+    appt_img = Appt_img(url=url, img_date=img_date)
 
     db.session.add(appt_img)
     db.session.commit()
 
+    return appt_img
 
-def create_product(product_name, product_categories, price):
+
+def create_product(product_name, product_category, price):
     """create and return a new product"""
 
-    product = product_name=product_name, product_categories=product_categories, price=price
+    product = Product(product_name=product_name, product_category=product_category, price=price)
 
     db.session.add(product)
-    db.session.commit()    
+    db.session.commit() 
+
+    return product   
 
 
 #<<< ------ User queries ------ >>>#
@@ -190,7 +194,7 @@ def get_appt_img():
 def get_appt_img_by_id():
     """return all appt_imgs"""
 
-    return Appt_img.query.filter(Appt_img.appt_img_id).all()
+    return Appt_img.query.filter(Appt_img.img_id).all()
 
 
 def get_appt_img_by_appt_rec(appt_rec_id):

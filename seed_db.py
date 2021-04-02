@@ -1,8 +1,9 @@
 import os
 import json
+from random import randint, choice
 from datetime import datetime
 from faker import Faker
-from random import randint, choice
+
 
 import model
 import crud
@@ -18,31 +19,7 @@ model.connect_to_db(server.app)
 model.db.create_all()
 
 
-  
 
-user_data = {}
-for user in user_data: 
-    user_data['user_name']= fake.user_name() 
-    user_data['password']= fake.password() 
-    user_data['email']= str(fake.email()) 
-
-
-client_data = {}
-for client in client_data: 
-    client_data['fname']= fake.first_name() 
-    client_data['lname']= fake.last_name() 
-    client_data['email']= str(fake.email())
-
-
-
-
-    with open('service_data/services.json') as f: 
-        service_data = json.loads(f.read()) 
-
-    with open('product_data/products.json') as f: 
-        service_data = json.loads(f.read()) 
-
-    
 users_in_db = []
 clients_in_db = []
 
@@ -64,26 +41,76 @@ for user in range(10):
         client = crud.create_client(fname, lname, email)
         clients_in_db.append(client)
 
-# Creating fake Appointment records
+# Parsing through json service_date
+with open('data/service_data.json') as f: 
+        service_data = json.loads(f.read())
 
-ext_word_list = ['taper', 'fade', 'gradutation', 'sheers', 'theirs', 'sections', 'over direction', 'guard', \
+for service in service_data:
+    service_name, description, price = (service['service_name'],
+                                        service['description'],
+                                        service['price']) 
+
+    db_service = crud.create_service(service_name,
+                                    description,
+                                    price)
+
+# Parsing through json product_date
+with open('data/product_data.json') as f: 
+        product_data = json.loads(f.read())
+
+for product in product_data:
+    product_name, product_category, price = (product['product_name'],
+                                            product['product_category'],
+                                            product['price']) 
+
+    db_product = crud.create_product(product_name,
+                                    product_category,
+                                    price)
+
+# Creating images file for random img 
+path = '/home/vagrant/src/project/static'
+appt_img = choice([x for x in os.listdir(path) 
+                            if os.path.isfile(os.path.join(path, x))])
+                          
+for img in appt_img:
+    url = appt_img
+    img_date = fake.past_datetime()
+
+    db_appt_img = crud.create_appt_img(url,
+                                    img_date)
+
+
+# Creating fake Appointment records
+service_notes_word_list = ['taper', 'fade', 'gradutation', 'sheers', 'theirs', 'sections', 'over direction', 'guard', \
     'razor', 'shave', 'use', 'comb', 'I', 'length', 'long', 'cut', 'my', 'shorten', 'low', 'sideburns', 'hairline', \
     '1', '2', '3', 'his', '4', '5', '6', 'make', '7', '8', 'thinned', 'he' 'texturized', 'softened', 'her', 'cowlick','thick', \
     'trimmers', 'natural', 'them', 'trim', 'section', 'elongate', 'lift', 'round', 'oval', 'wavy', 'curly', \
     'fine', 'coarse', 'angles', 'layers', 'bangs', 'elevation', 'look', 'shape', 'she', 'they', 'blowdry', 'them', 'thicken']
 
-ext_word_list1 = ['shears', 'thinning shears', 'razor', 'straight blade', 'clippers', 'trimmers', 'texture shears']
 
-fake.seed(0)
+tools_used_word_list = ['shears', 'thinning shears', 'razor', 'straight blade', 'clippers', 'trimmers', 'texture shears']
+appt_rec_in_db = []
+
+
+# Creating fake appointment records
+Faker.seed(0)
 for appointment_rec in range(10):
-    appt_date = f'{fake.datetime()}'
-    service_notes = fake.paragraph(nb_sentence=3, ext_word_list)
-    tools_used = fake.word(ext_word_list1)
-    user_id = random.randint(1, 10)
-    client_id = random.randint(1, 100)
-    service_id = random.randint(1, 16)
-    product_id = random.randint(1, 40)
-    appt_img = random.choice(os.listdir("/Users/md7992/src/project/images"))
+    appt_date = fake.past_datetime()
+    service_notes = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
+    tools_used = fake.word(ext_word_list=tools_used_word_list)
+    num = 1
+    num += 1
+    user_id = num
+    client_id = num
+    service_id = num
+    product_id = num
+    img_id = num
+ 
+    
+    appt_rec_in_db.append(appointment_rec)
+    appt_rec = crud.create_appointment_rec(appt_date, service_notes, tools_used, user_id, \
+        client_id, service_id, product_id, img_id)
+
 
 
         
