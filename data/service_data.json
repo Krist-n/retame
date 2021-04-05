@@ -1,0 +1,98 @@
+
+[
+    {
+        "service_name": "Long cut",
+        "description": "Shoulder length or longer",
+        "price": 75.00
+        
+    },
+    {
+        "service_name": "Mid-length cut",
+        "description": "Between shoulder and ears",
+        "price": 70.00
+    },
+    {
+        "service_name": "Bob-Pixie",
+        "description": "Above the ears to chin length",
+        "price": 65.00
+       
+    },
+    {
+        "service_name": "Buzz cut",
+        "description": "One length with tapering at the bottom",
+        "price": 20.00
+      
+    },
+    {
+        "service_name": "Clipper cut",
+        "description": "Short cut done with mostly clippers, including detail work",
+        "price": 45.00
+       
+    },
+    {
+        "service_name": "Shave",
+        "description": "Hot shave",
+        "price": 35.00
+
+
+    },
+    {
+        "service_name": "Bald fade",
+        "description": "Tight taper to skin, detail work on top length",
+        "price": 50.00
+    },
+    {
+        "service_name": "Bang trim",
+        "description": "trimming or creating a fringe only",
+        "price": 15.00
+        
+    },
+    {
+        "service_name": "Blow out",
+        "description": "Wash and blow dry style",
+        "price": 50.00
+        
+    },
+    {
+        "service_name": "Flat ironing",
+        "description": "Finish work with flat iron",
+        "price": 10.00
+        
+    },
+    {
+        "service_name": "Up-do",
+        "description": "Special occasion styling",
+        "price": 55.00
+    
+    },
+    {
+        "service_name": "Neck trime",
+        "description": "Neck shave and clean up",
+        "price": 15.00
+    },
+    {
+        "service_name": "Kids cut",
+        "description": "Childrens cut",
+        "price": 35.00
+        
+    },
+    {
+        "service_id": 14,
+        "service_name": "Braiding",
+        "description": "braiding and styling",
+        "price": 55.00
+        
+    },
+    {
+       
+        "service_name": "Curling iron",
+        "description": "Curling iron style finish work",
+        "price": 10.00
+        
+    },
+    {
+        "service_name": "Beard trim",
+        "description": "Beard trim and shape as needed",
+        "price": 35.00
+    }
+]

@@ -12,15 +12,17 @@ class User(db.Model):
     user_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    user_name = db.Column(db.String(20), unique=True)
+    fname = db.Column(db.String(15), nullable=False)
+    lname = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String)
 
-    user_appt = db.relationship('Appointment_rec', backref='appointment_recs')
+    user_appt = db.relationship('Appointment_rec')
 
     def __repr__(self):
         """Show info about user"""
         return f'<User user_id={self.user_id} email={self.email}>'
+
 
 class Client(db.Model):
     """A client"""
@@ -33,12 +35,13 @@ class Client(db.Model):
     fname = db.Column(db.String, nullable=False)
     lname = db.Column(db.String, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
-
+    
     client_appt = db.relationship('Appointment_rec')
 
     def __repr__(self):
         """Show info about client"""
         return f'<Client client_id={self.client_id} email={self.email}>'
+
 
 class Appointment_rec(db.Model):
     """Appointment Records."""
@@ -68,14 +71,12 @@ class Appointment_rec(db.Model):
                     db.ForeignKey('appt_imgs.img_id'),
                     nullable=True)
 
-    # user = db.relationship('User')
-    # client = db.relationship('Client')
-    # service = db.relationship('Service')
-    # product = db.relationship('Product')
 
     def __repr__(self):
         """Show appointment records info"""
-        return f'<Appointment_rec appt_rec_id={self.appt_rec_id} user_id={self.user_id} client_id={self.client_id}>'
+        return f'<Appointment_rec appt_rec_id={self.appt_rec_id} user_id={self.user_id} client_id={self.client_id} \
+            service_notes={self.service_notes}>'
+
 
 class Appt_img(db.Model):
     """Image taken of service"""
@@ -87,9 +88,7 @@ class Appt_img(db.Model):
                         primary_key=True)
     img_date = db.Column(db.DateTime,nullable=False)
     url = db.Column(db.String, nullable=False)
-    # appt_rec_id = db.Column(db.Integer, 
-    #                     db.ForeignKey('appointment_recs.appt_rec_id'), 
-    #                     nullable=False)
+   
 
     def __repr__(self):
         """Show image info"""
@@ -111,6 +110,7 @@ class Product(db.Model):
 
     def __repr__(self):
         return f'<Product product_id={self.product_id} product_name={self.product_name}>'
+
 
 class Service(db.Model):
     """Services performed"""

@@ -26,10 +26,12 @@ clients_in_db = []
 # Creating fake users
 for user in range(10):
     user_name = fake.user_name()
+    fname = fake.first_name()
+    lname = fake.last_name()
     email = fake.email()
     password = fake.password()
 
-    user = crud.create_user(user_name, email, password)
+    user = crud.create_user(fname, lname, email, password)
     users_in_db.append(user)
 
 # Creating fake clients
@@ -82,10 +84,10 @@ for img in range(10):
 
 # Creating fake Appointment records
 service_notes_word_list = ['taper', 'fade', 'gradutation', 'sheers', 'theirs', 'sections', 'over direction', 'guard', \
-    'razor', 'shave', 'use', 'comb', 'I', 'length', 'long', 'cut', 'my', 'shorten', 'low', 'sideburns', 'hairline', \
-    '1', '2', '3', 'his', '4', '5', '6', 'make', '7', '8', 'thinned', 'he' 'texturized', 'softened', 'her', 'cowlick','thick', \
-    'trimmers', 'natural', 'them', 'trim', 'section', 'elongate', 'lift', 'round', 'oval', 'wavy', 'curly', \
-    'fine', 'coarse', 'angles', 'layers', 'bangs', 'elevation', 'look', 'shape', 'she', 'they', 'blowdry', 'them', 'thicken']
+    'razor', 'shave', 'use', 'comb', 'I', 'length', 'long', 'cut', 'my', 'shorten', 'low', 'sideburns', 'hairline', 
+    '1', '2', '3', 'his', '4', '5', '6', 'make', '7', '8','when', 'with' 'thinned', 'he' 'texturized', 'softened', 'her', 
+    'cowlick','thick', 'trimmers', 'natural', 'them', 'trim', 'section', 'elongate', 'lift', 'round', 'oval', 'wavy', 'curly', 
+    'fine', 'coarse', 'angles', 'layers', 'bangs', 'was', 'elevation', 'look', 'shape', 'she', 'they', 'blowdry', 'them', 'thicken']
 
 
 tools_used_word_list = ['shears', 'thinning shears', 'razor', 'straight blade', 'clippers', 'trimmers', 'texture shears']
@@ -93,8 +95,6 @@ appt_rec_in_db = []
 
 random_past_date = fake.past_datetime()
 
-# random_service_notes = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
-# random_tools_used = fake.word(ext_word_list=tools_used_word_list)
 
 # Creating fake appointment records
 with open('data/appointment_rec_data.json') as f: 

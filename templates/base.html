@@ -3,6 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
     <title>
       {% block title %}{% endblock %}
     </title>
@@ -11,12 +14,11 @@
   </head>
   <body>
     {% for msg in get_flashed_messages() %}
-      <p class="flash-msg">
-        {{ msg }}
-      </p>
-    {% endfor %}
- 
-    
+    <p class="flash-msg">
+      {{ msg }}
+    </p>
+  {% endfor %}
+
     {% block body %}{% endblock %}
 
     {% block after_body %}{% endblock %}

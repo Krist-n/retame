@@ -9,10 +9,10 @@ fake = Faker()
 
 #<<< ------ Creating data ------ >>>#
 
-def create_user(user_name, email, password):
+def create_user(fname, lname, email, password):
     """Create and return a new user."""
 
-    user = User(user_name=user_name, email=email, password=password)
+    user = User(fname=fname, lname=lname, email=email, password=password)
 
     db.session.add(user)
     db.session.commit()
@@ -91,10 +91,10 @@ def get_user_by_user_id(user_id):
     return User.query.filter(User.user_id == user_id).first()
 
 
-def get_user_by_user_name(user_name):
+def get_user_by_lname(lname):
     """get user by user_name"""
 
-    return User.query.filter(User.user_name == user_name).first()
+    return User.query.filter(User.lname == lname).first()
 
 
 def get_user_by_email(email):
@@ -106,7 +106,7 @@ def get_user_by_email(email):
 
 #<<< ------ Client queries ------ >>>#
 
-def get_client():
+def get_all_clients():
     """return a list of all clients"""
     
     return Client.query.all()
@@ -139,7 +139,7 @@ def get_client_by_email(email):
 
 #<<< ------ Appointment_rec queries ------ >>>#
 
-def get_appointment_recs():
+def get_all_appointment_recs():
     """return a list of all appointment recs"""
 
     return Appointment_rec.query.all()
@@ -185,7 +185,7 @@ def get_appointment_recs_by_tools_used(tools_used, tool):
 
 #<<< ------ Appt_img queries ------ >>>#
 
-def get_appt_img():
+def get_all_appt_img():
     """return all appt_imgs"""
 
     return Appt_img.query.all()
@@ -223,6 +223,11 @@ def get_appt_img_by_user_id(user_id):
 
 #<<< ------ Product queries ------ >>>#
 
+def get_all_products():
+    """return all products"""
+
+    return Product.query.all()
+
 def get_product_by_id(product_id):
     """return product by id"""
 
@@ -248,7 +253,7 @@ def get_product_by_product_categories(product_categories):
 
 #<<< ------ Service queries ------ >>>#
 
-def get_services():
+def get_all_services():
     """return a list of all services"""
     
     return Service.query.all()
@@ -260,16 +265,11 @@ def get_services_by_id(service_id):
     return Service.query.filter(Service.service_id == service_id).first()
 
 
-def get_services_by_name():
+def get_services_by_name(service_name):
     """return all service names"""
     
-    return Service.query.filter(Service.service_name == service_name).all()
-
-
-def get_services_by_name(service_name):
-    """return a service"""
-    
     return Service.query.filter(Service.service_name == service_name).first()
+
 
 
 
