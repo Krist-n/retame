@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block body %}
+    <h1>All Services</h1>
+
+<ul>
+  {% for service in services %}
+  <li>
+      {{ service.service_name }} - {{ service.price }}<br> 
+
+      {{ service.description }} <br>
+
+  </li>
+{% endfor %}
+</ul>
+{% endblock %}

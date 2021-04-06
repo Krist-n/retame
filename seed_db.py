@@ -35,13 +35,13 @@ for user in range(10):
     users_in_db.append(user)
 
 # Creating fake clients
-    for client in range(10):
-        fname = fake.first_name()
-        lname = fake.last_name()
-        email = fake.email()
+for client in range(10):
+    fname = fake.first_name()
+    lname = fake.last_name()
+    email = fake.email()
 
-        client = crud.create_client(fname, lname, email)
-        clients_in_db.append(client)
+    client = crud.create_client(fname, lname, email)
+    clients_in_db.append(client)
 
 # Parsing through json service_date
 with open('data/service_data.json') as f: 
@@ -104,8 +104,20 @@ Faker.seed(0)
 for record in appointment_data:
     record['appt_date'] = fake.past_datetime()
     appt_date = record['appt_date']
-    record['service_notes'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
-    service_notes = record['service_notes']
+    record['back_panels'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
+    service_notes = record['back_panels']
+    record['neck_line'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
+    service_notes = record['neck_line']
+    record['right_panel'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
+    service_notes = record['right_panel']
+    record['left_panel'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
+    service_notes = record['left_panel']
+    record['top_panel'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
+    service_notes = record['top_panel']
+    record['front_panel'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
+    service_notes = record['front_panel']
+    record['personal_notes'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
+    service_notes = record['personal_notes']
     record['tools_used'] = fake.word(ext_word_list=tools_used_word_list)
     tools_used = record['tools_used']
     user_id, client_id, service_id, product_id, img_id = (record['user_id'],
@@ -115,8 +127,9 @@ for record in appointment_data:
                                                         record['img_id'])
 
     appt_rec_in_db.append(appointment_data)
-    appt_rec = crud.create_appointment_rec(appt_date, service_notes, tools_used, \
-        user_id, client_id, service_id, product_id, img_id)
+    appt_rec = crud.create_appointment_rec(appt_date, back_section, neck_line, right_panel, \
+    left_panel, top_panel, front_panel, personal_notes, tools_used, user_id, client_id, \
+    service_id, product_id, img_id)
 
 
 

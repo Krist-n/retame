@@ -1,6 +1,7 @@
 from flask import (Flask, render_template, request, flash, session,
                    redirect)
 from model import connect_to_db
+from datetime import date
 import crud
 
 from jinja2 import StrictUndefined
@@ -16,15 +17,13 @@ def homepage():
     """View homepage."""
 
 
-    return render_template('homepage.html')
+    return render_template('index.html')
 
 
 
 @app.route('/users', methods=['POST'])
 def create_account():
     """create account"""
-
-    print("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
 
     fname = request.form.get('fname')
     lname = request.form.get('lname')
@@ -50,13 +49,36 @@ def login_user():
     password = request.form['password']
 
     user = crud.get_user_by_email(email)
+    clients = crud.get_all_clients()
+   
+    today = date.today()
+   
     if user:
         if password == user.password:
-            flash("You've logged in!")
-            return redirect('/')
+            flash('password is correct')
+            return render_template('appt_rec.html', user=user, clients=clients, today=today)
         else:
             flash("Incorrect password. Try again.")
             return redirect('/')
+    flash("try again")
+    return redirect('/') 
+
+
+# @app.route('/users/<user_id>')
+# def display_new_appointment_rec(user_id):
+#     """Display appointment records for user"""
+
+#     user = crud.get_user_by_user_id(user_id)
+
+#     return render_template('appt_rec.html', user=user)
+
+
+@app.route("/appointment_rec")
+def create_new_appointment():
+    """Showing new appointment form"""
+    
+    new_appointment = crud.create_appointment_rec
+    return render_template('appt_rec.html', new_appointment=new_appointment)
  
 
 @app.route('/users')

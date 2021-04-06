@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block body %}
+    <h1>All Clients</h1>
+
+<ul>
+  {% for client in clients %} 
+    <li>
+      <a href="/clients/{{client.client_id}}">
+          {{client.fname}} {{client.lname}}
+      </a>
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}
+
+

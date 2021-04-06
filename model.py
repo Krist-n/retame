@@ -52,7 +52,15 @@ class Appointment_rec(db.Model):
                         autoincrement=True,
                         primary_key=True)
     appt_date = db.Column(db.DateTime, nullable=False)
-    service_notes = db.Column(db.String, nullable=False)
+# Client notes per section and perosnal
+    back_panels = db.Column(db.String, nullable=False)
+    neck_line = db.Column(db.String, nullable=False)
+    right_panel = db.Column(db.String, nullable=False)
+    left_panel = db.Column(db.String, nullable=False)
+    top_panel = db.Column(db.String, nullable=False)
+    front_panel = db.Column(db.String, nullable=False)
+    personal_notes = db.Column(db.String, nullable=False)
+
     tools_used = db.Column(db.String, nullable=False)
 
     user_id = db.Column(db.Integer, 

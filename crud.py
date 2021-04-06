@@ -42,10 +42,14 @@ def create_service(service_name, description, price):
     return service
 
 
-def create_appointment_rec(appt_date, service_notes, tools_used, user_id, client_id, service_id, product_id, img_id):
+def create_appointment_rec(appt_date, back_panels, neck_line, right_panel, left_panel, \
+    top_panel, front_panel, personal_notes, tools_used, user_id, client_id, service_id,\
+     product_id, img_id):
     """creating appointment records"""
 
-    appointment_rec = Appointment_rec(appt_date=appt_date, service_notes=service_notes, \
+    appointment_rec = Appointment_rec(appt_date=appt_date, back_panels=back_panels, \
+        neck_line=neck_line, right_panel=right_panel, left_panel=left_panel, \
+        top_panel=top_panel, front_panel=front_panel, personal_notes=personal_notes, \
         tools_used=tools_used, user_id=user_id, client_id=client_id, service_id=service_id,\
         product_id=product_id, img_id=img_id)
 
@@ -129,6 +133,12 @@ def get_client_by_fname(fname):
     """get all clients by this last name"""
 
     return Client.query.filter(Client.fname == fname).all()
+
+
+def get_client_by_fname_and_lname(fname, lname):
+    """get all clients by this last name"""
+
+    return Client.query.filter(Client.fname == fname & Client.lname == lname).all()
 
 
 def get_client_by_email(email):

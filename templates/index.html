@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Retame Login{% endblock %}
+<head>
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.js"
+    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+</head>
+{% block body %}
+  <h1>Retame</h1>
+    <h2>Welcome!</h2>
+      <ul>
+        <li><a href="/services">View all Services</a></li>
+      </ul>
+
+  <h2>Create an Account</h2>
+    <form action="/users" method="POST">
+      <p>
+        First name <input type="text" name="fname">
+        Last name <input type="text" name="lname">
+      </p>
+        <p>
+          Email <input type="text" name="email">
+        </p>
+          <p> 
+            Password <input type="password" name="password">
+          </p>
+        <input value="Submit" type="submit">
+      </p>
+    </form>
+  <h2> Already a User? </h2>
+    <p> 
+      <em>log in</em>
+        <form action="/login" method="POST">
+          Email <input type="text" name="email">
+          </p>
+            <p>
+              Password <input type="password" name="password">
+            </p>
+          <p>
+        <input value="Log in" type="submit" action="/appt_rec">
+      </form>
+    </p>
+{% endblock %}

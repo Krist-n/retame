@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <head>
+    <title>
+      {% block title %}New appointment record{% endblock %}
+    </title>
+
+    {% block head %}{% endblock %}
+  </head>
+  <h2>Welcome, {{ user.fname }} {{ user.lname }}</h2>
+    <h3>Today's Date: {{ today }} </h3>
+
+  <h3> Select your client: </h3>
+    <form>
+      <select name="clients">
+        {% for client in clients %}
+          <option> 
+            {{ client.fname }} {{ client.lname }} 
+          </option>
+        {% endfor %}
+      </select>
+    </form>
+  <body>
+    <div>
+      <img src="static/headsheets/headsheet4.png" width="100" height="100">
+        <form id="service_notes">
+          <label>Back sections</label>
+            <textarea name="back-section"></textarea>
+            <label>Neck line</label>
+            <textarea name="neck-line"></textarea>
+        </form>
+    </div>
+    <div> 
+      <img src="static/headsheets/headsheet3.png" width="100" height="100">
+        <form id="service_notes">
+          <label>Right side panel</label>
+          <textarea name="right-side"></textarea>
+        </form>
+    </div>
+    <div>
+      <img src="static/headsheets/headsheet2.png" width="100" height="100">
+        <form id="service_notes">
+          <label>Left side panel</label>
+          <textarea name="left-side"></textarea>
+        </form>
+    </div>
+    <div>
+      <img src="static/headsheets/headsheet5.png" width="100" height="100">
+        <form>
+          <label>Mohawk top panel</label>
+          <textarea name="top-section"></textarea>
+        </form>
+    </div>
+    <div>
+      <img src="static/headsheets/headsheet1.png" width="100" height="100">
+        <form id="service_notes">
+          <label>Front panel - fringe</label>
+          <textarea name="front-section"></textarea>
+        </form>
+      <form id="service_notes">
+        <label>Peronal info to remember:</label>
+        <textarea name="personal-info"></textarea>
+      </form>
+        <form>
+          <button type="submit">Submit appointment</button>
+        </form>
+    </div>    
+  
+
+    {% block body %}{% endblock %}
+
+    {% block after_body %}{% endblock %}
+  </body>
+</html>
