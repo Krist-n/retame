@@ -5,7 +5,7 @@
 <ul>
   {% for client in clients %} 
     <li>
-      <a href="/clients/{{client.client_id}}">
+      <a href="/clients/{{client.client_id}}" action="/client_details">
           {{client.fname}} {{client.lname}}
       </a>
     </li>

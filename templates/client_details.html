@@ -10,9 +10,24 @@
       <p>
         {% for appt_rec_object in client.client_appt %}
         <h3>Technique:</h3>
-          {{ appt_rec_object.service_notes }} <br>
+        <h4> Back panels </h4>
+        <div>{{ appt_rec_object.back_panels }}</div>
+        <h4> Neck line </h4>
+        <div>{{ appt_rec_object.neck_line }}</div>
+        <h4> Right panel </h4>
+        <div>{{ appt_rec_object.right_panel }}</div>
+        <h4> Left panel </h4>
+        <div>{{ appt_rec_object.left_panel }}</div> 
+        <h4> Top panel </h4>
+        <div>{{ appt_rec_object.top_panel }}</div>
+        <h4> Front panel </h4>
+        <div>{{ appt_rec_object.front_panel }}</div>
+        <h4> Personal notes </h4>
+        <div>{{ appt_rec_object.personal_notes }}</div>
+          
+        </div>
         <li><h3>Tools used:</h3></li>
-          {{ appt_rec_object.tools_used }}
+          {{ appt_rec_object }}
         {% endfor %}
           
         

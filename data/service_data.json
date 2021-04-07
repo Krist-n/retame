@@ -94,5 +94,11 @@
         "service_name": "Beard trim",
         "description": "Beard trim and shape as needed",
         "price": 35.00
+    },
+
+    {
+        "service_name": "Shampoo",
+        "description": "Hair wash and rinse",
+        "price": 10.00
     }
 ]

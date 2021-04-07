@@ -96,7 +96,6 @@ appt_rec_in_db = []
 random_past_date = fake.past_datetime()
 
 
-# Creating fake appointment records
 with open('data/appointment_rec_data.json') as f: 
         appointment_data = json.loads(f.read())
 
@@ -105,19 +104,19 @@ for record in appointment_data:
     record['appt_date'] = fake.past_datetime()
     appt_date = record['appt_date']
     record['back_panels'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
-    service_notes = record['back_panels']
+    back_panels = record['back_panels']
     record['neck_line'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
-    service_notes = record['neck_line']
+    neck_line = record['neck_line']
     record['right_panel'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
-    service_notes = record['right_panel']
+    right_panel = record['right_panel']
     record['left_panel'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
-    service_notes = record['left_panel']
+    left_panel = record['left_panel']
     record['top_panel'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
-    service_notes = record['top_panel']
+    top_panel = record['top_panel']
     record['front_panel'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
-    service_notes = record['front_panel']
+    front_panel = record['front_panel']
     record['personal_notes'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
-    service_notes = record['personal_notes']
+    personal_notes = record['personal_notes']
     record['tools_used'] = fake.word(ext_word_list=tools_used_word_list)
     tools_used = record['tools_used']
     user_id, client_id, service_id, product_id, img_id = (record['user_id'],
@@ -127,7 +126,7 @@ for record in appointment_data:
                                                         record['img_id'])
 
     appt_rec_in_db.append(appointment_data)
-    appt_rec = crud.create_appointment_rec(appt_date, back_section, neck_line, right_panel, \
+    appt_rec = crud.create_appointment_rec(appt_date, back_panels, neck_line, right_panel, \
     left_panel, top_panel, front_panel, personal_notes, tools_used, user_id, client_id, \
     service_id, product_id, img_id)
 

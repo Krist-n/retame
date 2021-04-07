@@ -83,7 +83,7 @@ class Appointment_rec(db.Model):
     def __repr__(self):
         """Show appointment records info"""
         return f'<Appointment_rec appt_rec_id={self.appt_rec_id} user_id={self.user_id} client_id={self.client_id} \
-            service_notes={self.service_notes}>'
+            appt_date={self.appt_date}>'
 
 
 class Appt_img(db.Model):

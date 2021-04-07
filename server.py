@@ -16,7 +16,7 @@ app.jinja_env.undefined = StrictUndefined
 def homepage():
     """View homepage."""
 
-
+    
     return render_template('index.html')
 
 
@@ -31,7 +31,7 @@ def create_account():
     password = request.form.get('password')
 
     user = crud.get_user_by_email(email)
-    print(user)
+    # print(user)
     if user:
         return flash('A user already exists with that email.')
     else:
@@ -51,12 +51,10 @@ def login_user():
     user = crud.get_user_by_email(email)
     clients = crud.get_all_clients()
    
-    today = date.today()
    
     if user:
         if password == user.password:
-            flash('password is correct')
-            return render_template('appt_rec.html', user=user, clients=clients, today=today)
+            return render_template('appt_rec.html', user=user, clients=clients)
         else:
             flash("Incorrect password. Try again.")
             return redirect('/')
@@ -73,12 +71,31 @@ def login_user():
 #     return render_template('appt_rec.html', user=user)
 
 
-@app.route("/appointment_rec")
+@app.route("/appointment_rec", methods=['POST'])
 def create_new_appointment():
     """Showing new appointment form"""
-    
+
+# Create a new appointment record and store it to our db    
     new_appointment = crud.create_appointment_rec
-    return render_template('appt_rec.html', new_appointment=new_appointment)
+    
+# Which client is the appointment record for
+    current_client = request.form.get('current_client')
+# TODO     
+# Services performed
+    # service_performed = request.form.get('service_performed')
+# Service technique we want saved
+    # back_panels = request.form.get('back_panels')
+    # neck_line = request.form.get('neck_line')
+    # right_panel = request.form.get('right_panel')
+    # left_panel = request.form.get('left_panel')
+    # top_panel = request.form.get('top_panel')
+    # front_panel = request.form.get('front_panel')
+    # personal_notes = request.form.get('personal_notes')
+    
+
+    flash('new appointment created')
+    return render_template('appt_rec.html', new_appointment=new_appointment, \
+        current_client=current_client)
  
 
 @app.route('/users')
@@ -121,7 +138,7 @@ def show_client(client_id):
     """Show details on a particular client."""
 
     client = crud.get_client_by_client_id(client_id)
-   
+    # current_client = request.form.get('current_client')
 
     return render_template('client_details.html', client=client)
 

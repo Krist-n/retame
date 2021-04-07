@@ -8,10 +8,11 @@
     {% block head %}{% endblock %}
   </head>
   <h2>Welcome, {{ user.fname }} {{ user.lname }}</h2>
-    <h3>Today's Date: {{ today }} </h3>
+    <h3><input type="date" required pattern="\d{4}-\d{2}-\d{2}"></h3>
 
-  <h3> Select your client: </h3>
-    <form>
+  <h3> Select your client: </h3> 
+  <div>
+    <form id="current_client" action="/clients/client_id" method="GET">
       <select name="clients">
         {% for client in clients %}
           <option> 
@@ -19,45 +20,58 @@
           </option>
         {% endfor %}
       </select>
+      <input value="Previous appointments" type="submit"></a>
+    </form>
+
+  </div>
+      <form id="create_client">
+        <p>
+          <div>First name: <input type="text" fname="fname"></div>
+          <div>Last name: <input type="text" lname="lname"> </div>
+          <div>Email: <input type="text" email="email"></div>
+          <input value="Add" type="submit">
+        </p>
     </form>
   <body>
     <div>
       <img src="static/headsheets/headsheet4.png" width="100" height="100">
-        <form id="service_notes">
-          <label>Back sections</label>
-            <textarea name="back-section"></textarea>
-            <label>Neck line</label>
-            <textarea name="neck-line"></textarea>
-        </form>
-    </div>
-    <div> 
+        <form id="back_panels" action="/appointment_rec" method="POST">
+          <label>Back panels</label>
+            <textarea name="back-panels"></textarea>
+              <form id="neck_line"></form>
+                <label>Neck line</label>
+              <textarea name="neck-line"></textarea>
+            </form>
+          </form>
+        </div>
+      <div> 
       <img src="static/headsheets/headsheet3.png" width="100" height="100">
-        <form id="service_notes">
+        <form id="right_panel" action="/appointment_rec" method="POST"></form>
           <label>Right side panel</label>
           <textarea name="right-side"></textarea>
         </form>
     </div>
     <div>
       <img src="static/headsheets/headsheet2.png" width="100" height="100">
-        <form id="service_notes">
-          <label>Left side panel</label>
+        <form id="left_panel" action="/appointment_rec" method="POST"></form>
+          <label> Left side panel</label>
           <textarea name="left-side"></textarea>
         </form>
     </div>
     <div>
       <img src="static/headsheets/headsheet5.png" width="100" height="100">
-        <form>
+        <form id="top_panel" action="/appointment_rec" method="POST"></form>
           <label>Mohawk top panel</label>
           <textarea name="top-section"></textarea>
         </form>
     </div>
     <div>
       <img src="static/headsheets/headsheet1.png" width="100" height="100">
-        <form id="service_notes">
+        <form id="front_panel" action="/appointment_rec" method="POST"></form>
           <label>Front panel - fringe</label>
           <textarea name="front-section"></textarea>
         </form>
-      <form id="service_notes">
+      <form id="personal_info" action="/appointment_rec" method="POST"></form>
         <label>Peronal info to remember:</label>
         <textarea name="personal-info"></textarea>
       </form>
