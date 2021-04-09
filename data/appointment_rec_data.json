@@ -80,8 +80,7 @@
         "user_id": 5,
         "client_id": 5,
         "service_id": 5,
-        "product_id": 5,
-        "img_id": 5
+        "product_id": 5
     },
     {
         "appt_date": "a",
@@ -146,7 +145,6 @@
         "service_id": 9,
         "product_id": 9,
         "img_id": 9
-        
     },
     {
         "appt_date": "a",
@@ -162,6 +160,6 @@
         "client_id": 10,
         "service_id": 10,
         "product_id": 10,
-        "img_id": 10    
+        "img_id": 10
     }
 ]

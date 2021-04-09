@@ -42,13 +42,13 @@ def create_service(service_name, description, price):
     return service
 
 
-def create_appointment_rec(appt_date, back_panels, neck_line, right_panel, left_panel, \
+def create_appointment_rec(appt_date, back_panels, right_panel, left_panel, \
     top_panel, front_panel, personal_notes, tools_used, user_id, client_id, service_id,\
      product_id, img_id):
     """creating appointment records"""
 
     appointment_rec = Appointment_rec(appt_date=appt_date, back_panels=back_panels, \
-        neck_line=neck_line, right_panel=right_panel, left_panel=left_panel, \
+        right_panel=right_panel, left_panel=left_panel, \
         top_panel=top_panel, front_panel=front_panel, personal_notes=personal_notes, \
         tools_used=tools_used, user_id=user_id, client_id=client_id, service_id=service_id,\
         product_id=product_id, img_id=img_id)
@@ -78,7 +78,7 @@ def create_product(product_name, product_category, price):
     db.session.add(product)
     db.session.commit() 
 
-    return product   
+    return product  
 
 
 #<<< ------ User queries ------ >>>#
@@ -93,6 +93,12 @@ def get_user_by_user_id(user_id):
     """get user by user_name"""
 
     return User.query.filter(User.user_id == user_id).first()
+
+
+def get_user_by_fname(fname):
+    """get user by user_name"""
+
+    return User.query.filter(User.fname == fname).first()
 
 
 def get_user_by_lname(lname):
@@ -195,40 +201,40 @@ def get_appointment_recs_by_tools_used(tools_used, tool):
 
 #<<< ------ Appt_img queries ------ >>>#
 
-def get_all_appt_img():
-    """return all appt_imgs"""
+# def get_all_appt_img():
+#     """return all appt_imgs"""
 
-    return Appt_img.query.all()
-
-
-def get_appt_img_by_id():
-    """return all appt_imgs"""
-
-    return Appt_img.query.filter(Appt_img.img_id).all()
+#     return Appt_img.query.all()
 
 
-def get_appt_img_by_appt_rec(appt_rec_id):
-    """return imgs from appt_rec_id"""
+# def get_appt_img_by_id():
+#     """return all appt_imgs"""
 
-    return Appt_img.query.filter(Appt_img.appt_rec_id == appt_rec_id).first()
-
-
-def get_appt_img_by_date(img_date):
-    """return a list of images from this date"""
-
-    return Appt_img.query.filter(Appt_img.img_date == img_date).all()
+#     return Appt_img.query.filter(Appt_img.img_id).all()
 
 
-def get_appt_img_by_client_id(client_id):
-    """return a list of appt_imgs for client_id"""
+# def get_appt_img_by_appt_rec(appt_rec_id):
+#     """return imgs from appt_rec_id"""
 
-    return Appt_img.query.filter(Appt_img.client_id == client_id)
+#     return Appt_img.query.filter(Appt_img.appt_rec_id == appt_rec_id).first()
 
 
-def get_appt_img_by_user_id(user_id):
-    """return a list of all appt_img for user_id"""
+# def get_appt_img_by_date(img_date):
+#     """return a list of images from this date"""
 
-    return Appt_img.query.filter(Appt_img.user_id == user_id)
+#     return Appt_img.query.filter(Appt_img.img_date == img_date).all()
+
+
+# def get_appt_img_by_client_id(client_id):
+#     """return a list of appt_imgs for client_id"""
+
+#     return Appt_img.query.filter(Appt_img.client_id == client_id)
+
+
+# def get_appt_img_by_user_id(user_id):
+#     """return a list of all appt_img for user_id"""
+
+#     return Appt_img.query.filter(Appt_img.user_id == user_id)
 
 
 #<<< ------ Product queries ------ >>>#

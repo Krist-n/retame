@@ -1,42 +1,55 @@
 {% extends 'base.html' %}
 
-{% block title %} {{client.client_id}} - Client Details {% endblock %}
+{% block title %} {{client}} - Client Details {% endblock %}
 
 {% block body %}
 
-<h1> {{ client.fname }} {{ client.lname }} <h3>Email: {{ client.email }}</h3> </h1>
+<h1> {{ client_fname }} {{ client_lname }} </h1>
+  <h3>Email: {{client_email}}</h3>  
   <ul>
     <li>
       <p>
         {% for appt_rec_object in client.client_appt %}
         <h3>Technique:</h3>
+
         <h4> Back panels </h4>
-        <div>{{ appt_rec_object.back_panels }}</div>
-        <h4> Neck line </h4>
-        <div>{{ appt_rec_object.neck_line }}</div>
+        <div>{{ appt_rec_object.back_panels }}
+             {{ appt_rec_object.tools_used }}
+        
+        </div>
         <h4> Right panel </h4>
-        <div>{{ appt_rec_object.right_panel }}</div>
+        <div>{{ appt_rec_object.right_panel }}
+             {{ appt_rec_object.tools_used }} 
+        </div>
         <h4> Left panel </h4>
-        <div>{{ appt_rec_object.left_panel }}</div> 
+        <div>{{ appt_rec_object.left_panel }}
+             {{ appt_rec_object.tools_used }}
+        </div> 
         <h4> Top panel </h4>
-        <div>{{ appt_rec_object.top_panel }}</div>
+        <div>{{ appt_rec_object.top_panel }}
+             {{ appt_rec_object.tools_used }}
+        </div>
         <h4> Front panel </h4>
         <div>{{ appt_rec_object.front_panel }}</div>
+             {{ appt_rec_object.tools_used }}
         <h4> Personal notes </h4>
         <div>{{ appt_rec_object.personal_notes }}</div>
           
-        </div>
-        <li><h3>Tools used:</h3></li>
-          {{ appt_rec_object }}
+      
+        
         {% endfor %}
           
-        
+      <a href="/add_new_rec">Create new appointment notes</a>  
       </p>
     </li>      
-{% endblock %}
-</ul>
+  </ul>
+  
 
+ {% endblock %}
 
+ {% block after_body %}{% endblock %}
+  </body>   
+</html>
 
    
      

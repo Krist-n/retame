@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <title>
+      {% block title %}New appointment record{% endblock %}
+    </title>
+
+    {% block head %}{% endblock %}
+  </head>
+<h3>Hello {{ user_fname }} {{ user_lname }}</h3>
+
+
+  <h3> Select your client: </h3> 
+  <div>
+    <form id="current_client" action="/clients" method="GET">
+      <select name="client">
+        {% for client in clients %}
+          <option value={{client.client_id}}> 
+            {{ client.fname }} {{ client.lname }} 
+          </option>
+        {% endfor %}
+      </select>
+      <input value="Previous appointments" type="submit">
+    </form>
+
+  </div>
+      <form id="create_client" action="/create_client" method="POST">
+        <p>
+          <div>First name: <input type="text" name="fname"></div>
+          <div>Last name: <input type="text" name="lname"> </div>
+          <div>Email: <input type="text" name="email"></div>
+          <input value="Add" type="submit">
+        </p>
+    </form>
+ 
+  
+
+    {% block body %}{% endblock %}
+
+    {% block after_body %}{% endblock %}
+  </body>
+</html>

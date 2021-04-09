@@ -53,15 +53,14 @@ class Appointment_rec(db.Model):
                         primary_key=True)
     appt_date = db.Column(db.DateTime, nullable=False)
 # Client notes per section and perosnal
+    tools_used = db.Column(db.String, nullable=False)
     back_panels = db.Column(db.String, nullable=False)
-    neck_line = db.Column(db.String, nullable=False)
     right_panel = db.Column(db.String, nullable=False)
     left_panel = db.Column(db.String, nullable=False)
     top_panel = db.Column(db.String, nullable=False)
     front_panel = db.Column(db.String, nullable=False)
     personal_notes = db.Column(db.String, nullable=False)
 
-    tools_used = db.Column(db.String, nullable=False)
 
     user_id = db.Column(db.Integer, 
                     db.ForeignKey('users.user_id'),
@@ -94,13 +93,14 @@ class Appt_img(db.Model):
     img_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    img_date = db.Column(db.DateTime,nullable=False)
     url = db.Column(db.String, nullable=False)
+    img_date = db.Column(db.DateTime, nullable=True)
+   
    
 
     def __repr__(self):
         """Show image info"""
-        return f'<Appt_img img_id={self.img_id}>'   
+        return f'<Appt_img img_id={self.img_id} url={self.url}>'   
 
 
 class Product(db.Model):

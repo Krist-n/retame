@@ -25,7 +25,6 @@ clients_in_db = []
 
 # Creating fake users
 for user in range(10):
-    user_name = fake.user_name()
     fname = fake.first_name()
     lname = fake.last_name()
     email = fake.email()
@@ -78,8 +77,7 @@ for img in range(10):
     url = appt_img
     img_date = fake.past_datetime()
 
-    db_appt_img = crud.create_appt_img(url,
-                                    img_date)
+    db_appt_img = crud.create_appt_img(url, img_date)
 
 
 # Creating fake Appointment records
@@ -91,6 +89,7 @@ service_notes_word_list = ['taper', 'fade', 'gradutation', 'sheers', 'theirs', '
 
 
 tools_used_word_list = ['shears', 'thinning shears', 'razor', 'straight blade', 'clippers', 'trimmers', 'texture shears']
+
 appt_rec_in_db = []
 
 random_past_date = fake.past_datetime()
@@ -105,8 +104,6 @@ for record in appointment_data:
     appt_date = record['appt_date']
     record['back_panels'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
     back_panels = record['back_panels']
-    record['neck_line'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
-    neck_line = record['neck_line']
     record['right_panel'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
     right_panel = record['right_panel']
     record['left_panel'] = fake.paragraph(nb_sentences=3, ext_word_list=service_notes_word_list)
@@ -126,7 +123,7 @@ for record in appointment_data:
                                                         record['img_id'])
 
     appt_rec_in_db.append(appointment_data)
-    appt_rec = crud.create_appointment_rec(appt_date, back_panels, neck_line, right_panel, \
+    appt_rec = crud.create_appointment_rec(appt_date, back_panels, right_panel, \
     left_panel, top_panel, front_panel, personal_notes, tools_used, user_id, client_id, \
     service_id, product_id, img_id)
 
