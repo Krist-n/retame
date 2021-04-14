@@ -22,6 +22,7 @@ class User(db.Model):
     def __repr__(self):
         """Show info about user"""
         return f'<User user_id={self.user_id} email={self.email}>'
+    
 
 
 class Client(db.Model):
@@ -60,6 +61,7 @@ class Appointment_rec(db.Model):
     top_panel = db.Column(db.String, nullable=False)
     front_panel = db.Column(db.String, nullable=False)
     personal_notes = db.Column(db.String, nullable=False)
+    img_path = db.Column(db.String, nullable=True)
 
 
     user_id = db.Column(db.Integer, 
@@ -93,14 +95,14 @@ class Appt_img(db.Model):
     img_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    url = db.Column(db.String, nullable=False)
+    img_path = db.Column(db.String, nullable=False)
     img_date = db.Column(db.DateTime, nullable=True)
    
    
 
     def __repr__(self):
         """Show image info"""
-        return f'<Appt_img img_id={self.img_id} url={self.url}>'   
+        return f'<Appt_img img_id={self.img_id} img_url={self.img_path}>'   
 
 
 class Product(db.Model):

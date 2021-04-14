@@ -2,6 +2,8 @@ from flask import (Flask, render_template, request, flash, session,
                    redirect)
 from model import connect_to_db
 from datetime import date
+import os
+from random import choice
 import crud
 
 from jinja2 import StrictUndefined
@@ -15,6 +17,7 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def homepage():
     """View homepage."""
+    
 
     
     return render_template('index.html')
@@ -52,33 +55,51 @@ def create_account():
                             user_fname=user.fname,
                             user_lname=user.lname)
 
-    return redirect('/')
 
 
-@app.route('/select_or_add_client', methods=['POST'])
+
+@app.route('/select_or_add_client', methods=['GET', 'POST'])
 def login_user():
     """add and check for user login"""
 
-    email = request.form['email']
-    password = request.form['password']
+    email = request.form.get('email')
+    password = request.form.get('password')
 
     user = crud.get_user_by_email(email)
     clients = crud.get_all_clients()
-   
-   
+
+    client_list = set()
+    
+    
+    clients_by_appt = crud.get_appointment_recs_by_user_id(session['current_user_id'])
+    for recs in clients_by_appt:
+        client_list.add(crud.get_client_by_client_id(recs.client_id))
+    
+    num_reg = len(client_list)
+    print("*******************")
+    print(num_reg)
+    print("*******************")
+        
+
+    
     if user:
         if password == user.password:
             session['current_user_id'] = user.user_id
             session['current_user_fname'] = user.fname
             session['current_user_lname'] = user.lname
+            session['current_user_email'] = user.email
             
             print("**********************")
             print(f'logged in {user}')
             print("**********************")
 
+
             return render_template('add_or_select_client.html', 
                                     user=user, 
                                     clients=clients,
+                                    user_clients=client_list,
+                                    num_reg=num_reg,
+                                    client_list=client_list,
                                     current_user=user.user_id,
                                     user_fname=user.fname,
                                     user_lname=user.lname)
@@ -86,16 +107,28 @@ def login_user():
             flash("Incorrect password. Try again.")
             return redirect('/')
     flash("try again")
-    return redirect('/') 
+    return redirect('/')
 
 
-# @app.route('/users/<user_id>')
-# def display_new_appointment_rec(user_id):
-#     """Display appointment records for user"""
+@app.route('/logout', methods=['POST'])
+def log_out():
+    """Log out current user, clear session."""
 
-#     user = crud.get_user_by_user_id(user_id)
+    session.clear()
+    flash('You have been signed out.')
 
-#     return render_template('appt_rec.html', user=user)
+    print("************************")
+    print("logged out user")
+    print("************************")
+
+
+    return redirect('/')
+
+
+
+
+
+
 
 @app.route('/create_client', methods=['POST'])
 def add_new_client():
@@ -108,8 +141,6 @@ def add_new_client():
 
     client = crud.get_client_by_email(email)
    
-
-
     user = crud.get_user_by_user_id(session['current_user_id'])
     session['current_user_id'] = user.user_id
     session['current_user_fname'] = user.fname
@@ -146,6 +177,8 @@ def add_new_client():
                                 user_lname=user.lname)
 
 
+
+
 @app.route("/create_new_appointment_rec", methods=['POST'])
 def create_new_appointment():
     """Showing new appointment form"""
@@ -177,15 +210,16 @@ def create_new_appointment():
 # Client notes per section and perosnal
 
     back_panels = request.form.get('back_panels')
-    tools_used = request.form.get('tools_used')
     right_panel = request.form.get('right_side')
     left_panel = request.form.get('left_side')
     top_panel = request.form.get('top_section')
     front_panel = request.form.get('front_section')
     personal_notes = request.form.get('personal_info')
+    tools_used = request.form.get('tools_used')
     service_id = request.form.get('services')
     product_id = request.form.get('products')
-    img_id = request.form.get('img')
+    img_path = None
+    img_id = None
 
     new_appointment_rec = crud.create_appointment_rec(appt_date=appt_date, 
                                                         tools_used=tools_used,
@@ -199,22 +233,21 @@ def create_new_appointment():
                                                         client_id=client.client_id,
                                                         service_id=service_id, 
                                                         product_id=product_id,
+                                                        img_path=img_path,
                                                         img_id=img_id)
 
     
     print("*********************")
     print('new appointment record created')
     print("*********************")
-#
+
     return render_template("/add_or_select_client.html",
                             user_id=user.user_id,
                             user_fname=user.fname,
                             user_lname=user.lname,
                             clients=clients)
     
-# TODO     
-# Services performed & tools used
-    # service_performed = request.form.get('service_performed')
+
 
 @app.route("/add_new_rec")
 def move_to_create_appointment():
@@ -309,6 +342,8 @@ def get_appointment_recs():
 def show_client(client_id):
     """Show details on a particular client."""
 
+    
+
 
     user = crud.get_user_by_user_id(session['current_user_id'])
     session['current_user_id'] = user.user_id
@@ -331,6 +366,29 @@ def show_client(client_id):
                             user_id=user.user_id,
                             user_fname=user.fname,
                             user_lname=user.lname)
+
+
+    @app.route('/clients_seen_by_user')
+    def show_all_clients_by_user_id():
+        """show all new and repeat clients for user in session"""
+
+        user_clients = []
+
+        appt_recs = crud.get_appointment_recs_by_user_id(session['current_user_id'])
+
+        for records in appt_recs:
+            user_clients.append(records.client_id)
+            print(f'******** {records.client_id} ********')
+        
+
+
+
+
+        
+        # for ele in clients_by_appt:
+        #     print(ele.client_id)
+        return render_template('add_or_select_client.html', 
+                                user_clients=user_clients)
 
 
 

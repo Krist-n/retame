@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} {{client}} - Client Details {% endblock %}
+{% block title %}  Client Details {% endblock %}
 
 {% block body %}
 
@@ -10,12 +10,12 @@
     <li>
       <p>
         {% for appt_rec_object in client.client_appt %}
+
         <h3>Technique:</h3>
 
         <h4> Back panels </h4>
         <div>{{ appt_rec_object.back_panels }}
              {{ appt_rec_object.tools_used }}
-        
         </div>
         <h4> Right panel </h4>
         <div>{{ appt_rec_object.right_panel }}
@@ -32,6 +32,7 @@
         <h4> Front panel </h4>
         <div>{{ appt_rec_object.front_panel }}</div>
              {{ appt_rec_object.tools_used }}
+             
         <h4> Personal notes </h4>
         <div>{{ appt_rec_object.personal_notes }}</div>
           

@@ -3,6 +3,7 @@
 from model import db, User, Client, Appointment_rec, Service, Product, Appt_img, connect_to_db
 from datetime import datetime
 from faker import Faker
+from collections import OrderedDict
 
 fake = Faker()
 
@@ -44,14 +45,14 @@ def create_service(service_name, description, price):
 
 def create_appointment_rec(appt_date, back_panels, right_panel, left_panel, \
     top_panel, front_panel, personal_notes, tools_used, user_id, client_id, service_id,\
-     product_id, img_id):
+     product_id, img_path, img_id):
     """creating appointment records"""
 
     appointment_rec = Appointment_rec(appt_date=appt_date, back_panels=back_panels, \
         right_panel=right_panel, left_panel=left_panel, \
         top_panel=top_panel, front_panel=front_panel, personal_notes=personal_notes, \
         tools_used=tools_used, user_id=user_id, client_id=client_id, service_id=service_id,\
-        product_id=product_id, img_id=img_id)
+        product_id=product_id, img_path=img_path, img_id=img_id)
 
     db.session.add(appointment_rec)
     db.session.commit()
@@ -59,10 +60,10 @@ def create_appointment_rec(appt_date, back_panels, right_panel, left_panel, \
     return appointment_rec
 
 
-def create_appt_img(url, img_date):
+def create_appt_img(img_path, img_date):
     """create and return an appointment image"""
 
-    appt_img = Appt_img(url=url, img_date=img_date)
+    appt_img = Appt_img(img_path=img_path, img_date=img_date)
 
     db.session.add(appt_img)
     db.session.commit()
@@ -153,12 +154,38 @@ def get_client_by_email(email):
     return Client.query.filter(Client.email == email).first()
 
 
+
 #<<< ------ Appointment_rec queries ------ >>>#
 
 def get_all_appointment_recs():
     """return a list of all appointment recs"""
 
     return Appointment_rec.query.all()
+
+
+def get_client_for_user_prof(user_id, client_id):
+    """querying client id and date to be used in user profile"""
+
+    #returns a list of appt rec objects for a specific client of a specific user
+    # appt_user_info = 
+    
+    # Appointment_rec.query.filter(Appointment_rec.user_id == user_id).filter(Appointment_rec.client_id == client_id).all()
+    Appointment_rec.query.all().filter()
+    for elem in appt_user_info:
+        print(elem)
+    return appt_user_info
+    
+
+    # client_and_dates = {}
+    
+   
+
+    #     client = Client.query.filter(Client.client_id == elem.client_id).all() 
+    #     date = elem.appt_date   
+    #     client_and_dates['date': 'client']
+
+    # client_and_dates = OrderedDict(sorted(dict.items()))
+    # print(client_and_dates)
 
 
 def get_appointment_recs_by_user_id(user_id):
@@ -201,40 +228,40 @@ def get_appointment_recs_by_tools_used(tools_used, tool):
 
 #<<< ------ Appt_img queries ------ >>>#
 
-# def get_all_appt_img():
-#     """return all appt_imgs"""
+def get_all_appt_img():
+    """return all appt_imgs"""
 
-#     return Appt_img.query.all()
-
-
-# def get_appt_img_by_id():
-#     """return all appt_imgs"""
-
-#     return Appt_img.query.filter(Appt_img.img_id).all()
+    return Appt_img.query.all()
 
 
-# def get_appt_img_by_appt_rec(appt_rec_id):
-#     """return imgs from appt_rec_id"""
+def get_appt_img_by_id():
+    """return all appt_imgs"""
 
-#     return Appt_img.query.filter(Appt_img.appt_rec_id == appt_rec_id).first()
-
-
-# def get_appt_img_by_date(img_date):
-#     """return a list of images from this date"""
-
-#     return Appt_img.query.filter(Appt_img.img_date == img_date).all()
+    return Appt_img.query.filter(Appt_img.img_id).all()
 
 
-# def get_appt_img_by_client_id(client_id):
-#     """return a list of appt_imgs for client_id"""
+def get_appt_img_by_appt_rec(appt_rec_id):
+    """return imgs from appt_rec_id"""
 
-#     return Appt_img.query.filter(Appt_img.client_id == client_id)
+    return Appt_img.query.filter(Appt_img.appt_rec_id == appt_rec_id).first()
 
 
-# def get_appt_img_by_user_id(user_id):
-#     """return a list of all appt_img for user_id"""
+def get_appt_img_by_date(img_date):
+    """return a list of images from this date"""
 
-#     return Appt_img.query.filter(Appt_img.user_id == user_id)
+    return Appt_img.query.filter(Appt_img.img_date == img_date).all()
+
+
+def get_appt_img_by_client_id(client_id):
+    """return a list of appt_imgs for client_id"""
+
+    return Appt_img.query.filter(Appt_img.client_id == client_id)
+
+
+def get_appt_img_by_user_id(user_id):
+    """return a list of all appt_img for user_id"""
+
+    return Appt_img.query.filter(Appt_img.user_id == user_id)
 
 
 #<<< ------ Product queries ------ >>>#

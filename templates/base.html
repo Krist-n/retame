@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <!-- <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+   
+    
     <title>
       {% block title %}{% endblock %}
     </title>
@@ -13,14 +13,13 @@
     {% block head %}{% endblock %}
   </head>
   <body>
-    <!-- <div id="root"></div>
-    <script type="text/jsx" src="/static/new_record.jsx"></script> -->
+
     {% for msg in get_flashed_messages() %}
     <p class="flash-msg">
       {{ msg }}
     </p>
   {% endfor %}
-
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     {% block body %}{% endblock %}
 
     {% block after_body %}{% endblock %}
