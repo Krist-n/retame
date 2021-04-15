@@ -145,7 +145,7 @@ def get_client_by_fname(fname):
 def get_client_by_fname_and_lname(fname, lname):
     """get all clients by this last name"""
 
-    return Client.query.filter(Client.fname == fname & Client.lname == lname).all()
+    return Client.query.filter(Client.fname == fname, Client.lname == lname).all()
 
 
 def get_client_by_email(email):

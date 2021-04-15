@@ -182,21 +182,37 @@ def render_user_prof():
         client_lname.append(client.lname)
     
 
-
+    #zipping together fname and lname
     full_zip = zip(client_fname, client_lname)
+    #turning it into a list so I can use it to query
     zipped_full_name = list(full_zip)
+    #Using a set to ditch repeats
     fullnames_set = set(zipped_full_name)
+    #Turning it back to a list
     fullname_list = list(fullnames_set)
-    print("#################################")
-    print(fullname_list)
-# TODO - get fn and ln to be used for query
-    # for names in fullname_list:
-    #     fullname = crud.get_client_by_fname_and_lname(names[0], names[1])
-    #     print(fullname)
-        
+
+    repeating_customer_email = []
+    
+    for names in fullname_list:
+        fname = names[0]
+        lname = names[1]
+        email_new = crud.get_client_by_fname_and_lname(fname, lname)
+        repeating_customer_email.append(email_new)
+
+    print(repeating_customer_email) 
+
+    for email in repeating_customer_email:
+        print(email)   
+    
         
 
-    # print(f"#<<< ------------------{fullnames_set}--------------------------------------- >>>#")
+    
+    # Example of fullname_list
+    # [('Erica', 'Mcdonald'), ('Chuck', 'Brown'), ('Hazard', 'Danger'), ('Michael', 'Villarreal')]
+
+
+        
+
     
     #getting a tally of all appointments created for each user
     #making it a dictionary for easier accessibility
@@ -216,7 +232,6 @@ def render_user_prof():
     max_key = max(visits_dict, key=visits_dict.get)
     # print(max_key)
 
-
     # print(visits_dict)
     # clearing out new clients to display repeating clients only
     for key, value in list(visits_dict.items()):
@@ -224,8 +239,6 @@ def render_user_prof():
             del visits_dict[key]
 
     
-
-
     return render_template('user_profile.html',
                             max_key=max_key,
                             visits_dict=visits_dict,

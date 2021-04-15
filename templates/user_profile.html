@@ -2,9 +2,10 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-  <h1>Retame</h1>
+  <h1>Retame <span class="fas fa-cut"></span> </h1>
+  
 
-  <h2>Your most consistent client! <h3>{{ max_key }}</h3> </h2>
+  <h4>Your most consistent client is {{ max_key }}. </h4>
 
   <div> Regulars:
     <form id="appt-rec-user" action="/user_prof" method="GET">
@@ -17,7 +18,7 @@
         {% endfor %}
       </select>
     
-  </form>
+  </form><br>
   New:
   <form id="appt-rec-user" action="/user_prof" method="GET">
     <select name="new-client">
@@ -28,7 +29,10 @@
       {% endfor %}
     </select>
   
-</form>
+</form><br>
+<i class="far fa-envelope"></i>
+Send your new clients a little thank you, and
+ friendly reminder to book their next hair service!
 </div>
 
 
