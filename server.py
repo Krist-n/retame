@@ -201,8 +201,7 @@ def render_user_prof():
 
     print(repeating_customer_email) 
 
-    for email in repeating_customer_email:
-        print(email)   
+     
     
         
 
@@ -225,7 +224,17 @@ def render_user_prof():
    
     # utilizing earlier function and getting all new clients    
     new_clients = list(filter(find_clients_with_least_visits, visits_dict.keys()))
+    split_new = []
+    for client in new_clients:
+        split_new.append(client.split(" "))
     
+    new_client_email = []
+    for client in split_new:
+        fname = client[0]
+        lname =  client[1]
+        email_new = crud.get_client_by_fname_and_lname(fname, lname)
+        new_client_email.append(email_new)
+    print(new_client_email)
     print(f"#<<< --------------------------------------------------------- >>>#")
 
     # getting the client with the most visits to display to page
