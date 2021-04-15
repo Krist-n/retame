@@ -4,10 +4,38 @@
 {% block body %}
   <h1>Retame</h1>
 
+  <h2>Your most consistent client! <h3>{{ max_key }}</h3> </h2>
+
+  <div> Regulars:
+    <form id="appt-rec-user" action="/user_prof" method="GET">
+      <select name="repeat-client">
+        {% for key, value in visits_dict.items() %}
+          <option value={{key,value}}> 
+            <dt> {{ key }}, </dt>
+            <dd> total visits: {{ value }}</dd>
+          </option>
+        {% endfor %}
+      </select>
+    
+  </form>
+  New:
+  <form id="appt-rec-user" action="/user_prof" method="GET">
+    <select name="new-client">
+      {% for client in new_clients %}
+        <option value={{client}}> 
+          {{ client }}
+        </option>
+      {% endfor %}
+    </select>
+  
+</form>
+</div>
+
+
+
  
 
-  <h2>{%User_name%}</h2>
-  <h1>{%datetime%}</h1>
+
   
 
 {% endblock %}

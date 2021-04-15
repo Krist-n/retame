@@ -2,9 +2,10 @@ from flask import (Flask, render_template, request, flash, session,
                    redirect)
 from model import connect_to_db
 from datetime import date
-import os
 from random import choice
+from collections import Counter
 import crud
+import os
 
 from jinja2 import StrictUndefined
 
@@ -13,6 +14,7 @@ app.secret_key = "top-secret"
 app.jinja_env.undefined = StrictUndefined
 
 
+#<<< ------ Index route ------ >>>#
 
 @app.route('/')
 def homepage():
@@ -23,6 +25,7 @@ def homepage():
     return render_template('index.html')
 
 
+#<<< ------ Create an account for new user ------ >>>#
 
 @app.route('/create_users', methods=['POST'])
 def create_account():
@@ -56,7 +59,9 @@ def create_account():
                             user_lname=user.lname)
 
 
-
+#<<< ------ Check user password and login ------ >>>#
+#<<< ------ Display clients both new and repeating ------ >>>#
+#<<< ------ Select client for new appointment record ------ >>>#
 
 @app.route('/select_or_add_client', methods=['GET', 'POST'])
 def login_user():
@@ -69,18 +74,36 @@ def login_user():
     clients = crud.get_all_clients()
 
     client_list = set()
+    new_clients = []
+    
+    # I want to pop remove all the clients that appear only once.
     
     
     clients_by_appt = crud.get_appointment_recs_by_user_id(session['current_user_id'])
-    for recs in clients_by_appt:
-        client_list.add(crud.get_client_by_client_id(recs.client_id))
     
-    num_reg = len(client_list)
-    print("*******************")
-    print(num_reg)
-    print("*******************")
+    
+    all_clients = set()
+    repeating_clients = set()
+    print("<---------------------------------------->")
+    for recs in clients_by_appt:
+        client = crud.get_client_by_client_id(recs.client_id)
+        print(client.client_id)
         
-
+        
+        #if client is already in all_clients, that means they are a repeating client
+        #if repeating client, we would want to add to repeating_clients set
+        #use set math all clients minus repeating clients -> 
+        if client in all_clients:
+            repeating_clients.add(client)
+        
+        all_clients.add(client)
+        
+    single_visit_client = all_clients - repeating_clients
+    
+    num_new = len(single_visit_client)
+    num_repeat = len(repeating_clients)
+    # print("*******************")
+    # print(num_repeat)
     
     if user:
         if password == user.password:
@@ -97,9 +120,10 @@ def login_user():
             return render_template('add_or_select_client.html', 
                                     user=user, 
                                     clients=clients,
-                                    user_clients=client_list,
-                                    num_reg=num_reg,
-                                    client_list=client_list,
+                                    user_clients=repeating_clients,
+                                    num_new=num_new,
+                                    num_reg=num_repeat,
+                                    new_clients=single_visit_client,
                                     current_user=user.user_id,
                                     user_fname=user.fname,
                                     user_lname=user.lname)
@@ -109,6 +133,7 @@ def login_user():
     flash("try again")
     return redirect('/')
 
+#<<< ------ Logout user and redirect to index.html ------ >>>#
 
 @app.route('/logout', methods=['POST'])
 def log_out():
@@ -124,11 +149,97 @@ def log_out():
 
     return redirect('/')
 
+#<<< ------ Display user profile ------ >>>#
+#<<< ------ Specify new and repeating customers ------ >>>#
+#<<< ------ as well as the most & least consistent ------ >>>#
+
+@app.route('/user_prof')
+def render_user_prof():
+    """display user profile"""
+    
+
+    counts = Counter()
+
+    # client_email = crud.get_()
+
+    #appending client objs here
+    users_clients = []
+    new_clients = {}
+    client_ids = []
+
+    client_fname = []
+    client_lname = []
+
+    # we have num of visits for client in session but we need num visits for all clients the user has seen
+    all_clients_visits = crud.get_appointment_recs_by_user_id(session['current_user_id'])
+    for client in all_clients_visits:
+        client = crud.get_client_by_client_id(client.client_id)
+        client_ids.append(client.client_id)
+        users_clients.append(client.fname + " " + client.lname)
+
+        # appending client by fname and lname so I can undo my mess by using a dict counter 
+        client_fname.append(client.fname)
+        client_lname.append(client.lname)
+    
+
+
+    full_zip = zip(client_fname, client_lname)
+    zipped_full_name = list(full_zip)
+    fullnames_set = set(zipped_full_name)
+    fullname_list = list(fullnames_set)
+    print("#################################")
+    print(fullname_list)
+# TODO - get fn and ln to be used for query
+    # for names in fullname_list:
+    #     fullname = crud.get_client_by_fname_and_lname(names[0], names[1])
+    #     print(fullname)
+        
+        
+
+    # print(f"#<<< ------------------{fullnames_set}--------------------------------------- >>>#")
+    
+    #getting a tally of all appointments created for each user
+    #making it a dictionary for easier accessibility
+    visits_dict = dict(Counter(users_clients))
+ 
+    #created func to filter out clients that visited only once
+    def find_clients_with_least_visits(clients):
+        """finding clients with only 1 visit"""
+        return visits_dict[clients] < 2
+   
+    # utilizing earlier function and getting all new clients    
+    new_clients = list(filter(find_clients_with_least_visits, visits_dict.keys()))
+    
+    print(f"#<<< --------------------------------------------------------- >>>#")
+
+    # getting the client with the most visits to display to page
+    max_key = max(visits_dict, key=visits_dict.get)
+    # print(max_key)
+
+
+    # print(visits_dict)
+    # clearing out new clients to display repeating clients only
+    for key, value in list(visits_dict.items()):
+        if value < 2:
+            del visits_dict[key]
+
+    
+
+
+    return render_template('user_profile.html',
+                            max_key=max_key,
+                            visits_dict=visits_dict,
+                            new_clients=new_clients)
+# TODO
+#query for email
+
+# TODO = completed 
+#most consistent client !
+#list repeats and new #
 
 
 
-
-
+#<<< ------ Create and add new client to the session and db ------ >>>#
 
 @app.route('/create_client', methods=['POST'])
 def add_new_client():
@@ -178,6 +289,7 @@ def add_new_client():
 
 
 
+#<<< ------ Form for appointments for each client ------ >>>#
 
 @app.route("/create_new_appointment_rec", methods=['POST'])
 def create_new_appointment():
@@ -248,6 +360,8 @@ def create_new_appointment():
                             clients=clients)
     
 
+#<<< ------ after creating new client render new_service_notes.html ------ >>>#
+#<<< ------ keep current session in flow ------ >>>#
 
 @app.route("/add_new_rec")
 def move_to_create_appointment():
@@ -295,6 +409,7 @@ def move_to_create_appointment():
 
     
  
+#<<< ------ Get all users ------ >>>#
 
 @app.route('/users')
 def get_users():    
@@ -304,6 +419,8 @@ def get_users():
 
     return render_template('all_users.html', users=users)
 
+
+#<<< ------ get all clients ------ >>>#
 
 @app.route('/clients')
 def get_client():    
@@ -319,6 +436,7 @@ def get_client():
 
     return redirect(f'/clients/{client_id}')
 
+#<<< ------ get all services ------ >>>#
 
 @app.route('/services')
 def get_all_services():    
@@ -328,6 +446,7 @@ def get_all_services():
 
     return render_template('all_services.html', services=services)
 
+#<<< ------ get all appointment records ------ >>>#
 
 @app.route('/appointment_recs')
 def get_appointment_recs():    
@@ -337,13 +456,11 @@ def get_appointment_recs():
 
     return render_template('all_appointment_recs.html', appointment_recs=appointment_recs)
 
+#<<< ------ Display a clients details from previous records ------ >>>#
 
 @app.route('/clients/<client_id>')
 def show_client(client_id):
     """Show details on a particular client."""
-
-    
-
 
     user = crud.get_user_by_user_id(session['current_user_id'])
     session['current_user_id'] = user.user_id
@@ -367,28 +484,24 @@ def show_client(client_id):
                             user_fname=user.fname,
                             user_lname=user.lname)
 
+#<<< ------ Get all clients seen by the user in session ------ >>>#
 
-    @app.route('/clients_seen_by_user')
-    def show_all_clients_by_user_id():
-        """show all new and repeat clients for user in session"""
+@app.route('/clients_seen_by_user')
+def show_all_clients_by_user_id():
+    """show all new and repeat clients for user in session"""
 
-        user_clients = []
+    user_clients = []
 
-        appt_recs = crud.get_appointment_recs_by_user_id(session['current_user_id'])
+    appt_recs = crud.get_appointment_recs_by_user_id(session['current_user_id'])
 
-        for records in appt_recs:
-            user_clients.append(records.client_id)
-            print(f'******** {records.client_id} ********')
-        
-
-
-
-
-        
-        # for ele in clients_by_appt:
-        #     print(ele.client_id)
-        return render_template('add_or_select_client.html', 
-                                user_clients=user_clients)
+    for records in appt_recs:
+        user_clients.append(records.client_id)
+        print(f'******** {records.client_id} ********')
+    
+    # for ele in clients_by_appt:
+    #     print(ele.client_id)
+    return render_template('add_or_select_client.html', 
+                            user_clients=user_clients)
 
 
 
@@ -405,3 +518,9 @@ if __name__ == '__main__':
     connect_to_db(app)
     app.run(host='0.0.0.0', debug=True)
 
+
+
+
+# Counting how many visits a specific client has made (with a specific stylist)
+# Query appt recs table and filter by client id & user id -> list of appt recs
+# calculate the length of that list -> number of visits

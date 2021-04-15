@@ -153,6 +153,10 @@ def get_client_by_email(email):
 
     return Client.query.filter(Client.email == email).first()
 
+def get_email_by_client_id(client_id):
+    """get email by client_id"""
+
+
 
 
 #<<< ------ Appointment_rec queries ------ >>>#
@@ -166,26 +170,7 @@ def get_all_appointment_recs():
 def get_client_for_user_prof(user_id, client_id):
     """querying client id and date to be used in user profile"""
 
-    #returns a list of appt rec objects for a specific client of a specific user
-    # appt_user_info = 
-    
-    # Appointment_rec.query.filter(Appointment_rec.user_id == user_id).filter(Appointment_rec.client_id == client_id).all()
-    Appointment_rec.query.all().filter()
-    for elem in appt_user_info:
-        print(elem)
-    return appt_user_info
-    
-
-    # client_and_dates = {}
-    
-   
-
-    #     client = Client.query.filter(Client.client_id == elem.client_id).all() 
-    #     date = elem.appt_date   
-    #     client_and_dates['date': 'client']
-
-    # client_and_dates = OrderedDict(sorted(dict.items()))
-    # print(client_and_dates)
+    return Appointment_rec.query.filter(Appointment_rec.user_id == user_id).filter(Appointment_rec.client_id == client_id)
 
 
 def get_appointment_recs_by_user_id(user_id):

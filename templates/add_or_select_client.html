@@ -7,12 +7,14 @@
 
     {% block head %}{% endblock %}
   </head>
-<h3>Hello {{ user_fname }} {{ user_lname }},
+<h3>Hello {{ user_fname }} {{ user_lname }}, </h3> 
+  <a href="/user_prof">Stylist black book</a>
   <div><h5>Way to go, you have {{ num_reg }} regulars</h5></div>
-  <div>
+  <div><h5>And {{ num_new }} new clients!</div></h5>
+  <div> Regulars:
       <form id="appt-rec-user" action="/clients_by_user" method="GET">
         <select name="client">
-          {% for client in client_list %}
+          {% for client in user_clients %}
             <option value={{client}}> 
               {{ client.fname }} {{client.lname}} 
             </option>
@@ -20,7 +22,19 @@
         </select>
       
     </form>
+    New:
+    <form id="appt-rec-user" action="/clients_by_user" method="GET">
+      <select name="client">
+        {% for client in new_clients %}
+          <option value={{client}}> 
+            {{ client.fname }} {{client.lname}} 
+          </option>
+        {% endfor %}
+      </select>
+    
+  </form>
   </div>
+
     
 </h3>
 
