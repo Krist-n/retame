@@ -4,6 +4,7 @@ from model import connect_to_db
 from datetime import date
 from random import choice
 from collections import Counter
+import requests
 import crud
 import os
 
@@ -160,8 +161,6 @@ def render_user_prof():
 
     counts = Counter()
 
-    # client_email = crud.get_()
-
     #appending client objs here
     users_clients = []
     new_clients = {}
@@ -199,20 +198,9 @@ def render_user_prof():
         email_new = crud.get_client_by_fname_and_lname(fname, lname)
         repeating_customer_email.append(email_new)
 
-    print(repeating_customer_email) 
-
-     
-    
-        
-
-    
     # Example of fullname_list
     # [('Erica', 'Mcdonald'), ('Chuck', 'Brown'), ('Hazard', 'Danger'), ('Michael', 'Villarreal')]
 
-
-        
-
-    
     #getting a tally of all appointments created for each user
     #making it a dictionary for easier accessibility
     visits_dict = dict(Counter(users_clients))
@@ -224,6 +212,7 @@ def render_user_prof():
    
     # utilizing earlier function and getting all new clients    
     new_clients = list(filter(find_clients_with_least_visits, visits_dict.keys()))
+
     split_new = []
     for client in new_clients:
         split_new.append(client.split(" "))
@@ -234,24 +223,37 @@ def render_user_prof():
         lname =  client[1]
         email_new = crud.get_client_by_fname_and_lname(fname, lname)
         new_client_email.append(email_new)
-    print(new_client_email)
-    print(f"#<<< --------------------------------------------------------- >>>#")
+
+    email_client = []
+    for email in new_client_email:
+        for client in email:
+            c_email = client.email.split(" ")
+            for e in c_email:
+                print(e)
+                email_client.append(e)
+         
 
     # getting the client with the most visits to display to page
     max_key = max(visits_dict, key=visits_dict.get)
-    # print(max_key)
 
     # print(visits_dict)
     # clearing out new clients to display repeating clients only
     for key, value in list(visits_dict.items()):
         if value < 2:
             del visits_dict[key]
-
     
+    user = crud.get_user_by_user_id(session['current_user_id'])
+    session['current_user_id'] = user.user_id
+    session['current_user_fname'] = user.fname
+    session['current_user_lname'] = user.lname
+
     return render_template('user_profile.html',
                             max_key=max_key,
                             visits_dict=visits_dict,
-                            new_clients=new_clients)
+                            new_clients=new_clients,
+                            email=email_client,
+                            fname=user.fname,
+                            lname=user.lname)
 # TODO
 #query for email
 

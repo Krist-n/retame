@@ -2,8 +2,9 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-  <h1>Retame <span class="fas fa-cut"></span> </h1>
-  
+  <span>
+    <h1>Retame <i class="fas fa-cut"></i> <h4>{{fname}} {{lname}}</h4></h1>
+  </span>
 
   <h4>Your most consistent client is {{ max_key }}. </h4>
 
@@ -30,8 +31,15 @@
     </select>
   
 </form><br>
+<div>
+{% for client in email %}
 <i class="far fa-envelope"></i>
-Send your new clients a little thank you, and
+      {{client}}
+    
+{% endfor %}
+</div><br>
+<div>
+Send your new clients a little thank you and
  friendly reminder to book their next hair service!
 </div>
 
