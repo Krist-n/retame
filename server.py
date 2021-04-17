@@ -11,7 +11,7 @@ import os
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
-app.secret_key = "top-secret"
+app.secret_key = "Retame"
 app.jinja_env.undefined = StrictUndefined
 
 
@@ -74,6 +74,20 @@ def login_user():
     user = crud.get_user_by_email(email)
     clients = crud.get_all_clients()
 
+    if user:
+        if password == user.password:
+            session['current_user_id'] = user.user_id
+            session['current_user_fname'] = user.fname
+            session['current_user_lname'] = user.lname
+            session['current_user_email'] = user.email
+            
+            print("**********************")
+            print(f'logged in {user}')
+            print("**********************")
+        else:
+            flash("Incorrect password. Try again.")
+            return redirect('/')
+
     client_list = set()
     new_clients = []
     
@@ -105,34 +119,19 @@ def login_user():
     num_repeat = len(repeating_clients)
     # print("*******************")
     # print(num_repeat)
-    
-    if user:
-        if password == user.password:
-            session['current_user_id'] = user.user_id
-            session['current_user_fname'] = user.fname
-            session['current_user_lname'] = user.lname
-            session['current_user_email'] = user.email
-            
-            print("**********************")
-            print(f'logged in {user}')
-            print("**********************")
 
 
-            return render_template('add_or_select_client.html', 
-                                    user=user, 
-                                    clients=clients,
-                                    user_clients=repeating_clients,
-                                    num_new=num_new,
-                                    num_reg=num_repeat,
-                                    new_clients=single_visit_client,
-                                    current_user=user.user_id,
-                                    user_fname=user.fname,
-                                    user_lname=user.lname)
-        else:
-            flash("Incorrect password. Try again.")
-            return redirect('/')
-    flash("try again")
-    return redirect('/')
+    return render_template('add_or_select_client.html', 
+                            user=user, 
+                            clients=clients,
+                            user_clients=repeating_clients,
+                            num_new=num_new,
+                            num_reg=num_repeat,
+                            new_clients=single_visit_client,
+                            current_user=user.user_id,
+                            user_fname=user.fname,
+                            user_lname=user.lname)
+
 
 #<<< ------ Logout user and redirect to index.html ------ >>>#
 
@@ -300,6 +299,11 @@ def add_new_client():
         print(f'created new client: {client}')
         print("*********************")
 
+        
+
+
+        
+
         return render_template('new_service_notes.html', 
                                 client=client.email,
                                 services=services,
@@ -356,6 +360,49 @@ def create_new_appointment():
     product_id = request.form.get('products')
     img_path = None
     img_id = None
+    # print("--------------")
+    # print(request.form)
+    # print()
+    # print(dir(request))
+    # print(request.FILE['filename'])
+    print()
+    print()
+    print("--------------")
+
+    client_list = set()
+    new_clients = []
+    
+    # I want to pop remove all the clients that appear only once.
+    
+    
+    clients_by_appt = crud.get_appointment_recs_by_user_id(session['current_user_id'])
+    
+    
+    all_clients = set()
+    repeating_clients = set()
+    print("<---------------------------------------->")
+    for recs in clients_by_appt:
+        client = crud.get_client_by_client_id(recs.client_id)
+        print(client.client_id)
+        
+        
+        #if client is already in all_clients, that means they are a repeating client
+        #if repeating client, we would want to add to repeating_clients set
+        #use set math all clients minus repeating clients -> 
+        if client in all_clients:
+            repeating_clients.add(client)
+        
+        all_clients.add(client)
+        
+    single_visit_client = all_clients - repeating_clients
+    
+    num_new = len(single_visit_client)
+    num_repeat = len(repeating_clients)
+    # print("*******************")
+    # print(num_repeat)
+
+
+        
 
     new_appointment_rec = crud.create_appointment_rec(appt_date=appt_date, 
                                                         tools_used=tools_used,
@@ -379,9 +426,13 @@ def create_new_appointment():
 
     return render_template("/add_or_select_client.html",
                             user_id=user.user_id,
+                            user_clients=repeating_clients,
                             user_fname=user.fname,
                             user_lname=user.lname,
-                            clients=clients)
+                            clients=clients,
+                            new_clients=single_visit_client,
+                            num_new=num_new,
+                            num_repeat=num_repeat)
     
 
 #<<< ------ after creating new client render new_service_notes.html ------ >>>#
