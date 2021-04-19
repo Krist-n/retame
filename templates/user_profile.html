@@ -24,8 +24,10 @@
   <form id="appt-rec-user" action="/user_prof" method="GET">
     <select name="new-client">
       {% for client in new_clients %}
+        {% if client == client %}
         <option value={{client}}> 
           {{ client }}
+          {% endif %}
         </option>
       {% endfor %}
     </select>
