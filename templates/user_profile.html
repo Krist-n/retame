@@ -23,7 +23,7 @@
   New:
   <form id="users-new-clients" action="/user_prof" method="GET">
     <select name="new-client">
-      {% for client in new_clients_list %}
+      {% for client in new_clients %}
         {% if client == client %}
         <option value={{client}}> 
           {{ client }}
