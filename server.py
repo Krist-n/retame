@@ -64,16 +64,16 @@ def create_account():
 #<<< ------ Display clients both new and repeating ------ >>>#
 #<<< ------ Select client for new appointment record ------ >>>#
 
-@app.route('/select_or_add_client', methods=['GET', 'POST'])
+@app.route('/user_homepage', methods=['GET', 'POST'])
 def login_user():
     """add and check for user login"""
 
+    # Pull user info from form
     email = request.form.get('email')
     password = request.form.get('password')
 
+    # Get user by email and check password
     user = crud.get_user_by_email(email)
-    clients = crud.get_all_clients()
-
     if user:
         if password == user.password:
             session['current_user_id'] = user.user_id
@@ -87,43 +87,44 @@ def login_user():
         else:
             flash("Incorrect password. Try again.")
             return redirect('/')
+    else:
+        flash("email incorrect")
+        return redirect('/')
 
-    client_list = set()
+    # Get all clients
+    all_clients = crud.get_all_clients()
+    
+    # Get all appnt recs for this user
+    appnt_recs_by_user = crud.get_appointment_recs_by_user_id(session['current_user_id'])
+    
+    clients_by_appnt = []
+    repeating_clients = []
     new_clients = []
-    
-    # I want to pop remove all the clients that appear only once.
-    
-    
-    clients_by_appt = crud.get_appointment_recs_by_user_id(session['current_user_id'])
-    
-    
-    all_clients = set()
-    repeating_clients = set()
-    
-    count = 0
-    for recs in clients_by_appt:
+    for recs in appnt_recs_by_user:
+        # Get the client for this record and append to clients by appnt list
         client = crud.get_client_by_client_id(recs.client_id)
-        all_clients.add(client)
-        print(all_clients)
+        clients_by_appnt.append(client)
         
-        #if client is already in all_clients, that means they are a repeating client
-        #if repeating client, we want to add to repeating_clients set
-        #use set math, all clients minus repeating clients -> 
-        if client in all_clients:   
-            repeating_clients.add(client)
-            
+        # If client is repeating, put in repeating clients list 
+        if client in new_clients:   
+            repeating_clients.append(client)
+        else:
+            new_clients.append(client)
 
-    new_clients = all_clients - repeating_clients
-    # print(new_clients)
-    
+    # Removing repeating ids in repeating_clients to list regulars          
+    repeating_clients = set(repeating_clients)
+    new_clients = set(new_clients)
+
+    # Separate out new clients from repeating
+    new_clients = new_clients - repeating_clients
+
+    # Get number of repeating and new clients
     num_new = len(new_clients)
     num_repeat = len(repeating_clients)
- 
 
-
-    return render_template('add_or_select_client.html', 
+    return render_template('user_homepage.html', 
                             user=user, 
-                            clients=clients,
+                            clients=all_clients,
                             user_clients=repeating_clients,
                             num_new=num_new,
                             num_reg=num_repeat,
@@ -157,10 +158,31 @@ def log_out():
 def render_user_prof():
     """display user profile"""
     
+    appnt_recs_by_user = crud.get_appointment_recs_by_user_id(session['current_user_id'])
+    
+    clients_by_appnt = []
+    repeating_clients = []
+    new_clients = []
+    for recs in appnt_recs_by_user:
+        # Get the client for this record and append to clients by appnt list
+        client = crud.get_client_by_client_id(recs.client_id)
+        clients_by_appnt.append(client)
+        
+        # If client is repeating, put in repeating clients list 
+        if client in new_clients:   
+            repeating_clients.append(client)
+        else:
+            new_clients.append(client)
 
+    # Removing repeating ids in repeating_clients to list regulars          
+    repeating_clients = set(repeating_clients)
+    new_clients = set(new_clients)
+
+    # Separate out new clients from repeating
+    new_clients = new_clients - repeating_clients
+    
     counts = Counter()
-
-    #appending client objs here
+    
     users_clients = []
     new_clients = {}
     client_ids = []
@@ -168,17 +190,22 @@ def render_user_prof():
     client_fname = []
     client_lname = []
 
-    # we have num of visits for client in session but we need num visits for all clients the user has seen
-    all_clients_visits = crud.get_appointment_recs_by_user_id(session['current_user_id'])
-    for client in all_clients_visits:
+    # Getting all client appt_recs by user from database
+    appnt_recs_by_user = crud.get_appointment_recs_by_user_id(session['current_user_id'])
+    for client in appnt_recs_by_user:
+        # getting all client class obj from all_clients_visits
         client = crud.get_client_by_client_id(client.client_id)
+        # adding all the clients by id to the client_id list
         client_ids.append(client.client_id)
+        # adding clients full name to users_clients for html formatting
         users_clients.append(client.fname + " " + client.lname)
 
         # appending client by fname and lname so I can undo my mess by using a dict counter 
         client_fname.append(client.fname)
         client_lname.append(client.lname)
+
     
+
     #zipping together fname and lname
     full_zip = zip(client_fname, client_lname)
     #turning it into a list so I can use it to query
@@ -188,21 +215,23 @@ def render_user_prof():
     #Turning it back to a list
     fullname_list = list(fullnames_set)
 
+    # Creating email list for querying html
     repeating_customer_email = []
     
+    # Looping through the fullname list to grab first and last names for query args
     for names in fullname_list:
         fname = names[0]
         lname = names[1]
+        # Getting email information from query
         email_new = crud.get_client_by_fname_and_lname(fname, lname)
         repeating_customer_email.append(email_new)
 
-    # Example of fullname_list
-    # [('Erica', 'Mcdonald'), ('Chuck', 'Brown'), ('Hazard', 'Danger'), ('Michael', 'Villarreal')]
 
     #getting a tally of all appointments created for each user
     #making it a dictionary for easier accessibility
     visits_dict = dict(Counter(users_clients))
     print(visits_dict)
+
     #created func to filter out clients that visited only once
     def find_clients_with_least_visits(clients):
         """finding clients with only 1 visit"""
@@ -276,20 +305,51 @@ def add_new_client():
     services = crud.get_all_services()
     products = crud.get_all_products()
 
+    all_clients = crud.get_all_clients()
+    
+    # Get all appnt recs for this user
+    appnt_recs_by_user = crud.get_appointment_recs_by_user_id(session['current_user_id'])
+    
+    clients_by_appnt = []
+    repeating_clients = []
     new_clients = []
+    for recs in appnt_recs_by_user:
+        # Get the client for this record and append to clients by appnt list
+        client = crud.get_client_by_client_id(recs.client_id)
+        clients_by_appnt.append(client)
+        
+        # If client is repeating, put in repeating clients list 
+        if client in new_clients:   
+            repeating_clients.append(client)
+        else:
+            new_clients.append(client)
+
+    # Removing repeating ids in repeating_clients to list regulars          
+    repeating_clients = set(repeating_clients)
+    new_clients = set(new_clients)
+
+    # Separate out new clients from repeating
+    new_clients = new_clients - repeating_clients
+
+    # Get number of repeating and new clients
     num_new = len(new_clients)
+    num_repeat = len(repeating_clients)
+
     
     if client:
-        flash("This client already exists, try again.")
-        return render_template("add_or_select_client.html")
+        return render_template("user_homepage.html",
+                                user_fname=user.fname,
+                                user_lname=user.lname,
+                                num_reg=num_repeat,
+                                num_new=num_new,
+                                user_clients=repeating_clients,
+                                new_clients=new_clients,
+                                clients=all_clients)
     else:
         client = crud.create_client(fname, lname, email)
         new_clients.append(client)
+        flash("New client created. ")
 # create client - append to new
-        session['current_client_id'] = client.client_id
-        session['current_client_fname'] = client.fname
-        session['current_client_lname'] = client.lname
-        session['current_client_email'] = client.email
 
 
         print("*********************")
@@ -298,21 +358,19 @@ def add_new_client():
 
         
 
-
-        
-
-        return render_template('new_service_notes.html', 
-                                client=client.email,
-                                services=services,
-                                products=products,
-                                new_clients=new_clients,
-                                num_new=num_new,
-                                client_id=client.client_id, 
-                                client_fname=client.fname,
-                                client_lname=client.lname,
-                                client_email=client.email,
-                                user_fname=user.fname,
-                                user_lname=user.lname)
+        return render_template('/user_homepage.html', 
+                                    client=client.email,
+                                    services=services,
+                                    products=products,
+                                    new_clients=new_clients,
+                                    num_new=num_new,
+                                    user_fname=user.fname,
+                                    user_lname=user.lname,
+                                    client_id=client.client_id, 
+                                    client_fname=client.fname,
+                                    client_lname=client.lname,
+                                    client_email=client.email,
+                                    )
 
 
 
@@ -433,7 +491,7 @@ def create_new_appointment():
     print('new appointment record created')
     print("*********************")
     
-    return render_template("/add_or_select_client.html",
+    return render_template("/user_homepage.html",
                             user_id=user.user_id,
                             user_clients=repeating_clients,
                             user_fname=user.fname,

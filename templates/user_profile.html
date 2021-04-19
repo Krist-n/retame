@@ -21,9 +21,9 @@
     
   </form><br>
   New:
-  <form id="appt-rec-user" action="/user_prof" method="GET">
+  <form id="users-new-clients" action="/user_prof" method="GET">
     <select name="new-client">
-      {% for client in new_clients %}
+      {% for client in new_clients_list %}
         {% if client == client %}
         <option value={{client}}> 
           {{ client }}
