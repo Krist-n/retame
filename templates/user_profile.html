@@ -3,7 +3,7 @@
 
 {% block body %}
   <span>
-    <h1>Retame <i class="fas fa-cut"></i> <h4>{{fname}} {{lname}}</h4></h1>
+    <h1>Retame <i class="fas fa-cut"></i> <h4>{{user.fname}} {{user.lname}}</h4></h1>
   </span>
 
   <h4>Your most consistent client is {{ max_key }}. </h4>
@@ -34,11 +34,14 @@
   
 </form><br>
 <div>
-{% for client in email %}
-<i class="far fa-envelope"></i>
-      {{client}}
-    
-{% endfor %}
+  <ul>
+    <li>
+      {% for client in email %}
+        <i class="far fa-envelope"></i>
+        {{client}}
+      {% endfor %}
+    </li>
+  </ul> 
 </div><br>
 <div>
 Send your new clients a little thank you and

@@ -23,7 +23,7 @@ def index():
 
     return render_template('index.html')
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login_user():
     """add and check for user login"""
 
@@ -34,6 +34,7 @@ def login_user():
     # Get user by email and check password
     user = crud.get_user_by_email(email)
     if user:
+        print(f'-------- password={password} - user.password={user.password} -----------')
         if password == user.password:
             session['current_user_id'] = user.user_id
             session['current_user_fname'] = user.fname
@@ -43,10 +44,8 @@ def login_user():
             print("**********************")
             print(f'logged in {user}')
             print("**********************")
-            return render_template('user_homepage.html',
-                                    user_fname=user.fname,
-                                    user_lname=user.lname,
-                                    user_id=user.user_id)
+            
+            return redirect('/user_homepage')
         else:
             flash("Incorrect password. Try again.")
             return redirect('/')
@@ -71,9 +70,6 @@ def create_account():
         return flash('A user already exists with that email.')
     else:
         user = crud.create_user(fname, lname, email, password)
-        session['current_user_id'] = user.user_id
-        session['current_user_fname'] = user.fname
-        session['current_user_lname'] = user.lname
 
         print("***************")
         print(user.user_id)
@@ -91,16 +87,19 @@ def create_account():
 @app.route('/user_homepage', methods=['GET', 'POST'])
 def user_homepage():
     """Display user homepage after log in"""
-    
+
+    user = crud.get_user_by_user_id(session['current_user_id'])
+
     # Get all clients
     all_clients = crud.get_all_clients()
     
     # Get all appnt recs for this user
-    appnt_recs_by_user = crud.get_appointment_recs_by_user_id(session['current_user_id'])
+    appnt_recs_by_user = crud.get_appointment_recs_by_user_id(user.user_id)
     
     clients_by_appnt = []
     repeating_clients = []
     new_clients = []
+
     for recs in appnt_recs_by_user:
         # Get the client for this record and append to clients by appnt list
         client = crud.get_client_by_client_id(recs.client_id)
@@ -123,21 +122,13 @@ def user_homepage():
     num_new = len(new_clients)
     num_repeat = len(repeating_clients)
 
-    user = crud.get_user_by_user_id(session['current_user_id'])
-    session['current_user_id'] = user.user_id
-    session['current_user_fname'] = user.fname
-    session['current_user_lname'] = user.lname
-
     return render_template('user_homepage.html', 
                             user=user, 
                             clients=all_clients,
                             user_clients=repeating_clients,
                             num_new=num_new,
                             num_reg=num_repeat,
-                            new_clients=new_clients,
-                            current_user=user.user_id,
-                            user_fname=user.fname,
-                            user_lname=user.lname)
+                            new_clients=new_clients)
 
 
 #<<< ------ Logout user and redirect to index.html ------ >>>#
@@ -163,9 +154,14 @@ def log_out():
 @app.route('/user_prof')
 def render_user_prof():
     """display user profile"""
-    
+
+    user = crud.get_user_by_user_id(session['current_user_id'])
     appnt_recs_by_user = crud.get_appointment_recs_by_user_id(session['current_user_id'])
     
+    # client.client_appt
+    # -> [<Appt id=1...>, <Appt id=3...>]
+    # len(client.client_appt)
+
     clients_by_appnt = []
     repeating_clients = []
     new_clients = []
@@ -187,26 +183,23 @@ def render_user_prof():
     # Separate out new clients from repeating
     new_clients = new_clients - repeating_clients
     
+    #Initializing the counter function for client tallies
     counts = Counter()
     
     users_clients = []
     new_clients = {}
-    client_ids = []
-
+    # 
     client_fname = []
     client_lname = []
 
-    # Getting all client appt_recs by user from database
-    appnt_recs_by_user = crud.get_appointment_recs_by_user_id(session['current_user_id'])
-    for client in appnt_recs_by_user:
+    # parsing through appointment records table and querying by client
+    for appnt_rec in appnt_recs_by_user:
         # getting all client class obj from all_clients_visits
-        client = crud.get_client_by_client_id(client.client_id)
-        # adding all the clients by id to the client_id list
-        client_ids.append(client.client_id)
+        client = crud.get_client_by_client_id(appnt_rec.client_id)
         # adding clients full name to users_clients for html formatting
         users_clients.append(client.fname + " " + client.lname)
 
-        # appending client by fname and lname so I can undo my mess by using a dict counter 
+        # appending client by fname and lname so I can query for both fname and lname
         client_fname.append(client.fname)
         client_lname.append(client.lname)
 
@@ -216,48 +209,47 @@ def render_user_prof():
     full_zip = zip(client_fname, client_lname)
     #turning it into a list so I can use it to query
     zipped_full_name = list(full_zip)
-    #Using a set to ditch repeats
+    #Using a set to remove repeats
     fullnames_set = set(zipped_full_name)
-    #Turning it back to a list
+    #Turning it back to a list for indexing on line 225
     fullname_list = list(fullnames_set)
 
     # Creating email list for querying html
     repeating_customer_email = []
     
-    # Looping through the fullname list to grab first and last names for query args
+    # Looping through and indexing the fullname_list to grab first and last names for query args
     for names in fullname_list:
         fname = names[0]
         lname = names[1]
-        # Getting email information from query
-        email_new = crud.get_client_by_fname_and_lname(fname, lname)
-        repeating_customer_email.append(email_new)
-
-
-    #getting a tally of all appointments created for each user
+      
+    #getting a tally of all appointments created for each client by user
     #making it a dictionary for easier accessibility
     visits_dict = dict(Counter(users_clients))
-    print(visits_dict)
 
     #created func to filter out clients that visited only once
     def find_clients_with_least_visits(clients):
         """finding clients with only 1 visit"""
         return visits_dict[clients] < 2
    
-    # utilizing earlier function and getting all new clients    
+    # utilizing earlier function and getting all new clients 
+    # Storing number of new clients for html display   
     new_clients = list(filter(find_clients_with_least_visits, visits_dict.keys()))
     num_new = len(new_clients)
 
-    split_new = []
+    # splitting clients to seperate out first and last name for querying
+    split_new_clients = []
     for client in new_clients:
-        split_new.append(client.split(" "))
+        split_new_clients.append(client.split(" "))
     
+    # at last querying by fname and lname for new clients email
     new_client_email = []
-    for client in split_new:
+    for client in split_new_clients:
         fname = client[0]
         lname =  client[1]
         email_new = crud.get_client_by_fname_and_lname(fname, lname)
         new_client_email.append(email_new)
 
+    # Nested for loops : "There be dragons"
     email_client = []
     for email in new_client_email:
         for client in email:
@@ -275,11 +267,7 @@ def render_user_prof():
     for key, value in list(visits_dict.items()):
         if value < 2:
             del visits_dict[key]
-    
-    user = crud.get_user_by_user_id(session['current_user_id'])
-    session['current_user_id'] = user.user_id
-    session['current_user_fname'] = user.fname
-    session['current_user_lname'] = user.lname
+
 
     return render_template('user_profile.html',
                             max_key=max_key,
@@ -287,8 +275,7 @@ def render_user_prof():
                             visits_dict=visits_dict,
                             new_clients=new_clients,
                             email=email_client,
-                            fname=user.fname,
-                            lname=user.lname)
+                            user=user)
 
 #<<< ------ Create and add new client to the session and db ------ >>>#
 
@@ -333,18 +320,12 @@ def create_new_appointment():
     clients = crud.get_all_clients()
 
     client = crud.get_client_by_client_id(session['current_client_id'])
-    session['current_client_id'] = client.client_id
-    session['current_client_fname'] = client.fname
-    session['current_client_lname'] = client.lname
 
     print("**********************************************")
     print(f"***  client first name:   {client.fname}  ***")
     print("**********************************************")
 
     user = crud.get_user_by_user_id(session['current_user_id'])
-    session['current_user_id'] = user.user_id
-    session['current_user_fname'] = user.fname
-    session['current_user_lname'] = user.lname
 
 # Client notes per section and perosnal
 
@@ -413,37 +394,26 @@ def move_to_create_appointment():
 
 
     print("***********************")
-    print("went to new form")
+    print("went to /add_new_rec")
     print("***********************")
     
     services = crud.get_all_services()
     products = crud.get_all_products()
 
     client = crud.get_client_by_client_id(session['current_client_id'])
-    session['current_client_id'] = client.client_id
-    session['current_client_fname'] = client.fname
-    session['current_client_lname'] = client.lname
-
+    
     print("***********************")
     print(f"{client.fname}")
     print("***********************")
 
-
     user = crud.get_user_by_user_id(session['current_user_id'])
-    session['current_user_id'] = user.user_id
-    session['current_user_fname'] = user.fname
-    session['current_user_lname'] = user.lname
+    
 
     return render_template('new_service_notes.html',
                             services=services,
                             products=products,
                             client=client,
-                            client_id=client.client_id,
-                            client_fname=client.fname,
-                            client_lname=client.lname,
-                            user=user.user_id,
-                            user_fname=user.fname,
-                            user_lname=user.lname)
+                            user=user)
                          
 #<<< ------ Get all users ------ >>>#
 
@@ -463,16 +433,14 @@ def get_client():
     """Return a client"""
 
     client_id = request.args.get('client')
-
     session['current_client_id'] = client_id
-
 
     return redirect(f'/clients/{client_id}')
 
 #<<< ------ get all services ------ >>>#
 
 @app.route('/services')
-def get_all_services():    
+def show_all_services():    
     """Return all users"""
 
     services = crud.get_all_services()
@@ -496,61 +464,47 @@ def show_client(client_id):
     """Show details on a particular client."""
     
     user = crud.get_user_by_user_id(session['current_user_id'])
-    session['current_user_id'] = user.user_id
-    session['current_user_fname'] = user.fname
-    session['current_user_lname'] = user.lname
-
     client = crud.get_client_by_client_id(session['current_client_id'])
-    session['current_client_id'] = client.client_id
-    session['current_client_fname'] = client.fname
-    session['current_client_lname'] = client.lname
-    session['current_client_email'] = client.email
     
-    print('---------------')
-    print(client.client_appt)
+    # print('---------------')
+    # print(client.client_appt)
     
 
     return render_template('client_details.html',
                             client=client, 
-                            client_id=client.client_id,
-                            client_fname=client.fname,
-                            client_lname=client.lname,
-                            client_email=client.email,
-                            user_id=user.user_id,
-                            user_fname=user.fname,
-                            user_lname=user.lname)
+                            user=user)
 
 #<<< ------ Get all clients seen by the user in session ------ >>>#
 
-@app.route('/clients_seen_by_user')
-def show_all_clients_by_user_id():
-    """show all new and repeat clients for user in session"""
+# @app.route('/clients_seen_by_user')
+# def show_all_clients_by_user_id():
+#     """show all new and repeat clients for user in session"""
 
-    user_clients = []
-    all_clients = set()
-    repeating_clients = set()
+#     user_clients = []
+#     all_clients = set()
+#     repeating_clients = set()
 
-    appt_recs = crud.get_appointment_recs_by_user_id(session['current_user_id'])
+#     appt_recs = crud.get_appointment_recs_by_user_id(session['current_user_id'])
 
-    for records in appt_recs:
-        user_clients.append(records.client_id)
-        print(f'******** appt records for user: {records.client_id} ********')
+#     for records in appt_recs:
+#         user_clients.append(records.client_id)
+#         print(f'******** appt records for user: {records.client_id} ********')
 
-    for client in appt_recs:
-        if client in all_clients:
-            repeating_clients.add(client)
+#     for client in appt_recs:
+#         if client in all_clients:
+#             repeating_clients.add(client)
         
-        all_clients.add(client)
+#         all_clients.add(client)
         
-    new_clients = all_clients - repeating_clients
+#     new_clients = all_clients - repeating_clients
 
-    num_new = len(new_clients)
-    num_repeat = len(repeating_clients)
+#     num_new = len(new_clients)
+#     num_repeat = len(repeating_clients)
 
-    return render_template('add_or_select_client.html',
-                            num_new=num_new,
-                            num_reg=num_repeat, 
-                            user_clients=user_clients)
+#     return render_template('add_or_select_client.html',
+#                             num_new=num_new,
+#                             num_reg=num_repeat, 
+#                             user_clients=user_clients)
    
   
 
