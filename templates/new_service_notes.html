@@ -11,7 +11,7 @@
 <body>
   
     <span>
-      <form id="service_notes" action="/create_new_appointment_rec" method="POST">
+      <form id="service_notes" action="/create_new_appointment_rec" method="POST" enctype="multipart/form-data">
         <h3><input type="date" name="date" required pattern="\d{4}-\d{2}-\d{2}"></h3>
         
         <select name="services">
@@ -105,7 +105,8 @@
         <label>Peronal client deets to remember:</label>
           <div><textarea name="personal_info"></textarea></div>
         </div>
-        <div><input type="file" name="img_path"></div>
+        <div><input type="file" name="file" action="/create_img" value='upload'></div>
+        
           <button type="submit" action="/create_new_appointment_rec">Submit appointment</button>
       </form>
     </div>

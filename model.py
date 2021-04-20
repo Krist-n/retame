@@ -98,7 +98,7 @@ class Appt_img(db.Model):
     img_path = db.Column(db.String, nullable=False)
     img_date = db.Column(db.DateTime, nullable=True)
    
-   
+    appt_img = db.relationship('Appointment_rec')
 
     def __repr__(self):
         """Show image info"""

@@ -153,8 +153,10 @@ def get_client_by_email(email):
 
     return Client.query.filter(Client.email == email).first()
 
-def get_email_by_client_id(client_id):
-    """get email by client_id"""
+def get_clients_by_user_id(client_appt):
+    """get clients through association"""
+
+    return Client.query.filter(Client.client_appt == client_appt).all()
 
 
 

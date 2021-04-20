@@ -5,12 +5,17 @@ from datetime import date
 from random import choice
 from collections import Counter
 import requests
+import helper
 import crud
 import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
+app.config['CLOUDINARY_UPLOAD_API_URL'] = "https://api.cloudinary.com/v1_1/retame/image/upload"
 app.secret_key = "Retame"
 app.jinja_env.undefined = StrictUndefined
 
@@ -155,9 +160,9 @@ def log_out():
 def render_user_prof():
     """display user profile"""
 
+
     user = crud.get_user_by_user_id(session['current_user_id'])
-    appnt_recs_by_user = crud.get_appointment_recs_by_user_id(session['current_user_id'])
-    
+    appnt_recs_by_user = crud.get_appointment_recs_by_user_id(user.user_id)
     # client.client_appt
     # -> [<Appt id=1...>, <Appt id=3...>]
     # len(client.client_appt)
@@ -165,23 +170,29 @@ def render_user_prof():
     clients_by_appnt = []
     repeating_clients = []
     new_clients = []
+
+    regulars_temp = []
+    new_clients_temp = []
+    
+   
     for recs in appnt_recs_by_user:
         # Get the client for this record and append to clients by appnt list
         client = crud.get_client_by_client_id(recs.client_id)
-        clients_by_appnt.append(client)
         
         # If client is repeating, put in repeating clients list 
         if client in new_clients:   
             repeating_clients.append(client)
         else:
             new_clients.append(client)
-
-    # Removing repeating ids in repeating_clients to list regulars          
+    
+             
     repeating_clients = set(repeating_clients)
     new_clients = set(new_clients)
 
     # Separate out new clients from repeating
-    new_clients = new_clients - repeating_clients
+    # new_clients = new_clients - repeating_clients
+    # print('--------------new temp----------------')
+    # print(f'{new_clients_temp} = TEMP')
     
     #Initializing the counter function for client tallies
     counts = Counter()
@@ -338,30 +349,20 @@ def create_new_appointment():
     tools_used = request.form.get('tools_used')
     service_id = request.form.get('services')
     product_id = request.form.get('products')
-    img_path = None
-    img_id = None
+    img_path = request.form.get('img_path')
    
+    file = request.files['file']
 
-    ALLOWED_EXTENSIONS = {'gif', 'png', 'jpg', 'jpeg'}
+    upload_img_file = cloudinary.uploader.unsigned_upload(file, "kuxl99l1", cloud_name='retame')
+    print('upload_img_file:')
+    print(upload_img_file)
 
-    def allowed_file(filename):
-        """Return file with allowed extensions."""
+    img_path = upload_img_file['secure_url']
+    
+    appt_img = crud.create_appt_img(upload_img_file['secure_url'], appt_date)
+    img_id = appt_img.img_id
 
-        return '.' in filename and \
-            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-    def upload_img_file():
-        """upload appointment img"""
-
-        file = request.files['img_path']
-        
-        result = requests.post('cloudinary.uploader.unsigned_upload(file, upload_preset, **options)')    
-        
-
-
-        
-
+       
     new_appointment_rec = crud.create_appointment_rec(appt_date=appt_date, 
                                                         tools_used=tools_used,
                                                         back_panels=back_panels,
@@ -376,6 +377,10 @@ def create_new_appointment():
                                                         product_id=product_id,
                                                         img_path=img_path,
                                                         img_id=img_id)
+    
+    print("**********************************************")
+    print(img_path)
+    print("**********************************************")
 
     
     print("*********************")
@@ -385,27 +390,53 @@ def create_new_appointment():
 
     return redirect('/user_homepage')
 
+@app.route('/create_img')
+def add_appointment_imgs():
+    """Add users imgs""" 
+    ALLOWED_EXTENSIONS = {'gif', 'png', 'jpg', 'jpeg'}
+
+    def allowed_file(filename):
+        """Return file with allowed extensions."""
+
+        return '.' in filename and \
+            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+    def upload_img_file():
+        """upload appointment img"""
+
+        if request.method == 'POST':
+            # check if the post request has the file part
+            if 'file' not in request.files:
+                flash('file type not allowed')
+                return redirect(request.url)
+            file = request.files['file']
+            # if user does not select file, browser also
+            # submit an empty part without filename
+            if file.filename == '':
+                flash('No selected file')
+                return redirect(request.url)
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                
+                upload_img_file = cloudinary.uploader.unsigned_upload(file, "kuxl99l1", folder = 'retame')
+                print('upload_img_file:')
+                print(upload_img_file)
+        
+                img_path = upload_img_file['secure_url']
+
+    return redirect('/create_new_appointment_rec')  
+
 #<<< ------ after creating new client render new_service_notes.html ------ >>>#
 #<<< ------ keep current session in flow ------ >>>#
 
 @app.route("/add_new_rec")
 def move_to_create_appointment():
     """display new appointment record to be filled in"""
-
-
-    print("***********************")
-    print("went to /add_new_rec")
-    print("***********************")
     
     services = crud.get_all_services()
     products = crud.get_all_products()
-
     client = crud.get_client_by_client_id(session['current_client_id'])
-    
-    print("***********************")
-    print(f"{client.fname}")
-    print("***********************")
-
     user = crud.get_user_by_user_id(session['current_user_id'])
     
 
@@ -418,7 +449,7 @@ def move_to_create_appointment():
 #<<< ------ Get all users ------ >>>#
 
 @app.route('/users')
-def get_users():    
+def show_users():    
     """Return all users"""
 
     users = crud.get_users()
@@ -450,7 +481,7 @@ def show_all_services():
 #<<< ------ get all appointment records ------ >>>#
 
 @app.route('/appointment_recs')
-def get_appointment_recs():    
+def show_appointment_recs():    
     """Return all appointment_recs"""
 
     appointment_recs = crud.get_all_appointment_recs()
@@ -462,58 +493,29 @@ def get_appointment_recs():
 @app.route('/clients/<client_id>')
 def show_client(client_id):
     """Show details on a particular client."""
+
+    # file = request.files['file']
+    # upload_img_file = cloudinary.uploader.unsigned_upload(file, "kuxl99l1", folder = 'retame')
     
     user = crud.get_user_by_user_id(session['current_user_id'])
     client = crud.get_client_by_client_id(session['current_client_id'])
+    appts = crud.get_appointment_recs_by_client_id(session['current_client_id'])
+    # img_path = f'https://res.cloudinary.com/<retame>/{upload_img_file["secure_url"]}/fetch/'
+    # records = crud.get_appointment_recs_by_client_id(client_id)
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    for record in appts:
+        img_path = record.img_path
+        print(img_path)
     
-    # print('---------------')
-    # print(client.client_appt)
     
 
     return render_template('client_details.html',
                             client=client, 
-                            user=user)
+                            user=user,
+                            img_path=img_path)
 
-#<<< ------ Get all clients seen by the user in session ------ >>>#
-
-# @app.route('/clients_seen_by_user')
-# def show_all_clients_by_user_id():
-#     """show all new and repeat clients for user in session"""
-
-#     user_clients = []
-#     all_clients = set()
-#     repeating_clients = set()
-
-#     appt_recs = crud.get_appointment_recs_by_user_id(session['current_user_id'])
-
-#     for records in appt_recs:
-#         user_clients.append(records.client_id)
-#         print(f'******** appt records for user: {records.client_id} ********')
-
-#     for client in appt_recs:
-#         if client in all_clients:
-#             repeating_clients.add(client)
-        
-#         all_clients.add(client)
-        
-#     new_clients = all_clients - repeating_clients
-
-#     num_new = len(new_clients)
-#     num_repeat = len(repeating_clients)
-
-#     return render_template('add_or_select_client.html',
-#                             num_new=num_new,
-#                             num_reg=num_repeat, 
-#                             user_clients=user_clients)
    
   
-
-
-
-            
-     
-           
-
 
 
 
@@ -523,9 +525,3 @@ if __name__ == '__main__':
     connect_to_db(app)
     app.run(host='0.0.0.0', debug=True)
 
-
-
-
-# Counting how many visits a specific client has made (with a specific stylist)
-# Query appt recs table and filter by client id & user id -> list of appt recs
-# calculate the length of that list -> number of visits
