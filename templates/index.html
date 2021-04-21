@@ -1,10 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Retame Login{% endblock %}
 <head>
-  <script
-    src="https://code.jquery.com/jquery-3.4.1.js"
-    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-    crossorigin="anonymous"></script>
+  
 </head>
 {% block body %}
   <h1>Retame <span class="fas fa-cut"></span></h1>
@@ -15,31 +12,39 @@
   
 
   <h2>Create an Account</h2>
-    <form action="/create_users" method="post">
+    <form action="/create_users" method="post" id='new-account'>
       <p>
-        First name <input type="text" name="fname">
-        Last name <input type="text" name="lname">
+        First name <input type="text" name="fname" id="fname">
+        Last name <input type="text" name="lname" id="lname">
       </p>
         <p>
-          Email <input type="text" name="email">
+          Email <input type="text" name="email" id="new-account-email">
         </p>
           <p> 
-            Password <input type="password" name="password">
+            Password <input type="password" name="password" id="new-account-password">
           </p>
-        <input value="Submit" type="submit" class="new-account">
+        <input value="Submit" type="submit">
       </p>
     </form>
   <h2> Already a User? </h2>
     <p> 
       <em>log in</em>
-        <form action="/login" method="post">
-          Email <input type="text" name="email">
+        <form action="/login" method="post" id="user-login" class="login">
+          Email <input type="text" name="email" id="user-email">
           </p>
             <p>
-              Password <input type="password" name="password">
+              Password <input type="password" name="password" id="user-password">
             </p>
           <p>
         <input value="Log in" type="submit" class="login">
       </form>
     </p>
+
 {% endblock %}
+{% block javascript %}
+
+<script src="/static/js/account_created.js"></script>
+<script src="/static/js/login.js"></script>
+
+{% endblock %}
+

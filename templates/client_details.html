@@ -10,7 +10,7 @@
        <img src={{img_path}} alt="hair style photo">
     <li>
       <p>
-        {% for appt_rec_object in client.client_appt %}
+        {% for appt_rec_object in client.client_appt[-1:] %}
 
         <h3>Technique:</h3>
 

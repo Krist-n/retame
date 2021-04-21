@@ -5,18 +5,21 @@ from datetime import date
 from random import choice
 from collections import Counter
 import requests
-import helper
 import crud
 import os
 import cloudinary
+from cloudinary import CloudinaryImage
 import cloudinary.uploader
 import cloudinary.api
+
 
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
+
 app.config['CLOUDINARY_UPLOAD_API_URL'] = "https://api.cloudinary.com/v1_1/retame/image/upload"
 app.secret_key = "Retame"
+
 app.jinja_env.undefined = StrictUndefined
 
 
@@ -50,7 +53,7 @@ def login_user():
             print(f'logged in {user}')
             print("**********************")
             
-            return redirect('/user_homepage')
+            return f"{user.fname} {user.lname} logged in!"
         else:
             flash("Incorrect password. Try again.")
             return redirect('/')
@@ -81,9 +84,9 @@ def create_account():
         print("***************")
 
         session['current_user_id']=user.user_id
-        flash("Account created, please log in")
+        return "Account created, please log in"
 
-        return redirect('/')
+        # return redirect('/')
 
 #<<< ------ Check user password and login ------ >>>#
 #<<< ------ Display clients both new and repeating ------ >>>#
@@ -500,12 +503,16 @@ def show_client(client_id):
     user = crud.get_user_by_user_id(session['current_user_id'])
     client = crud.get_client_by_client_id(session['current_client_id'])
     appts = crud.get_appointment_recs_by_client_id(session['current_client_id'])
-    # img_path = f'https://res.cloudinary.com/<retame>/{upload_img_file["secure_url"]}/fetch/'
-    # records = crud.get_appointment_recs_by_client_id(client_id)
-    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
+    all_user_img_paths = []
+    
     for record in appts:
         img_path = record.img_path
+        # resized_img = CloudinaryImage(img_path).image()
+        all_user_img_paths.append(img_path)
+        print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
         print(img_path)
+        
     
     
 
