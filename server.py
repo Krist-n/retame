@@ -30,11 +30,11 @@ def index():
     """display index page"""
 
     return render_template('index.html')
+    
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login_user():
     """add and check for user login"""
-
     # Pull user info from form
     email = request.form.get('email')
     password = request.form.get('password')
@@ -42,7 +42,7 @@ def login_user():
     # Get user by email and check password
     user = crud.get_user_by_email(email)
     if user:
-        print(f'-------- password={password} - user.password={user.password} -----------')
+        # print(f'-------- password={password} - user.password={user.password} -----------')
         if password == user.password:
             session['current_user_id'] = user.user_id
             session['current_user_fname'] = user.fname
@@ -52,14 +52,33 @@ def login_user():
             print("**********************")
             print(f'logged in {user}')
             print("**********************")
-            
-            return f"{user.fname} {user.lname} logged in!"
-        else:
-            flash("Incorrect password. Try again.")
-            return redirect('/')
+
+            return redirect("/user_homepage")
+        
+    session['login_attempt'] = True
+    return redirect('/')
+
+
+@app.route('/isloggedin')
+def logged_in():
+
+    if 'current_user_id' in session and 'current_client_id' not in session:
+        user = crud.get_user_by_email(session['current_user_email'])
+        return f"{user.fname} {user.lname} logged in!"
+
     else:
-        flash("email incorrect")
-        return redirect('/')
+        return None
+            
+
+
+@app.route('/attempted_login')
+def attempted_login():
+
+    if 'login_attempt' in session:
+        print("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
+
+        return "Incorrect email or password, please try again"
+
 
 #<<< ------ Create an account for new user ------ >>>#
 
@@ -86,7 +105,6 @@ def create_account():
         session['current_user_id']=user.user_id
         return "Account created, please log in"
 
-        # return redirect('/')
 
 #<<< ------ Check user password and login ------ >>>#
 #<<< ------ Display clients both new and repeating ------ >>>#
@@ -96,6 +114,9 @@ def create_account():
 def user_homepage():
     """Display user homepage after log in"""
 
+    if 'current_user_id' not in session:
+        return redirect("/")
+        
     user = crud.get_user_by_user_id(session['current_user_id'])
 
     # Get all clients
@@ -191,11 +212,6 @@ def render_user_prof():
              
     repeating_clients = set(repeating_clients)
     new_clients = set(new_clients)
-
-    # Separate out new clients from repeating
-    # new_clients = new_clients - repeating_clients
-    # print('--------------new temp----------------')
-    # print(f'{new_clients_temp} = TEMP')
     
     #Initializing the counter function for client tallies
     counts = Counter()
@@ -341,8 +357,7 @@ def create_new_appointment():
 
     user = crud.get_user_by_user_id(session['current_user_id'])
 
-# Client notes per section and perosnal
-
+    # Client notes per section and perosnal
     back_panels = request.form.get('back_panels')
     right_panel = request.form.get('right_side')
     left_panel = request.form.get('left_side')
@@ -389,9 +404,22 @@ def create_new_appointment():
     print("*********************")
     print('new appointment record created')
     print("*********************")
+
+    
     
 
     return redirect('/user_homepage')
+
+@app.route('/appointment_created')
+def appointment_created():
+    """toast route for appointment saved confirmation"""
+
+    if 'current_user_id' in session:
+        user = crud.get_user_by_user_id(session['current_user_id'])
+        client = crud.get_client_by_client_id(session['current_client_id'])
+
+        return f"New appointment for {client.fname} {client.lname} created!"
+
 
 @app.route('/create_img')
 def add_appointment_imgs():
@@ -505,22 +533,24 @@ def show_client(client_id):
     appts = crud.get_appointment_recs_by_client_id(session['current_client_id'])
 
     all_user_img_paths = []
-    
-    for record in appts:
-        img_path = record.img_path
-        # resized_img = CloudinaryImage(img_path).image()
-        all_user_img_paths.append(img_path)
-        print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-        print(img_path)
-        
-    
-    
 
+    if appts:
+        for record in appts:
+            if record.img_path != None:
+                img_path = record.img_path
+           
+                all_user_img_paths.append(img_path)
+                print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+                print(img_path)
+            else:
+                img_path = None
+             
+    else:
+        img_path = None
     return render_template('client_details.html',
-                            client=client, 
-                            user=user,
-                            img_path=img_path)
-
+                                        client=client, 
+                                        user=user,
+                                        img_path=img_path)
    
   
 

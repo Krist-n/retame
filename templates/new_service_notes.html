@@ -1,4 +1,4 @@
-<!doctype html>
+{% extends 'base.html' %}
 <html>
     <head>
         <title>
@@ -11,10 +11,10 @@
 <body>
   
     <span>
-      <form id="service_notes" action="/create_new_appointment_rec" method="POST" enctype="multipart/form-data">
-        <h3><input type="date" name="date" required pattern="\d{4}-\d{2}-\d{2}"></h3>
+      <form action="/create_new_appointment_rec" id="appt-created" method="POST" enctype="multipart/form-data">
+        <h3><input type="date" name="date" required pattern="\d{4}-\d{2}-\d{2}" id="appt-date"></h3>
         
-        <select name="services">
+        <select name="services" id="service-id">
           {% for service in services %}
             <option value={{service.service_id}}> 
             {{ service.service_name }} 
@@ -22,7 +22,7 @@
           {% endfor %}
         </select>
       <div>
-        <select name="products">
+        <select name="products" id="product-id">
           {% for product in products %}
             <option value={{product.product_id}}> 
             {{ product.product_name }} 
@@ -33,8 +33,8 @@
 
         <img src="/static/headsheets/headsheet4.png" width="100" height="100">
             <label>Back panels</label>
-              <div><textarea name="back_panels"></textarea></div>
-                <select name="tools_used">
+              <div><textarea name="back_panels" id="back-panels"></textarea></div>
+                <select name="tools_used" id="tools-used">
                     <option value="clippers">Clippers</option>
                     <option value="Shears">Shears</option>
                     <option value="thinning_shears">Thinning shears</option>
@@ -48,8 +48,8 @@
       <div> 
         <img src="/static/headsheets/headsheet3.png" width="100" height="100">
           <label>Right side panel</label>
-        <div><textarea name="right_side"></textarea></div>
-            <select name="tools_used">
+        <div><textarea name="right_side" id="right-panel"></textarea></div>
+            <select name="tools_used" id="tools-used">
                 <option value="clippers">Clippers</option>
                 <option value="Shears">Shears</option>
                 <option value="thinning_shears">Thinning shears</option>
@@ -62,8 +62,8 @@
     <div>
       <img src="/static/headsheets/headsheet2.png" width="100" height="100">
           <label> Left side panel</label>
-            <div><textarea name="left_side"></textarea></div>
-                <select name="tools_used">
+            <div><textarea name="left_side" id="left-panel"></textarea></div>
+                <select name="tools_used" id="tools-used">
                     <option value="clippers">Clippers</option>
                     <option value="Shears">Shears</option>
                     <option value="thinning_shears">Thinning shears</option>
@@ -76,8 +76,8 @@
         <div>
       <img src="/static/headsheets/headsheet5.png" width="100" height="100">
         <label>Mohawk top panel</label>
-          <div><textarea name="top_section"></textarea></div>
-            <select name="tools_used">
+          <div><textarea name="top_section" id="top-panel"></textarea></div>
+            <select name="tools_used" id="tools-used">
                 <option value="clippers">Clippers</option>
                 <option value="Shears">Shears</option>
                 <option value="thinning_shears">Thinning shears</option>
@@ -90,8 +90,8 @@
       <div>
         <img src="/static/headsheets/headsheet1.png" width="100" height="100">
           <label>Front panel - fringe</label>
-            <div><textarea name="front_section"></textarea></div>
-                <select name="tools_used">
+            <div><textarea name="front_section" id="front-panel"></textarea></div>
+                <select name="tools_used" id="tools-used">
                     <option value="clippers">Clippers</option>
                     <option value="Shears">Shears</option>
                     <option value="thinning_shears">Thinning shears</option>
@@ -103,14 +103,17 @@
 
       <div>
         <label>Peronal client deets to remember:</label>
-          <div><textarea name="personal_info"></textarea></div>
+          <div><textarea name="personal_info" id="personal-notes"></textarea></div>
         </div>
-        <div><input type="file" name="file" action="/create_img" value='upload'></div>
+        <div><input type="file" name="file" action="/create_img" value='upload' id="img-path"></div>
         
-          <button type="submit" action="/create_new_appointment_rec">Submit appointment</button>
+          <button type="submit" action="/create_new_appointment_rec" id="appt-created">Submit appointment</button>
       </form>
     </div>
   
 {% endblock %}
-    </body>   
+    </body>
+  {% block javascript %}
+    <script src="/static/js/appointment_created.js"></script>
+  {% endblock %}
   </html>

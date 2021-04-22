@@ -23,16 +23,14 @@
     <p class="flash-msg">
       {{ msg }}
     </p>
-  {% endfor %}
+    {% endfor %}
  
-    {% block body %}{% endblock %}
+  {% block body %}{% endblock %}
 
-    {% block after_body %}{% endblock %}
   
-    {% block javascript %}
-    {% endblock %}
   </body>
+  {% block after_body %}{% endblock %}
   
-  
+  {% block javascript %}{% endblock %}
   
 </html>
