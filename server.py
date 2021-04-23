@@ -32,17 +32,25 @@ def index():
     return render_template('index.html')
     
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login_user():
     """add and check for user login"""
+    
+
+    print("log in route -----------------------")
     # Pull user info from form
     email = request.form.get('email')
     password = request.form.get('password')
 
     # Get user by email and check password
     user = crud.get_user_by_email(email)
+
+    print(f'--------{email}-----------')
+
+
+    print("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
     if user:
-        # print(f'-------- password={password} - user.password={user.password} -----------')
+        print(f'-------- password={password} - user.password={user.password} -----------')
         if password == user.password:
             session['current_user_id'] = user.user_id
             session['current_user_fname'] = user.fname
@@ -53,31 +61,34 @@ def login_user():
             print(f'logged in {user}')
             print("**********************")
 
-            return redirect("/user_homepage")
-        
-    session['login_attempt'] = True
-    return redirect('/')
+            return f"{user.fname} {user.lname} logged in"
+           
+        else:
+            return "wrong info"
+            # return "Incorrect email or password, please try again"
+
+    return None
 
 
-@app.route('/isloggedin')
-def logged_in():
+# @app.route('/isloggedin')
+# def logged_in():
 
-    if 'current_user_id' in session and 'current_client_id' not in session:
-        user = crud.get_user_by_email(session['current_user_email'])
-        return f"{user.fname} {user.lname} logged in!"
+#     if 'current_user_id' in session and 'current_client_id' not in session:
+#         user = crud.get_user_by_email(session['current_user_email'])
+#         return f"{user.fname} {user.lname} logged in!"
 
-    else:
-        return None
+#     else:
+#         return None
             
 
 
-@app.route('/attempted_login')
-def attempted_login():
+# @app.route('/attempted_login')
+# def attempted_login():
 
-    if 'login_attempt' in session:
-        print("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
+#     if 'login_attempt' in session:
+#         print("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
 
-        return "Incorrect email or password, please try again"
+#         return "Incorrect email or password, please try again"
 
 
 #<<< ------ Create an account for new user ------ >>>#
