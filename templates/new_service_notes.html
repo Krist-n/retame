@@ -11,7 +11,7 @@
 <body>
   
     <span>
-      <form action="/create_new_appointment_rec" id="appt-created" method="POST" enctype="multipart/form-data">
+      <form action="/create_new_appointment_rec" id="service-notes" method="POST" enctype="multipart/form-data">
         <h3><input type="date" name="date" required pattern="\d{4}-\d{2}-\d{2}" id="appt-date"></h3>
         
         <select name="services" id="service-id">
@@ -114,6 +114,6 @@
 {% endblock %}
     </body>
   {% block javascript %}
-    <script src="/static/js/appointment_created.js"></script>
+  
   {% endblock %}
   </html>

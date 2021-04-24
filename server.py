@@ -1,6 +1,6 @@
 from flask import (Flask, render_template, request, flash, session,
                    redirect)
-from model import connect_to_db
+from model import connect_to_db, Client
 from datetime import date
 from random import choice
 from collections import Counter
@@ -29,6 +29,7 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """display index page"""
 
+
     return render_template('index.html')
     
 
@@ -52,6 +53,7 @@ def login_user():
     if user:
         print(f'-------- password={password} - user.password={user.password} -----------')
         if password == user.password:
+            session['logout'] = False
             session['current_user_id'] = user.user_id
             session['current_user_fname'] = user.fname
             session['current_user_lname'] = user.lname
@@ -61,34 +63,77 @@ def login_user():
             print(f'logged in {user}')
             print("**********************")
 
-            return f"{user.fname} {user.lname} logged in"
-           
-        else:
-            return "wrong info"
-            # return "Incorrect email or password, please try again"
+            return redirect('/user_homepage')
+        
+    else:
+        session['login_attempt'] = True
+        return redirect('/')
 
-    return None
+###########################################################################
+@app.route('/isloggedin')
+def logged_in():
+
+    print("*******************************ISLOGGEDIN")
+
+    if 'current_user_email' in session and 'current_client_id' not in session:
+        user = crud.get_user_by_email(session['current_user_email'])
+        
+        return f"{user.fname} {user.lname} logged in!"
+    else:
+        return None
 
 
-# @app.route('/isloggedin')
-# def logged_in():
+@app.route('/attempted_login')
+def attempted_login():
 
-#     if 'current_user_id' in session and 'current_client_id' not in session:
-#         user = crud.get_user_by_email(session['current_user_email'])
-#         return f"{user.fname} {user.lname} logged in!"
+    if 'login_attempt' in session:
+        print("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
 
-#     else:
-#         return None
+        return "Incorrect email or password, please try again"
+
             
+###########################################################################
+@app.route('/appointment_created')
+def appointment_created():
+    """toast route for appointment saved confirmation"""
 
+    if 'current_client_id' in session:
+        user = crud.get_user_by_user_id(session['current_user_id'])
+        client = crud.get_client_by_client_id(session['current_client_id'])
 
-# @app.route('/attempted_login')
-# def attempted_login():
+        return f"New appointment for {client.fname} {client.lname} created!"
 
-#     if 'login_attempt' in session:
-#         print("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
+    else:
+        return None
 
-#         return "Incorrect email or password, please try again"
+###########################################################################
+#<<< ------ Logout user and redirect to index.html ------ >>>#
+
+@app.route('/logout', methods=['POST'])
+def log_out():
+    """Log out current user, clear session."""
+
+    # session.clear()
+    # flash('You have been signed out.')
+
+    print("************************")
+    print("logged out user")
+    print("************************")
+
+    session.clear()
+    session['logout'] = True
+
+    return redirect('/')
+
+@app.route('/logout_user')
+def logout_user():
+
+    goodbye = ['in awhile crocodile', 'see you later alligator', 'peace out cub scout', \
+    'gotta go, buffalo', 'Adieu, cockatoo!', 'Live long and prosper']
+
+    
+    if session['logout'] == True:
+        return choice(goodbye)
 
 
 #<<< ------ Create an account for new user ------ >>>#
@@ -105,7 +150,7 @@ def create_account():
     user = crud.get_user_by_email(email)
     
     if user:
-        return flash('A user already exists with that email.')
+        return "A user already exists with that email."
     else:
         user = crud.create_user(fname, lname, email, password)
 
@@ -127,8 +172,9 @@ def user_homepage():
 
     if 'current_user_id' not in session:
         return redirect("/")
-        
+    
     user = crud.get_user_by_user_id(session['current_user_id'])
+       
 
     # Get all clients
     all_clients = crud.get_all_clients()
@@ -171,21 +217,6 @@ def user_homepage():
                             new_clients=new_clients)
 
 
-#<<< ------ Logout user and redirect to index.html ------ >>>#
-
-@app.route('/logout', methods=['POST'])
-def log_out():
-    """Log out current user, clear session."""
-
-    session.clear()
-    flash('You have been signed out.')
-
-    print("************************")
-    print("logged out user")
-    print("************************")
-
-
-    return redirect('/')
 
 #<<< ------ Display user profile ------ >>>#
 #<<< ------ Specify new and repeating customers ------ >>>#
@@ -198,9 +229,6 @@ def render_user_prof():
 
     user = crud.get_user_by_user_id(session['current_user_id'])
     appnt_recs_by_user = crud.get_appointment_recs_by_user_id(user.user_id)
-    # client.client_appt
-    # -> [<Appt id=1...>, <Appt id=3...>]
-    # len(client.client_appt)
 
     clients_by_appnt = []
     repeating_clients = []
@@ -410,26 +438,13 @@ def create_new_appointment():
     print("**********************************************")
     print(img_path)
     print("**********************************************")
-
-    
-    print("*********************")
     print('new appointment record created')
-    print("*********************")
+    print("**********************************************")
 
-    
-    
+    # session['current_client_id'] = None
 
     return redirect('/user_homepage')
 
-@app.route('/appointment_created')
-def appointment_created():
-    """toast route for appointment saved confirmation"""
-
-    if 'current_user_id' in session:
-        user = crud.get_user_by_user_id(session['current_user_id'])
-        client = crud.get_client_by_client_id(session['current_client_id'])
-
-        return f"New appointment for {client.fname} {client.lname} created!"
 
 
 @app.route('/create_img')
@@ -475,7 +490,7 @@ def add_appointment_imgs():
 @app.route("/add_new_rec")
 def move_to_create_appointment():
     """display new appointment record to be filled in"""
-    
+    print("************************************")
     services = crud.get_all_services()
     products = crud.get_all_products()
     client = crud.get_client_by_client_id(session['current_client_id'])
@@ -535,9 +550,6 @@ def show_appointment_recs():
 @app.route('/clients/<client_id>')
 def show_client(client_id):
     """Show details on a particular client."""
-
-    # file = request.files['file']
-    # upload_img_file = cloudinary.uploader.unsigned_upload(file, "kuxl99l1", folder = 'retame')
     
     user = crud.get_user_by_user_id(session['current_user_id'])
     client = crud.get_client_by_client_id(session['current_client_id'])
