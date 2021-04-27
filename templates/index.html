@@ -3,22 +3,29 @@
 <head>
   
 </head>
-<div class="container"> 
+
 {% block body %}
-<nav class="navbar navbar-light bg-light">
-    <h3>Retame<span class="fas fa-cut fa-rotate-90"></span> <width="30" height="30" alt="Retame"></h3>
-  </a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link" href="/services">Services</a>
-      </div>
-  </div>
+<div class="container"> 
+  <div class="row">
+    
+    <ul class="nav justify-content-center" id="nav">
+      <li class="nav-item" id="nav">
+        <a class="nav-link" href="/" id="nav">Retame</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about" id="nav">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/services" tabindex="-1" id="nav">Services</a>
+      </li>
+    </ul>
+  </header>
 </nav>
-</nav>
-  
+
+  <div class="text-center">
     <h2>Welcome!</h2>
+      <img src="/static/img/tessa-wilson-xkYJqEno62c-unsplash.jpg" alt="Responsive image" style="width:600px;height:400px;">
+    <div class="text-center">
   
 
   <h2>Create an Account</h2>
@@ -39,7 +46,7 @@
   <h2> Already a User? </h2>
     <p> 
       <em>log in</em>
-        <form action="/login" method="post" class="login">
+        <form action="/login" method="post" class="login" id="login-form">
           Email <input type="text" name="email" id="user-email">
           Password <input type="password" name="password" id="user-password">
           <input value="Log in" type="submit"  class="btn btn-secondary" color="white" id="login-button">
@@ -49,6 +56,7 @@
 {% endblock %}
 {% block javascript %}
 <script src="/static/js/login.js"></script>
+<script src="/static/js/attempted_login.js"></script>
 <script src="/static/js/account_created.js"></script>
 <script src="/static/js/logout_user.js"></script>
 {% endblock %}

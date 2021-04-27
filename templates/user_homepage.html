@@ -29,18 +29,19 @@
     <div><h5>Way to go, you have {{ num_reg }} regulars</h5></div>
     <div><h5>And {{ num_new }} new clients!</h5></div>
 
-
-
-    <div> Regulars:
+    <div>
+        
+      
       <form id="repeating-clients" method="GET">
         <select name="client">
-          {% for client in user_clients %}
-            <option value={{client}}> 
+          {% for client in user_clients %} 
+          <option value={{client}}> 
               {{ client.fname }} {{client.lname}} 
             </option>
           {% endfor %}
         </select>
       </form>
+       
     </div>
     New:
   <div>
@@ -64,16 +65,33 @@
         </p>
       </form>
     <h3> Select your client: </h3>
-  <div>
-    <form id="current_client" action="/clients" method="GET">
-      <select name="client">
-        {% for client in clients %}
+  <!-- <div>
+    <h3> Select your client: </h3>
+    <div>
+      <form id="current_client" action="/clients" method="GET">
+        <select name="client">
+          {% for client in clients %}
+            <option value={{client.client_id}}> 
+              {{ client.fname }} {{ client.lname }} 
+            </option>
+          {% endfor %}
+        </select>
+        <input value="Previous appointments" type="submit" id=client-details>
+      </form> <br>
+    </div> -->
+    
+    <form id="current_client" action="/clients" method="GET" name="client">
+      <input class="form-control" list="clientListOptions" id="clientList" placeholder="Type to search"> 
+      <datalist id="clientListOptions" name="client"> -->
+        <!-- <select> -->
+         {% for client in clients %}
           <option value={{client.client_id}}> 
-            {{ client.fname }} {{ client.lname }} 
+            {{ client.fname }} {{client.lname}}
           </option>
-        {% endfor %}
-      </select>
-      <input value="Previous appointments" type="submit" id=client-details>
+        {% endfor %} 
+      <!-- </select> -->
+      </datalist> 
+      <input value="Previous appointments" type="submit" id="client-details">
     </form> <br>
   </div>
     <div>
@@ -88,7 +106,7 @@
 
 {% block javascript %}
   <script src="/static/js/login.js"></script>  
-  <script src="/static/js/appointment_created.js"></script>
+  <script src="/static/js/search.js"></script>
 {% endblock %}
 
 

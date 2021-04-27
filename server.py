@@ -48,8 +48,6 @@ def login_user():
 
     print(f'--------{email}-----------')
 
-
-    print("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
     if user:
         print(f'-------- password={password} - user.password={user.password} -----------')
         if password == user.password:
@@ -65,13 +63,16 @@ def login_user():
 
             return redirect('/user_homepage')
         
+        else:
+            session['login_attempt'] = True
+            return redirect('/')
     else:
         session['login_attempt'] = True
         return redirect('/')
-
-###########################################################################
+######################## - Toast Routes - ########################
 @app.route('/isloggedin')
 def logged_in():
+    """Logged in Toast notification"""
 
     print("*******************************ISLOGGEDIN")
 
@@ -82,11 +83,12 @@ def logged_in():
     else:
         return None
 
-
+###########################################################################
 @app.route('/attempted_login')
 def attempted_login():
+    """Login attempt Toast notification"""
 
-    if 'login_attempt' in session:
+    if session['login_attempt'] == True:
         print("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
 
         return "Incorrect email or password, please try again"
@@ -98,13 +100,23 @@ def appointment_created():
     """toast route for appointment saved confirmation"""
 
     if 'current_client_id' in session:
-        user = crud.get_user_by_user_id(session['current_user_id'])
         client = crud.get_client_by_client_id(session['current_client_id'])
-
         return f"New appointment for {client.fname} {client.lname} created!"
 
     else:
         return None
+
+###########################################################################
+@app.route('/logout_user')
+def logout_user():
+    """Toast route for logging out"""
+
+    goodbye = ['in awhile crocodile', 'see you later alligator', 'peace out cub scout', \
+    'gotta go, buffalo', 'Adieu, cockatoo!', 'Live long and prosper']
+
+    
+    if session['logout'] == True:
+        return choice(goodbye)
 
 ###########################################################################
 #<<< ------ Logout user and redirect to index.html ------ >>>#
@@ -112,9 +124,6 @@ def appointment_created():
 @app.route('/logout', methods=['POST'])
 def log_out():
     """Log out current user, clear session."""
-
-    # session.clear()
-    # flash('You have been signed out.')
 
     print("************************")
     print("logged out user")
@@ -124,16 +133,6 @@ def log_out():
     session['logout'] = True
 
     return redirect('/')
-
-@app.route('/logout_user')
-def logout_user():
-
-    goodbye = ['in awhile crocodile', 'see you later alligator', 'peace out cub scout', \
-    'gotta go, buffalo', 'Adieu, cockatoo!', 'Live long and prosper']
-
-    
-    if session['logout'] == True:
-        return choice(goodbye)
 
 
 #<<< ------ Create an account for new user ------ >>>#
@@ -226,18 +225,12 @@ def user_homepage():
 def render_user_prof():
     """display user profile"""
 
-
     user = crud.get_user_by_user_id(session['current_user_id'])
     appnt_recs_by_user = crud.get_appointment_recs_by_user_id(user.user_id)
 
-    clients_by_appnt = []
     repeating_clients = []
     new_clients = []
 
-    regulars_temp = []
-    new_clients_temp = []
-    
-   
     for recs in appnt_recs_by_user:
         # Get the client for this record and append to clients by appnt list
         client = crud.get_client_by_client_id(recs.client_id)
@@ -248,33 +241,27 @@ def render_user_prof():
         else:
             new_clients.append(client)
     
-             
     repeating_clients = set(repeating_clients)
+
     new_clients = set(new_clients)
     
-    #Initializing the counter function for client tallies
-    counts = Counter()
-    
     users_clients = []
-    new_clients = {}
-    # 
+ 
     client_fname = []
     client_lname = []
 
-    # parsing through appointment records table and querying by client
+    # parsing through appointment records table and querying by client obj
     for appnt_rec in appnt_recs_by_user:
-        # getting all client class obj from all_clients_visits
+        # getting all client obj by user id
         client = crud.get_client_by_client_id(appnt_rec.client_id)
         # adding clients full name to users_clients for html formatting
         users_clients.append(client.fname + " " + client.lname)
 
-        # appending client by fname and lname so I can query for both fname and lname
+        # appending client by fname and lname so I can query for both fname & lname
         client_fname.append(client.fname)
         client_lname.append(client.lname)
 
-    
-
-    #zipping together fname and lname
+    #zipping together (creates tuples), fname & lname for accurate alignment of fullname
     full_zip = zip(client_fname, client_lname)
     #turning it into a list so I can use it to query
     zipped_full_name = list(full_zip)
@@ -282,9 +269,6 @@ def render_user_prof():
     fullnames_set = set(zipped_full_name)
     #Turning it back to a list for indexing on line 225
     fullname_list = list(fullnames_set)
-
-    # Creating email list for querying html
-    repeating_customer_email = []
     
     # Looping through and indexing the fullname_list to grab first and last names for query args
     for names in fullname_list:
@@ -320,18 +304,17 @@ def render_user_prof():
 
     # Nested for loops : "There be dragons"
     email_client = []
+    
     for email in new_client_email:
         for client in email:
             c_email = client.email.split(" ")
             for e in c_email:
                 print(e)
                 email_client.append(e)
-         
 
     # getting the client with the most visits to display to page
     max_key = max(visits_dict, key=visits_dict.get)
 
-    
     # clearing out new clients to display repeating clients only
     for key, value in list(visits_dict.items()):
         if value < 2:
@@ -441,8 +424,6 @@ def create_new_appointment():
     print('new appointment record created')
     print("**********************************************")
 
-    # session['current_client_id'] = None
-
     return redirect('/user_homepage')
 
 
@@ -450,6 +431,7 @@ def create_new_appointment():
 @app.route('/create_img')
 def add_appointment_imgs():
     """Add users imgs""" 
+
     ALLOWED_EXTENSIONS = {'gif', 'png', 'jpg', 'jpeg'}
 
     def allowed_file(filename):
@@ -490,7 +472,7 @@ def add_appointment_imgs():
 @app.route("/add_new_rec")
 def move_to_create_appointment():
     """display new appointment record to be filled in"""
-    print("************************************")
+    
     services = crud.get_all_services()
     products = crud.get_all_products()
     client = crud.get_client_by_client_id(session['current_client_id'])
@@ -521,8 +503,9 @@ def get_client():
     """Return a client"""
 
     client_id = request.args.get('client')
+    print(request.args)
     session['current_client_id'] = client_id
-
+    
     return redirect(f'/clients/{client_id}')
 
 #<<< ------ get all services ------ >>>#
@@ -547,10 +530,30 @@ def show_appointment_recs():
 
 #<<< ------ Display a clients details from previous records ------ >>>#
 
+@app.route('/search')
+def search_clients():
+    """Search form"""
+
+    # getting input from user search
+    client_name = request.args.get("search")
+    # creating a first name and last name ele
+    client_query_str = client_name.split(" ")
+    # db search by first and last name
+    fullname = crud.get_client_by_fname_and_lname(client_query_str[0], client_query_str[1]) 
+    
+    print(client_query_str)
+
+    for name in fullname:
+        search_results = name
+        
+    return redirect('/user_homepage')
+
 @app.route('/clients/<client_id>')
 def show_client(client_id):
     """Show details on a particular client."""
     
+    session['current_client_id'] = client_id
+
     user = crud.get_user_by_user_id(session['current_user_id'])
     client = crud.get_client_by_client_id(session['current_client_id'])
     appts = crud.get_appointment_recs_by_client_id(session['current_client_id'])

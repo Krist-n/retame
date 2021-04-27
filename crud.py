@@ -4,6 +4,7 @@ from model import db, User, Client, Appointment_rec, Service, Product, Appt_img,
 from datetime import datetime
 from faker import Faker
 from collections import OrderedDict
+from sqlalchemy import and_
 
 fake = Faker()
 
@@ -157,6 +158,11 @@ def get_clients_by_user_id(client_appt):
     """get clients through association"""
 
     return Client.query.filter(Client.client_appt == client_appt).all()
+
+def get_client_by_search(fname, lname, email):
+    """User query for clients"""
+
+    return Client.query(Client).filter(and_(Client.fname==fname, Client.lname==lname, Client.email==email)) 
 
 
 

@@ -6,14 +6,13 @@ $.get('/attempted_login', (res) => {
 
         Toastify({
 
-                text: res,
-                duration: 5000,
-                backgroundColor: "linear-gradient(to right, #f22e8a, #ebccda",
-                newWindow: true,
-                close: true
+            text: res,
+            duration: 5000,
+            backgroundColor: "linear-gradient(to right, #f22e8a, #ebccda",
+            newWindow: true,
+            close: true
 
                 
-            }).showToast();
-
+        }).showToast();
     }
  });
