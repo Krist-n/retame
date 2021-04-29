@@ -3,20 +3,27 @@
 
 
 {% block body %}
-<nav class="navbar navbar-light bg-light">
-  <h3>Retame<span class="fas fa-cut fa-rotate-90"></span> <width="30" height="30" alt="Retame"></h3>
-<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
-</button>
-<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-  <div class="navbar-nav">
-    <a class="nav-item nav-link active" href="/user_homepage">Homepage <span class="sr-only">(current)</span></a>
-    <a class="nav-item nav-link" href="/services">Services</a>
-    <a class="nav-item nav-link" href="/logout">logout</a>
-  </div>
+<div class="container"> 
+  <div class="row">
+    <div class="col-12 col-md-6 col-sm-3 col-lg-9" id="nav" >
+    <ul class="nav justify-content-right fixed-top" id="nav" >
+      <li class="nav-item" id="nav">
+        <a class="nav-link" href="/" id="nav">Retame</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/services" id="nav">Services</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/user_homepage" tabindex="-1" id="nav">New appointment notes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout" tabindex="-1" id="nav">Log out</a>
+      </li>
+    </ul>
+  </header>
 </div>
-</nav>
-</nav>
+  </div>
+    </div>
   <span>
     <h1>Retame <i class="fas fa-cut"></i> <h4>{{user.fname}} {{user.lname}}</h4></h1>
   </span>

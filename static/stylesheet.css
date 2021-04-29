@@ -1,6 +1,7 @@
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Quando', serif;
+  font-weight: light;
   background-color: #130606;
   background-size: 1000px 900px;
   background-repeat: no-repeat;
@@ -8,21 +9,25 @@ body {
 
 #nav {
   text-align: right;
-  font-family: Arial, Helvetica, sans-serif;
-  font-style: initial;
+  font-family: 'Quando', serif;
+  font-weight: light;
   color: #eee4e4
 }
 
 #index-img {
   padding-bottom: 20px;
-
 }
 
+#awesome-scissors {
+  color: #c5b691;
+}
 
 h4 {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Quando', serif;
+  font-weight: light;
   color: #eee4e4;
   display: inline-block;
+  
   /* text-align: center; */
 }
 
@@ -33,34 +38,60 @@ h4 {
 #left {
   text-align: right;
   margin-top: -2em;
-  margin-left: 0;
-
+  margin-left: -1em;
+  margin-right: -7em;
+  padding: -5px;
 }
 
 form, h2, h3, h5, a, em {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Quando', serif;
+  font-weight: light;
   color: #eee4e4
 }
 
 #new-account {
+  font-family: 'Raleway', sans-serif;
   border-radius: 30px;
-  background: #767775;
+  background:#c5b691!important;
   padding: 20px;
   width: 200px;
-  height: 197px;
+  height: 250px;
   margin-top: 2em 
 }
 
+#fname, #lname, #new-account-email, #new-account-password, #new-client-fname, #new-client-lname, #new-client-email {
+  font-family: 'Raleway', sans-serif;
+  width: 150px;
+} 
+
 #login-form {
   border-radius: 15px;
-  background: #767775;
+  background:#c5b691!important;
   padding: 10px;
   width: 182px;
-  height: 100px; 
+  height: 175px;
+  font-family: 'Raleway', sans-serif; 
+}
+.em {
+  font-family: 'Raleway', sans-serif;
 }
 
-#login-button, #new-account-btn {
-  margin-top: 1em;
+#login-button, #new-account-btn, #new-client-btn, #client-details-btn {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color:whitesmoke;
+  background-color:black;
+  text-align: center;
+}
+
+#user-email {
+  margin-top: 10px;
+  width: 150px;
+}
+
+#user-password {
+  margin-bottom: 10px;
+  width: 150px;
 }
 
 
@@ -69,20 +100,66 @@ form, h2, h3, h5, a, em {
   padding: 15px;
 }
 
-/* .toastify {
-  padding: 12px 20px;
-  color: #f3f5f3;
+#user_compliments, #user_greetings {
+  font-family: 'Raleway', sans-serif;
+  color: #eee4e4;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 0;
+  margin-left: 100px;
   display: inline-block;
-  box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.12), 0 10px 36px -4px #9ea0ac4d;
-  background: -webkit-linear-gradient(315deg, #81848a, #ebecf0);
-  background: linear-gradient(135deg, #7d8188, #f1f2f5);
-  position: fixed;
-  top: -150px;
-  right: 15px;
-  opacity: 0;
-  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
-  border-radius: 1px;
-  cursor: pointer;
 }
+
+#create_client, #current_client {
+  font-family: 'Raleway', sans-serif;
+  border-radius: 30px;
+  background:#c5b691!important;
+  padding: 20px;
+  width: 200px;
+  height: 150px;
+  margin-top: 0; 
+}
+
+#current_client {
+  margin-top: 20px;
+}
+
+#create, #select {
+  margin-top: 2em;
+} 
+
+#homepage-intro {
+  display: block
+
+}
+#homepage-img {
+  margin-top: 30px;
+}
+
+#repeating-clients, #new-clients, #new-reg-dd {
+  color: #eee4e4;
+  padding: 50px;
+}
+
+#repeating-clients, #new-clients {
+  margin-top: -100px;
+  margin-bottom: -90px;
+}
+
+#new-clients {
+  margin-top: -100;
+  margin-bottom: 100px;
+}
+
+#create_client {
+  margin-top: 50px;
+  margin-bottom: 0;
+  padding: -10
+}
+
+#new-client-fname, #new-client-lname, #new-client-email {
+  margin-top: 0;
+  margin-bottom: 0;
   
-  .toastify.on { opacity: 1; } */
+}
+
