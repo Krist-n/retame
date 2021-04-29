@@ -76,8 +76,16 @@ form, h2, h3, h5, a, em {
   font-family: 'Raleway', sans-serif;
 }
 
-#login-button, #new-account-btn, #new-client-btn, #client-details-btn {
+#login-button, #new-account-btn  {
   margin-top: 0;
+  margin-bottom: 20px;
+  color:whitesmoke;
+  background-color:black;
+  text-align: center;
+}
+
+#new-client-btn, #client-details-btn {
+  margin-top: 10px;
   margin-bottom: 20px;
   color:whitesmoke;
   background-color:black;
@@ -110,22 +118,35 @@ form, h2, h3, h5, a, em {
   display: inline-block;
 }
 
-#create_client, #current_client {
+#create_client {
   font-family: 'Raleway', sans-serif;
   border-radius: 30px;
   background:#c5b691!important;
   padding: 20px;
   width: 200px;
-  height: 150px;
+  height: 175px;
+  margin-top: -25px;
+} 
+
+#current_client {
+  font-family: 'Raleway', sans-serif;
+  border-radius: 30px;
+  background:#c5b691!important;
+  padding: 20px;
+  width: 230px;
+  height: 115px;
   margin-top: 0; 
 }
 
-#current_client {
-  margin-top: 20px;
-}
 
-#create, #select {
-  margin-top: 2em;
+#create {
+  margin-bottom: -30px;
+  margin-top: 50px;
+} 
+#select {
+  padding: 20px;
+  margin-top: 50px;
+  margin-bottom: -20px;
 } 
 
 #homepage-intro {
@@ -152,8 +173,8 @@ form, h2, h3, h5, a, em {
 }
 
 #create_client {
-  margin-top: 50px;
-  margin-bottom: 0;
+  margin-top: 40px;
+  margin-bottom: 10px;
   padding: -10
 }
 
@@ -161,5 +182,9 @@ form, h2, h3, h5, a, em {
   margin-top: 0;
   margin-bottom: 0;
   
+}
+
+#new-reg-dd {
+  margin-top: -50px;
 }
 

@@ -21,7 +21,9 @@
         <a class="nav-link" href="/user_prof" tabindex="-1" id="nav"><span class="fas fa-book-dead"></span> {{user.fname}}'s client data</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" action="/logout" href="/logout" method="POST" tabindex="-1" id="nav">Log out</a>
+        <form>
+          <button id="logout" type="submit" action="/logout" class="btn btn-link btn-logout" method="POST">Log out</button>
+        </form>
       </li>
     </ul>
   </header>
@@ -98,7 +100,7 @@
 
 {% block javascript %}
   <script src="/static/js/login.js"></script>  
-  <!-- <script src="/static/js/dataList.js"></script> -->
+  <script src="/static/js/logout.js"></script>
 {% endblock %}
 
 
