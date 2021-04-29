@@ -7,52 +7,57 @@
 {% block body %}
 <div class="container"> 
   <div class="row">
-    
-    <ul class="nav justify-content-center" id="nav">
+    <div class="col-12 col-md-6 col-sm-3 col-lg-9" id="nav" >
+    <ul class="nav justify-content-right fixed-top" id="nav" >
       <li class="nav-item" id="nav">
         <a class="nav-link" href="/" id="nav">Retame</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/about" id="nav">About</a>
+        <a class="nav-link" href="/services" id="nav">Services</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/services" tabindex="-1" id="nav">Services</a>
+        <a class="nav-link" href="/about" tabindex="-1" id="nav">About</a>
       </li>
     </ul>
   </header>
-</nav>
+</div>
+  </div>
+    </div>
 
   <div class="text-center">
-    <h2>Welcome!</h2>
-      <img src="/static/img/tessa-wilson-xkYJqEno62c-unsplash.jpg" alt="Responsive image" style="width:600px;height:400px;">
-    <div class="text-center">
-  
-
-  <h2>Create an Account</h2>
-    <form action="/create_users" method="post" id='new-account'>
-      <p>
-        First name <input type="text" name="fname" id="fname">
-        Last name <input type="text" name="lname" id="lname">
-      </p>
-        <p>
-          Email <input type="text" name="email" id="new-account-email">
-        </p>
-          <p> 
-            Password <input type="password" name="password"  id="new-account-password">
-          </p>
-        <input value="Submit" type="submit">
-      </p>
+    <h2>Retame <span class="fas fa-cut fa-rotate-90"></span></h2>
+      <img src="/static/img/ashkan-forouzani-d0kvBZZsMMw-unsplash.jpg" alt="Responsive image" style="width:600px;height:400px;" id="index-img">
+  </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-3 offset-3" id="big-form">
+          <h4 id="left">Create an Account </h4>
+          
+      <p> 
+    <form class="form-control form-control-sm" action="/create_users" method="post" id='new-account'>
+      <p><input type="text" name="fname" id="fname" placeholder="First name"></p>
+        <p><input type="text" name="lname" id="lname" placeholder="Last name"></p>
+          <p><input type="text" name="email" id="new-account-email" placeholder="Email"></p>
+        <p><input type="password" name="password"  id="new-account-password" placeholder="Password"></p>
+      <input value="Submit" type="submit" class="btn btn-secondary" id="new-account-btn">
     </form>
-  <h2> Already a User? </h2>
-    <p> 
-      <em>log in</em>
-        <form action="/login" method="post" class="login" id="login-form">
-          Email <input type="text" name="email" id="user-email">
-          Password <input type="password" name="password" id="user-password">
-          <input value="Log in" type="submit"  class="btn btn-secondary" color="white" id="login-button">
-        </form>
-    </p>
-</div>
+  </p>
+  </div>
+    <div class="col-5 offset-1">
+    <h4 id="right"> Already a User?</h4>
+  <p> 
+    <em class="text-center">log in</em>
+      <form class="form-control form-control-sm" action="/login" method="post" class="login" id="login-form">
+        <p><input type="text" name="email" id="user-email" placeholder="Email"></p>
+        <p><input type="password" name="password" id="user-password" placeholder="Password"></p>
+        <p><input value="Log in" type="submit"  class="btn btn-secondary" id="login-button"></p>
+      </form>
+  </p>
+    </div>
+      </div>
+        </div>
+      </div>
+    </div>
 {% endblock %}
 {% block javascript %}
 <script src="/static/js/login.js"></script>

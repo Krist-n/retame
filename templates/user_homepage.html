@@ -1,24 +1,33 @@
 {% extends 'base.html' %}
 <head>
-
-      {% block title %}New appointment record{% endblock %}
+    {% block title %}New appointment record{% endblock %}
 </head>
+
 {% block body %}
-<nav class="navbar navbar-light bg-light">
-  <h3>Retame<span class="fas fa-cut fa-rotate-90"></span> <width="30" height="30" alt="Retame"></h3>
-<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
-</button>
-<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-  <div class="navbar-nav">
-    <a class="nav-item nav-link active" href="/user_homepage">Homepage <span class="sr-only">(current)</span></a>
-    <a class="nav-item nav-link" href="/user_prof">Stylist Black book</a>
-    <a class="nav-item nav-link" href="/services">Services</a>
-    <a class="nav-item nav-link" href="/logout">logout</a>
-  </div>
-</div>
+<div class="container"> 
+  <div class="row">
+    
+    <ul class="nav justify-content-center" id="nav">
+      <li class="nav-item" id="nav">
+        <a class="nav-link" href="/" id="nav">Retame</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about" id="nav">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/services" tabindex="-1" id="nav">Services</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/user_prof" tabindex="-1" id="nav">{{user.fname}}'s client data</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout" method="POST" tabindex="-1" id="nav">Log Out</a>
+      </li>
+    </ul>
+  </header>
 </nav>
-</nav>
+
+  <div class="text-center">
 <h3>Hello {{ user.fname }} {{ user.lname }},</h3>
   
 
@@ -31,7 +40,7 @@
 
     <div>
         
-      
+      <h3>Regulars:</h3>
       <form id="repeating-clients" method="GET">
         <select name="client">
           {% for client in user_clients %} 
@@ -43,8 +52,9 @@
       </form>
        
     </div>
-    New:
+    
   <div>
+    <h3>New:</h3>
     <form id="new-clients" method="GET">
       <select name="client">
         {% for client in new_clients %}
@@ -64,35 +74,18 @@
           <input value="Add" type="submit">
         </p>
       </form>
-    <h3> Select your client: </h3>
-  <!-- <div>
-    <h3> Select your client: </h3>
-    <div>
-      <form id="current_client" action="/clients" method="GET">
-        <select name="client">
-          {% for client in clients %}
-            <option value={{client.client_id}}> 
-              {{ client.fname }} {{ client.lname }} 
-            </option>
-          {% endfor %}
-        </select>
-        <input value="Previous appointments" type="submit" id=client-details>
-      </form> <br>
-    </div> -->
-    
-    <form id="current_client" action="/clients" method="GET" name="client">
-      <input class="form-control" list="clientListOptions" id="clientList" placeholder="Type to search"> 
-      <datalist id="clientListOptions" name="client"> -->
-        <!-- <select> -->
-         {% for client in clients %}
-          <option value={{client.client_id}}> 
-            {{ client.fname }} {{client.lname}}
-          </option>
-        {% endfor %} 
-      <!-- </select> -->
-      </datalist> 
-      <input value="Previous appointments" type="submit" id="client-details">
-    </form> <br>
+      <h3> Select your client: </h3>
+      <div>
+        <form id="current_client" action="/clients" method="GET">
+          <select name="client">
+            {% for client in clients %}
+              <option value={{client.client_id}}> 
+                {{ client.fname }} {{ client.lname }} 
+              </option>
+            {% endfor %}
+          </select>
+          <input value="Previous appointments" type="submit" id=client-details>
+        </form> <br>
   </div>
     <div>
       <form action="/logout" method="POST" class="logout">
@@ -104,9 +97,10 @@
 {% endblock %}
 
 
+
 {% block javascript %}
   <script src="/static/js/login.js"></script>  
-  <script src="/static/js/search.js"></script>
+  <!-- <script src="/static/js/dataList.js"></script> -->
 {% endblock %}
 
 

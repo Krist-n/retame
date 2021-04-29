@@ -104,7 +104,7 @@ def appointment_created():
         return f"New appointment for {client.fname} {client.lname} created!"
 
     else:
-        return None
+        return redirect('/user_homepage')
 
 ###########################################################################
 @app.route('/logout_user')
@@ -206,6 +206,9 @@ def user_homepage():
     # Get number of repeating and new clients
     num_new = len(new_clients)
     num_repeat = len(repeating_clients)
+
+    print("...............................................................")
+    print(all_clients)
 
     return render_template('user_homepage.html', 
                             user=user, 
@@ -530,29 +533,29 @@ def show_appointment_recs():
 
 #<<< ------ Display a clients details from previous records ------ >>>#
 
-@app.route('/search')
-def search_clients():
-    """Search form"""
+# @app.route('/search')
+# def search_clients():
+#     """Search form"""
 
-    # getting input from user search
-    client_name = request.args.get("search")
-    # creating a first name and last name ele
-    client_query_str = client_name.split(" ")
-    # db search by first and last name
-    fullname = crud.get_client_by_fname_and_lname(client_query_str[0], client_query_str[1]) 
+#     # getting input from user search
+#     client_name = request.args.get("search")
+#     # creating a first name and last name ele
+#     client_query_str = client_name.split(" ")
+#     # db search by first and last name
+#     fullname = crud.get_client_by_fname_and_lname(client_query_str[0], client_query_str[1]) 
     
-    print(client_query_str)
+#     print(client_query_str)
 
-    for name in fullname:
-        search_results = name
+#     for name in fullname:
+#         search_results = name
         
-    return redirect('/user_homepage')
+#     return redirect('/user_homepage')
 
 @app.route('/clients/<client_id>')
 def show_client(client_id):
     """Show details on a particular client."""
     
-    session['current_client_id'] = client_id
+    # session['current_client_id'] = client_id
 
     user = crud.get_user_by_user_id(session['current_user_id'])
     client = crud.get_client_by_client_id(session['current_client_id'])
