@@ -22,6 +22,13 @@ body {
   color: #c5b691;
 }
 
+#create-text {
+  margin-bottom: -100px;
+  margin-top: 0;
+  margin-left: -500px;
+  margin-right: -100px
+} 
+
 h4 {
   font-family: 'Quando', serif;
   font-weight: light;
@@ -43,7 +50,7 @@ h4 {
   padding: -5px;
 }
 
-form, h2, h3, h5, a, em {
+form, h1, h2, h3, h5, a, em {
   font-family: 'Quando', serif;
   font-weight: light;
   color: #eee4e4
@@ -108,12 +115,15 @@ form, h2, h3, h5, a, em {
   padding: 15px;
 }
 
-#user_compliments, #user_greetings {
+#user_greeting {
+  margin-top: 20px;;
+}
+#user_compliments {
   font-family: 'Raleway', sans-serif;
   color: #eee4e4;
   text-align: center;
   margin-top: 10px;
-  margin-bottom: 0;
+  margin-bottom: 0px;
   margin-left: 100px;
   display: inline-block;
 }
@@ -125,7 +135,10 @@ form, h2, h3, h5, a, em {
   padding: 20px;
   width: 200px;
   height: 175px;
-  margin-top: -25px;
+  margin-top: 0;
+  margin-bottom: 100px;
+  margin-left: -200px;
+  
 } 
 
 #current_client {
@@ -135,18 +148,21 @@ form, h2, h3, h5, a, em {
   padding: 20px;
   width: 230px;
   height: 115px;
-  margin-top: 0; 
+  margin-top: -265px; 
+  margin-right: 100px;
+  margin-left: 70px;
+  margin-bottom: 100px;
+  
+  
 }
 
 
-#create {
-  margin-bottom: -30px;
-  margin-top: 50px;
-} 
-#select {
-  padding: 20px;
-  margin-top: 50px;
-  margin-bottom: -20px;
+
+#select-text {
+  margin-top: 0;
+  margin-bottom: -100px; 
+  margin-right: -200px;
+  margin-left: 100px;
 } 
 
 #homepage-intro {
@@ -174,7 +190,7 @@ form, h2, h3, h5, a, em {
 
 #create_client {
   margin-top: 40px;
-  margin-bottom: 10px;
+  margin-bottom: 100px;
   padding: -10
 }
 
@@ -186,5 +202,22 @@ form, h2, h3, h5, a, em {
 
 #new-reg-dd {
   margin-top: -50px;
+}
+
+#client-name {
+  margin-right: 0px;
+  padding: 40px;
+  text-align: center;
+ 
+}
+
+#appt-img {
+  border-radius: 50%;
+}
+
+#client-email {
+  padding: 40px;
+  margin-top: -75px;
+  text-align: center;
 }
 

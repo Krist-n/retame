@@ -28,7 +28,7 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def index():
     """display index page"""
-
+    
 
     return render_template('index.html')
     
@@ -90,8 +90,11 @@ def attempted_login():
 
     if session['login_attempt'] == True:
         print("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
-
         return "Incorrect email or password, please try again"
+    elif session['logout'] == True:
+        return redirect("/")
+
+        
 
             
 ###########################################################################
