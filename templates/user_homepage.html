@@ -9,7 +9,7 @@
     
     <ul class="nav justify-content-left" id="nav">
       <li class="nav-item" id="nav">
-        <a class="nav-link" href="/" id="nav"><span class="fas fa-cut fa-rotate-90"></span> Retame</a>
+        <a class="nav-link" href="/" id="nav"><span class="fas fa-cut fa-rotate-90" id="awesome-scissors"></span> Retame</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/about" id="nav"><span class="fas fa-book"></span> About</a>
@@ -30,73 +30,67 @@
 </nav>
 </div>
 </div>
-<div class="container" id="homepage-intro">
-  <div class="row justify-content-start">
-    <div class="col-5">
-      <div id="user_greeting"><h3>Hello {{ user.fname }},</h3>
-        <div id="user_compliments"><h6>Way to go, you have {{ num_reg }} regulars</h6>
-          <div id="user_compliments"><h6>And {{ num_new }} new clients!</h6>
-      <h4 id="create-text">Create new client:</h4> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;<h4 id="select-text">  Select your client: </h4> 
-      
-  
-      <form id="create_client" action="/create_client" method="POST">
-          <div><input type="text" name="fname" placeholder="First name" id="new-client-fname"></div>
-          <div><input type="text" name="lname" placeholder="Last name" id="new-client-lname"></div>
-          <div><input type="text" name="email" placeholder="Email" id="new-client-email"></div>
-          <input value="Add" type="submit" id="new-client-btn" class="btn btn-secondary">
-      </form>
-      <div class="col-3"></div>
-      
-      <div>
-        <form id="current_client" action="/clients" method="GET">
-          <select name="client">
-            {% for client in clients %}
-              <option value={{client.client_id}}> 
-                {{ client.fname }} {{ client.lname }} 
-              </option>
-            {% endfor %}
-          </select>
-          <input value="Previous appointments" type="submit" id="client-details-btn" class="btn btn-secondary">
-        </form> 
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-  <div class="col-4"id="homepage-img">
-        <img src=/static/img/salon-2589649_1280.jpg style="width:600px;height:400px;" id="homepage-img">
-          <!-- <div id="user_greeting"><h3>Hello {{ user.fname }},</h3>
-            <div id="user_compliments"><h6>Way to go, you have {{ num_reg }} regulars</h6>
-              <div id="user_compliments"><h6>And {{ num_new }} new clients!</h6> -->
-                <!-- <div id="new-reg-dd">
-                  <h3 id="new-reg-dd">Regulars:</h3>
-                  <form id="repeating-clients" method="GET">
-                    <select name="client">
-                      {% for client in user_clients %} 
-                        <option value={{client}}> 
-                        {{ client.fname }} {{client.lname}} 
-                        </option>
-                    {% endfor %}
-                    </select>
-                  </form>
-              <h3 id="new-reg-dd">New:</h3>
-              <form id="new-clients" method="GET">
-                <select name="client">
-                  {% for client in new_clients %}
-                    <option value={{client}}> 
-                      {{ client.fname }} {{client.lname}} 
-                    </option>
-                  {% endfor %}
-                </select>
-              </form> -->
-            <!-- </div>
-            </div> -->
-          </div> 
         
-      
-   
-
+        
+<div class="container" id="homepage-intro">
+  <!-- <div class="row">
+    <div class="col"> -->
+  <div class="row">
+    <div class="col-6">
+        <div class="row">
+            <div class="col-12">
+                <div id="user_greeting" class="mt-5"><h3>Hello {{ user.fname }},</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div id="user_compliments" class="p-3">
+                    <h6>Way to go, you have {{ num_reg }} regulars</h6>
+                </div>
+                <div id="user_compliments">
+                    <h6>And {{ num_new }} new clients!</h6>
+                </div>
+            </div>
+        </div>
+    <div></div>
+        <div class="row">
+            <div class="col-6 mt-5">
+                
+                <h4 id="create-text">Create new client:</h4>
+                    <form class="form-control" id="create_client" action="/create_client" method="POST">
+                        <div>
+                            <input type="text" name="fname" placeholder="First name" id="new-client-fname">
+                        </div>
+                        <div>
+                            <input type="text" name="lname" placeholder="Last name" id="new-client-lname">
+                        </div>
+                        <div>
+                            <input type="text" name="email" placeholder="Email" id="new-client-email">
+                        </div>
+                        <input value="Add" type="submit" id="new-client-btn" class="btn btn-secondary">
+                    </form>
+                </div>
+            <div class="col-6 mt-5">
+                <h4 id="select-text">  Select your client: </h4> 
+                <form class="form-control" id="current_client" action="/clients" method="GET">
+                    <select name="client">
+                        {% for client in clients %}
+                            <option value={{client.client_id}}> 
+                                {{ client.fname }} {{client.lname}} 
+                            </option>
+                                {% endfor %}
+                    </select>
+                    <input value="Previous appointments" type="submit" id="client-details-btn" class="btn btn-secondary">
+                </form>
+            </div>
+        </div>
+    </div>  
+    <div class="col-6 mt-5"id="homepage-img">
+        <img src=/static/img/salon-2589649_1280.jpg style="width:600px;height:400px;" id="homepage-img">
+    </div>
+</div>
+</div>
 {% endblock %}
 
 

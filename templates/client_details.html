@@ -1,13 +1,47 @@
 {% extends 'base.html' %}
-
-{% block title %}  Client Details {% endblock %}
+<head>
+    {% block title %}New appointment record{% endblock %}
+</head>
 
 {% block body %}
+<div class="container"> 
+  <div class="row">
+    
+    <ul class="nav justify-content-left" id="nav">
+      <li class="nav-item" id="nav">
+        <a class="nav-link" href="/" id="nav"><span class="fas fa-cut fa-rotate-90" id="awesome-scissors"></span> Retame</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about" id="nav"><span class="fas fa-book"></span> About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/services" tabindex="-1" id="nav"><span class="fas fa-air-freshener"></span> Services</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/user_prof" tabindex="-1" id="nav"><span class="fas fa-book-dead"></span> {{user.fname}}'s client data</a>
+      </li>
+      <li class="nav-item">
+        <form method="POST" action="/logout">
+          <button id="logout" type="submit" class="btn btn-link btn-logout">Log out</button>
+        </form>
+      </li>
+    </ul>
+  </header>
+</nav>
+</div>
+</div>
+
 <div class="containter">
   <div class="row">
      <div class="col-6">
-     <div><h1 id="client-name">{{ client.fname }} {{ client.lname }}</h1>
-  <h3 id="client-email"><i class="far fa-address-book"></i>Email: {{client.email}}</h3>
+
+     <div><h1 class="text-center" id="client-name">{{ client.fname }} {{ client.lname }}</h1>
+  <h5 id="client-email" class="text-center"><i class="far fa-address-book"></i>Email: {{client.email}}</h5>
+  <div class="row">
+  <div class="col-12">
+</div>
+</div>
+  <h3 class="text-center p-5">Technique:</h3>
      </div>
      </div>  
      <div class="col-6">
@@ -16,41 +50,67 @@
 <ul>
      <li>
       <p>
+     <div class="row">
         {% for appt_rec_object in client.client_appt[-1:] %}
 
-        <h3>Technique:</h3>
-
-        <h4> Back panels </h4>
-        <div>{{ appt_rec_object.back_panels }}
-             {{ appt_rec_object.tools_used }}
-        </div>
-        <h4> Right panel </h4>
-        <div>{{ appt_rec_object.right_panel }}
-             {{ appt_rec_object.tools_used }} 
-        </div>
-        <h4> Left panel </h4>
-        <div>{{ appt_rec_object.left_panel }}
-             {{ appt_rec_object.tools_used }}
-        </div> 
-        <h4> Top panel </h4>
-        <div>{{ appt_rec_object.top_panel }}
-             {{ appt_rec_object.tools_used }}
-        </div>
-        <h4> Front panel </h4>
-        <div>{{ appt_rec_object.front_panel }}</div>
-             {{ appt_rec_object.tools_used }}
-             
-        <h4> Personal notes </h4>
-        <div>{{ appt_rec_object.personal_notes }}</div>
-          
-      
         
-        {% endfor %}
-          
-      <a href="/add_new_rec">Create new appointment notes</a>  
-      </p>
-    </li>      
-  </ul>
+        <div class="row justify-content-around">
+          <div class="col-4">
+               <h4> Back panels </h4>
+               <div id="technique">{{ appt_rec_object.back_panels }}
+                    | {{ appt_rec_object.tools_used }}
+               </div>
+          </div>
+          <div class="col-4">
+               <h4> Right panel </h4>
+               <div id="technique">{{ appt_rec_object.right_panel }}
+                    | {{ appt_rec_object.tools_used }} 
+               </div>
+          </div>
+        </div>
+        <div class="row justify-content-around">
+          <div class="col-4">
+               <h4> Right panel </h4>
+               <div id="technique">{{ appt_rec_object.right_panel }}
+                    | {{ appt_rec_object.tools_used }} 
+               </div>
+          </div>
+          <div class="col-4">
+               <h4> Left panel </h4>
+               <div id="technique">{{ appt_rec_object.left_panel }}
+                    | {{ appt_rec_object.tools_used }}
+               </div> 
+          </div>
+        </div>
+        <div class="row justify-content-around">
+          <div class="col-4">
+               <h4> Top panel </h4>
+               <div id="technique">{{ appt_rec_object.top_panel }}
+                    | {{ appt_rec_object.tools_used }}
+               </div>
+          </div>
+          <div class="col-4">
+               <h4> Front panel </h4>
+               <div id="technique">{{ appt_rec_object.front_panel }}
+                   | {{ appt_rec_object.tools_used }}
+          </div>
+        </div>
+        <div class="row justify-content-around">
+          <div class="col-4">
+        <h4> Personal notes </h4>
+        <div id="technique">{{ appt_rec_object.personal_notes }}
+          </div>
+     </div>
+</div>
+     {% endfor %}
+    </p>
+  </li>      
+</ul> 
+     <div class="d-grid gap-2 col-6 mx-auto">
+       <form action="/add_new_rec" id="new-appt-rec">
+         <input class="btn-btn-secondary" type="submit" value="Create new appointment notes"></input>
+       </form>   
+     </div>
   
 
  {% endblock %}

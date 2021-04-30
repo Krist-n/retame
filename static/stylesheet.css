@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: 'Quando', serif;
+  font-family: 'Domine', serif;
   font-weight: light;
   background-color: #130606;
   background-size: 1000px 900px;
@@ -9,7 +9,7 @@ body {
 
 #nav {
   text-align: right;
-  font-family: 'Quando', serif;
+  font-family: 'Domine', serif;
   font-weight: light;
   color: #eee4e4
 }
@@ -22,38 +22,28 @@ body {
   color: #c5b691;
 }
 
-#create-text {
-  margin-bottom: -100px;
-  margin-top: 0;
-  margin-left: -500px;
-  margin-right: -100px
-} 
+#create-text, #select-text {
+  text-align: center;
+ }  
 
 h4 {
-  font-family: 'Quando', serif;
+  font-family: 'Domine', serif;
   font-weight: light;
   color: #eee4e4;
   display: inline-block;
   
-  /* text-align: center; */
 }
 
-#right {
-  text-align: left;
-}
-
-#left {
-  text-align: right;
-  margin-top: -2em;
-  margin-left: -1em;
-  margin-right: -7em;
-  padding: -5px;
-}
 
 form, h1, h2, h3, h5, a, em {
-  font-family: 'Quando', serif;
+  font-family:'Domine', serif;
   font-weight: light;
   color: #eee4e4
+}
+
+#login-section {
+ margin-left: -150px;
+
 }
 
 #new-account {
@@ -62,30 +52,34 @@ form, h1, h2, h3, h5, a, em {
   background:#c5b691!important;
   padding: 20px;
   width: 200px;
-  height: 250px;
-  margin-top: 2em 
+  height: 300px;
 }
 
 #fname, #lname, #new-account-email, #new-account-password, #new-client-fname, #new-client-lname, #new-client-email {
   font-family: 'Raleway', sans-serif;
   width: 150px;
+  margin-top: 10px;
+  width: 150px;
+  
+  
 } 
 
 #login-form {
   border-radius: 15px;
   background:#c5b691!important;
+  font-family: 'Raleway', sans-serif; 
   padding: 10px;
   width: 182px;
   height: 175px;
-  font-family: 'Raleway', sans-serif; 
+  margin
+  
 }
 .em {
   font-family: 'Raleway', sans-serif;
+  text-align: center;
 }
 
 #login-button, #new-account-btn  {
-  margin-top: 0;
-  margin-bottom: 20px;
   color:whitesmoke;
   background-color:black;
   text-align: center;
@@ -93,39 +87,20 @@ form, h1, h2, h3, h5, a, em {
 
 #new-client-btn, #client-details-btn {
   margin-top: 10px;
-  margin-bottom: 20px;
   color:whitesmoke;
   background-color:black;
   text-align: center;
 }
 
-#user-email {
+#user-email, #user-password {
   margin-top: 10px;
   width: 150px;
 }
 
-#user-password {
-  margin-bottom: 10px;
-  width: 150px;
-}
-
-
-#big-form {
-  /* display: inline-flex; */
-  padding: 15px;
-}
-
-#user_greeting {
-  margin-top: 20px;;
-}
 #user_compliments {
   font-family: 'Raleway', sans-serif;
   color: #eee4e4;
   text-align: center;
-  margin-top: 10px;
-  margin-bottom: 0px;
-  margin-left: 100px;
-  display: inline-block;
 }
 
 #create_client {
@@ -134,11 +109,7 @@ form, h1, h2, h3, h5, a, em {
   background:#c5b691!important;
   padding: 20px;
   width: 200px;
-  height: 175px;
-  margin-top: 0;
-  margin-bottom: 100px;
-  margin-left: -200px;
-  
+  height: 200px; 
 } 
 
 #current_client {
@@ -148,39 +119,6 @@ form, h1, h2, h3, h5, a, em {
   padding: 20px;
   width: 230px;
   height: 115px;
-  margin-top: -265px; 
-  margin-right: 100px;
-  margin-left: 70px;
-  margin-bottom: 100px;
-  
-  
-}
-
-
-
-#select-text {
-  margin-top: 0;
-  margin-bottom: -100px; 
-  margin-right: -200px;
-  margin-left: 100px;
-} 
-
-#homepage-intro {
-  display: block
-
-}
-#homepage-img {
-  margin-top: 30px;
-}
-
-#repeating-clients, #new-clients, #new-reg-dd {
-  color: #eee4e4;
-  padding: 50px;
-}
-
-#repeating-clients, #new-clients {
-  margin-top: -100px;
-  margin-bottom: -90px;
 }
 
 #new-clients {
@@ -188,36 +126,20 @@ form, h1, h2, h3, h5, a, em {
   margin-bottom: 100px;
 }
 
-#create_client {
-  margin-top: 40px;
-  margin-bottom: 100px;
-  padding: -10
+#appt-img {
+  border-radius: 50%;
+  max-width: 250px;
+  max-height: 250px;;
 }
 
-#new-client-fname, #new-client-lname, #new-client-email {
-  margin-top: 0;
-  margin-bottom: 0;
+#client-email, #technique {
+  color: #c5b691!important;
+  font-family: 'Raleway', sans-serif;
   
 }
 
-#new-reg-dd {
-  margin-top: -50px;
+#homepage-img {
+  box-shadow: transparent black;
 }
 
-#client-name {
-  margin-right: 0px;
-  padding: 40px;
-  text-align: center;
- 
-}
-
-#appt-img {
-  border-radius: 50%;
-}
-
-#client-email {
-  padding: 40px;
-  margin-top: -75px;
-  text-align: center;
-}
 

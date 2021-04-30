@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Retame Login{% endblock %}
 <head>
-  
 </head>
 
 {% block body %}
@@ -21,43 +20,45 @@
     </ul>
   </header>
 </div>
+</div>
   </div>
-    </div>
-
-  <div class="text-center">
-    <h2>Retame <span class="fas fa-cut fa-rotate-90" id="awesome-scissors"></span></h2>
-      <img src="/static/img/ashkan-forouzani-d0kvBZZsMMw-unsplash.jpg" alt="Responsive image" style="width:600px;height:400px;" id="index-img">
-  </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-4 offset-2" id="big-form">
-          <h4 id="left">Create an Account </h4>
-          
-      <p> 
-    <form class="form-control form-control-sm" action="/create_users" method="post" id='new-account'>
-      <p><input type="text" name="fname" id="fname" placeholder="First name"></p>
-        <p><input type="text" name="lname" id="lname" placeholder="Last name"></p>
-          <p><input type="text" name="email" id="new-account-email" placeholder="Email"></p>
-        <p><input type="password" name="password"  id="new-account-password" placeholder="Password"></p>
-      <input value="Submit" type="submit" class="btn btn-secondary" id="new-account-btn">
+    <div class="text-center">
+      <h2>Retame <span class="fas fa-cut fa-rotate-90" id="awesome-scissors"></span></h2>
+        <img src="/static/img/ashkan-forouzani-d0kvBZZsMMw-unsplash.jpg" alt="Responsive image" style="width:600px;height:400px;" id="index-img">
+      </div>
+    <div class="container">
+  <div class="row">
+<div class="col-5 offset-3" id="big-form">
+  <h4 id="left" class="text-center">Create an Account </h4>
+  <p>
+    <form class="form-control" action="/create_users" method="post" id='new-account'>
+      <p><input class="text-center" type="text" name="fname" id="fname" placeholder="First name"></p>
+        <p><input class="text-center" type="text" name="lname" id="lname" placeholder="Last name"></p>
+          <p><input class="text-center" type="text" name="email" id="new-account-email" placeholder="Email"></p>
+        <p><input class="text-center" type="password" name="password"  id="new-account-password" placeholder="Password"></p>
+      <input value="Submit" type="submit" class="btn btn-secondary" id="new-account-btn" class="text-center">
     </form>
   </p>
   </div>
-    <div class="col-5 offset-1">
-    <h4 id="right"> Already a User?</h4>
-  <p> 
-    <em class="text-center">log in</em>
-      <form class="form-control form-control-sm" action="/login" method="post" class="login" id="login-form">
-        <p><input type="text" name="email" id="user-email" placeholder="Email"></p>
-        <p><input type="password" name="password" id="user-password" placeholder="Password"></p>
-        <p><input value="Log in" type="submit"  class="btn btn-secondary" id="login-button"></p>
-      </form>
-  </p>
-    </div>
-      </div>
+    <div class="col" id="login-section">
+      <h4 id="right" class="text-center"> Already a User?</h4>
+        <div class="row">
+          <div class="col">
+            <em id="login-text" class="text-center">log in</em>
+          </div>
+        </div>
+      <p> 
+    <form class="form-control" action="/login" method="post" class="login" id="login-form">
+      <p><input class="text-center" type="text" name="email" id="user-email" placeholder="Email"></p>
+      <p><input class="text-center" type="password" name="password" id="user-password" placeholder="Password"></p>
+      <p><input value="Log in" type="submit"  class="btn btn-secondary" id="login-button" class="text-center"></p>
+    </form>
+      </p>
         </div>
       </div>
     </div>
+  </div>
+</div>
 {% endblock %}
 {% block javascript %}
 <script src="/static/js/login.js"></script>
