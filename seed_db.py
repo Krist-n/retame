@@ -88,7 +88,7 @@ service_notes_word_list = ['taper', 'fade', 'gradutation', 'sheers', 'theirs', '
     'fine', 'coarse', 'angles', 'layers', 'bangs', 'was', 'elevation', 'look', 'shape', 'she', 'they', 'blowdry', 'them', 'thicken']
 
 
-tools_used_word_list = ['shears', 'thinning shears', 'razor', 'straight blade', 'clippers', 'trimmers', 'texture shears']
+tools_used_word_list = ['shears', 'blowdryer', 'round-brush', 'comb' 'thinning shears', 'razor', 'straight blade', 'clippers', 'trimmers', 'texture shears']
 
 appt_rec_in_db = []
 

@@ -395,7 +395,7 @@ def create_new_appointment():
     tools_used = request.form.get('tools_used')
     service_id = request.form.get('services')
     product_id = request.form.get('products')
-    img_path = request.form.get('img_path')
+    img_path = request.form.get('inputGroupFile04')
    
     file = request.files['file']
 
@@ -485,7 +485,7 @@ def move_to_create_appointment():
     user = crud.get_user_by_user_id(session['current_user_id'])
     
 
-    return render_template('new_service_notes.html',
+    return render_template('service-notes-base.html',
                             services=services,
                             products=products,
                             client=client,
