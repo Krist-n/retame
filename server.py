@@ -579,6 +579,8 @@ def show_client(client_id):
              
     else:
         img_path = None
+
+    
     return render_template('client_details.html',
                                         client=client, 
                                         user=user,

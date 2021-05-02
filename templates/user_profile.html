@@ -1,74 +1,99 @@
 {% extends 'base.html' %}
-{% block title %}{% endblock %}
-
-
+<html>
+    <head>
+        <title>
+          {% block title %}User client data{% endblock %}
+        </title>
+    </head>
 {% block body %}
+<body>
 <div class="container"> 
-  <div class="row">
-    <div class="col-12 col-md-6 col-sm-3 col-lg-9" id="nav" >
-    <ul class="nav justify-content-right fixed-top" id="nav" >
-      <li class="nav-item" id="nav">
-        <a class="nav-link" href="/" id="nav">Retame</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/services" id="nav">Services</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/user_homepage" tabindex="-1" id="nav">New appointment notes</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/logout" tabindex="-1" id="nav">Log out</a>
-      </li>
-    </ul>
-  </header>
-</div>
+    <div class="row">
+      
+      <ul class="nav justify-content-left p-4" id="nav">
+        <li class="nav-item" id="nav">
+          <a class="nav-link" href="/" id="nav"><span class="fas fa-cut fa-rotate-90" id="awesome-scissors"></span> Retame</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about" id="nav"><span class="fas fa-book"></span> About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user_homepage" tabindex="-1" id="nav"><span class="fas fa-air-freshener"></span> Services</a>
+       
+        <li class="nav-item">
+          <form method="POST" action="/logout">
+            <button id="logout" type="submit" class="btn btn-link btn-logout">Log out</button>
+          </form>
+        </li>
+      </ul>
+    </header>
+  </nav>
   </div>
-    </div>
+  </div>
+    <div class="container"> 
+      <div class="row">
+        <div class="col-12">
+          <div class="col-6">
+
   <span>
-    <h1>Retame <i class="fas fa-cut"></i> <h4>{{user.fname}} {{user.lname}}</h4></h1>
+    <h1>Client data <i id="awesome-scissors" class="fas fa-cut"></i> <h4 class="p-3">{{user.fname}}</h4></h1>
   </span>
+</div>
+<div class="row">
+  <div class="col-6">
+    <img src="/static/img/allef-vinicius-img-unsplash.jpg" alt="Responsive image" style="width:600px;height:400px;" id="index-img">
+    <h8 id="img-credit-profile"><small id="img-credit-profile">photo by: Allef Vinicius, Unsplash</small></h8> 
+    <h4 class="p-2">Your most consistent client is        ◊ {{ max_key }}. </h4>
+  </div> 
+  <div class="col-6">
 
-  <h4>Your most consistent client is {{ max_key }}. </h4>
-
-  <div> Regulars:
-    <form id="appt-rec-user" action="/user_prof" method="GET">
-      <select name="repeat-client">
+    <h4 class="reg-text"> Regulars:</h4>
+      <!-- <form id="appt-rec-user" action="/user_prof" method="GET"></form> -->
+      <div id="card-reg" class="card p-2" style="width: 18rem;">
+        <ul class="list-group list-group-flush"></ul>
         {% for key, value in visits_dict.items() %}
-          <option value={{key,value}}> 
-            <dt> {{ key }}, </dt>
-            <dd> total visits: {{ value }}</dd>
-          </option>
+        <li class="list-group-item">{{ key }}, total visits: {{ value }} </li>
         {% endfor %}
-      </select>
-    
-  </form><br>
-  New:
-  <form id="users-new-clients" action="/user_prof" method="GET">
-    <select name="new-client">
-      {% for client in new_clients %}
-        {% if client == client %}
-        <option value={{client}}>
-          {{ client }}
-          {% endif %}
-        </option>
-      {% endfor %}
-    </select>
+      </ul>
+    </div>
+  </div>    
   
-</form><br>
-<div>
-Send your new clients a little thank you and
- friendly reminder to book their next hair service!
-  <ul>
-    <li>
-      {% for client in email %}
-        <i class="far fa-envelope"></i>
-        <a href="mailto:">{{client}}</a>  
-      {% endfor %}
-    </li>
-  </ul> 
-</div><br>
-<div>
+   
+  
+    <h4 class="new-text"> New: </h4>
+      <div id="card-new" class="card p-1" style="width: 18rem;">
+        <ul  class="list-group list-group-flush"></ul>
+        {% for client in new_clients %}
+          {% if client == client %}
+          <li class="list-group-item"> {{ client }} </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-5 offset-1">
+      <h5 class="ml-5" id="new-client-email-rmdr"> Send your new clients a little thank you and
+      friendly reminder to book their next hair service!</h5>
+      <div class="card dark" style="width: 18rem;" id="new-client-email-card">
+       <ul class="list-group list-group-flush" id="new-client-email-card">
+       {% for client in email %}
+       <li><span class="far fa-envelope"></span><a id="new-client-email-card" href="mailto:"> {{client}}</a>
+       {% endfor %}
+       </li>
+     </ul>
+     </div>
+  </div> 
+    </div>
+  </div>    
+  
+   </div>
+   
 
+ 
+
+
+
+</div> 
+</div>
 </div>
 
 

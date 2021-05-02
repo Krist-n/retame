@@ -1,5 +1,5 @@
 'use strict'
-const apptCreated = document.querySelector('#appt-created')
+const apptCreated = document.getElementById('appt-created')
 apptCreated.addEventListener('click', (evt) => {
     evt.preventDefault();
     console.log("hiiiiiiiiiii")

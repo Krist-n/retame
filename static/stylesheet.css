@@ -18,13 +18,21 @@ body {
   padding-bottom: 20px;
 }
 
+#right, #left {
+  margin-top: 20px;
+}
+
 #awesome-scissors, label {
   color: #c5b691;
 }
 
 #create-text, #select-text {
   text-align: center;
- }  
+ }
+
+#new-text, #reg-text {
+  color: #c5b691;
+}
 
 h4 {
   font-family: 'Domine', serif;
@@ -128,8 +136,8 @@ form, h1, h2, h3, h5, a, em {
 
 #appt-img {
   border-radius: 50%;
-  max-width: 250px;
-  max-height: 250px;
+  max-width: 500px;
+  max-height: 500px;
   margin-top: 20px;
   margin-left: 100px;
 }
@@ -141,15 +149,24 @@ form, h1, h2, h3, h5, a, em {
 
 #client-name {
  margin-top: 100px;
- padding: 50px;
- 
+ margin-left: 0;
+ text-align: center;
+ /* padding: 20px; */
  width: 600px;
  height: 100px;
- text-align: center;
 }
 
+#client-name-icon {
+  margin-top: 10px;
+  margin-left: -40px;
+}
+
+#date {
+  margin-top: 20px;
+  margin-left: 50px;
+}
 #technique {
-  /* margin-top: 20px; */
+  margin-left: 50px;
 }
 
 #service-text, #service-id, #product-text, #product-id {
@@ -181,7 +198,35 @@ form, h1, h2, h3, h5, a, em {
 
 #homepage-img {
   box-shadow: transparent black;
+  
 }
+
+#img-credit-notes {
+  font-family: 'Raleway', sans-serif;
+  margin-left: 300px;
+  color:rgb(128, 124, 115)
+}
+
+#notes-btn {
+  margin-bottom: 10px;
+}
+
+#img-cred-index {
+  margin-top: -50px;
+  color:rgb(128, 124, 115)
+}
+
+#img-cred-homepage {
+  margin-top: -25px;
+  color: rgb(185, 181, 181);
+  margin-left: 150px;
+}
+
+#img-credit-profile {
+  margin-bottom: 50px;
+  color: rgb(185, 181, 181);
+}
+
 
 #headsheet {
   max-width: 150px;
@@ -237,12 +282,34 @@ form, h1, h2, h3, h5, a, em {
 #services {
   width: 75%
 }
-#service-intro {
+#service-intro, #users-intro {
   margin-left: 250px;
 }
 
 #upload-text {
   margin-left: 700px; 
 }
+
+#new-client-email-rmdr {
+  padding: 5px;
+  text-align: center;
+ 
+
+}
+#new-client-email-card {
+ margin-left: 50px;
+ 
+ width: 350px
+}
+#new-client-email-card, #card-new, #card-reg {
+  background-color: #c5b691;
+  color: black
+}
+
+#card-reg {
+  margin-right: -150px;
+}
+
+
 
 

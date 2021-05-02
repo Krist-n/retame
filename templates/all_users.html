@@ -1,14 +1,53 @@
 {% extends 'base.html' %}
 {% block body %}
-    <h1>All Users</h1>
+
+% extends 'base.html' %}
+<head>
+    {% block title %}New appointment record{% endblock %}
+</head>
+
+{% block body %}
+<div class="container"> 
+  <div class="row">
+    
+    <ul class="nav justify-content-left" id="nav">
+      <li class="nav-item" id="nav">
+        <a class="nav-link" href="/" id="nav"><span class="fas fa-cut fa-rotate-90" id="awesome-scissors"></span> Retame</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about" id="nav"><span class="fas fa-book"></span> About</a>
+      </li>
+      <li class="nav-item">
+        <form method="POST" action="/logout">
+          <button id="logout" type="submit" class="btn btn-link btn-logout">Log out</button>
+        </form>
+      </li>
+    </ul>
+  </header>
+</nav>
+</div>
+</div>
+  <div class="containter">
+    <div class="row">
+      <div class="col-12">
+    <h1 id="users-intro"><i class="far fa-user-circle"></i>All Users</h1>
 
 <ul>
   {% for user in users %}
   <li>
-      <a href="/users/{{ user.user_id }}">
+    <a
+       href="/users/{{ user.user_id }}">
         {{ user.email }} 
       </a>
   </li>  
 {% endfor %}
 </ul>
 {% endblock %}
+
+<ul class="list-group" >
+  {% for service in services %}
+  <li id="services" class="list-group-item">{{ service.service_name }} - {{ service.price }} <br>
+    {{ service.description }}
+  </li>
+
+</ul>

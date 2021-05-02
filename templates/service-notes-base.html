@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+<html>
+    <head>
+        <title>
+          {% block title %}New appointment record{% endblock %}
+        </title>
+    </head>
+{% block body %}
+<body>
+<div class="container"> 
+    <div class="row">
+      
+      <ul class="nav justify-content-left p-4" id="nav">
+        <li class="nav-item" id="nav">
+          <a class="nav-link" href="/" id="nav"><span class="fas fa-cut fa-rotate-90" id="awesome-scissors"></span> Retame</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about" id="nav"><span class="fas fa-book"></span> About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/services" tabindex="-1" id="nav"><span class="fas fa-air-freshener"></span> Services</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user_prof" tabindex="-1" id="nav"><span class="fas fa-book-dead"></span> {{user.fname}}'s client data</a>
+        </li>
+        <li class="nav-item">
+          <form method="POST" action="/logout">
+            <button id="logout" type="submit" class="btn btn-link btn-logout">Log out</button>
+          </form>
+        </li>
+      </ul>
+    </header>
+  </nav>
+  </div>
+  </div>
+<div class="container">
+  <div class="row">
+      <div class="col-12"> 
+        <div class="row ">
+          <div class="col-6"> 
+<!-- FIRST COLUMN FIRST ROW-->
+            <form action="/create_new_appointment_rec" id="service-notes" method="POST" enctype="multipart/form-data">
+                <h3 id="client-name" class="border border-warning p-3">&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp <i id="client-name-icon" class="far fa-user-circle"></i>  Client: {{ client.fname }} {{ client.lname }}</h3>
+                <h3><input type="date" name="date" required pattern="\d{4}-\d{2}-\d{2}" id="appt-date"></h3>
+                  </div>
+                    <div class="col-6">    
+                      <img src="/static/img/patrick-tomasso-img-unsplash.jpg" alt="Responsive image" style="width:600px;height:400px;" id="index-img">
+                      <h8 id="img-credit-notes">photo by: Patrick Tomasso, Unsplash</h8> 
+                    </div>  
+             
+               <div class="row align-items-center">
+                <div class="col">
+                  <h3 id="service-text" class="mt-5"> • Service provided: </h3>
+                    <select name="services" id="service-id">
+                      {% for service in services %}
+                      <option value={{service.service_id}}> 
+                      {{ service.service_name }} 
+                      </option>
+                      {% endfor %}
+                    </select>
+                </div>
+             <div class="col">
+            <!-- FIRST COLUMN, SECOND ROW -->
+              <h3 id="product-text" class="mt-5"> • Product used: </h3>
+                <select name="products" id="product-id">
+                  {% for product in products %}
+                  <option value={{product.product_id}}> 
+                    {{ product.product_name }} 
+                  </option>
+                    {% endfor %}
+                </select>
+              </div>
+            </div>
+        </div>
+<!-- SECOND COLUMN> -->
+      <div class="row">
+        <div class="col-12"> 
+          <div class="row justify-content-evenly">
+              <div class="col-6"> 
+                  <div class="card mt-5" style="width: 15rem;" id="card-l">
+                      <img class="card-img-top mt-3" id="headsheet" src="/static/headsheets/headsheet4.png" alt="Headsheet, panels on the back of head">
+                          <div class="card-body">
+                              <h3 class="card-title" id="card-title">Back panels</h3>
+                                <div class="card-body">
+                                  <div>
+                                    <textarea name="back_panels" id="back-panels" placeholder="        Beware cowlicks!">
+                                    </textarea>
+                                  </div>
+                                    <select name="tools_used" id="tools-used">
+                                        <option value="" disabled selected hidden>Tool used</option>
+                                        <option value="clippers">Clippers</option>
+                                        <option value="Shears">Shears</option>
+                                        <option value="thinning_shears">Thinning shears</option>
+                                        <option value="razor">Razor</option>
+                                        <option value="straight_blade">Straight blade</option>
+                                        <option value="trimmer">Trimmers</option>
+                                        <option value="texture_shears">Texture shears</option>
+                                        <option value="blowdryer">Blowdryer</option>
+                                        <option value="round-brush">Round Brush</option>
+                                        <option value="comb">Comb</option>
+                                    </select>
+                                </div>
+                          </div>
+                  </div>
+              </div>
+                <div class="col-6"> 
+                  <div class="card mt-5" style="width: 15rem;" id="card-r">
+                      <img class="card-img-top mt-3" id="headsheet" src="/static/headsheets/headsheet3.png" alt="Headsheet, panels on the back of head">
+                          <div class="card-body">
+                              <h3 class="card-title" id="card-title">Right Side</h3>
+                                <div class="card-body">
+                                  <div>
+                                      <textarea name="right_side" id="right-panel" placeholder="                Notes">
+                                      </textarea>
+                                  </div>
+                                    <select name="tools_used" id="tools-used">
+                                        <option value="" disabled selected hidden>Tool used</option>
+                                        <option value="clippers">Clippers</option>
+                                        <option value="Shears">Shears</option>
+                                        <option value="thinning_shears">Thinning shears</option>
+                                        <option value="razor">Razor</option>
+                                        <option value="straight_blade">Straight blade</option>
+                                        <option value="trimmer">Trimmers</option>
+                                        <option value="texture_shears">Texture shears</option>
+                                        <option value="blowdryer">Blowdryer</option>
+                                        <option value="round-brush">Round Brush</option>
+                                        <option value="comb">Comb</option>
+                                    </select>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                  <div class="row">
+                    <div class="col-12"> 
+                      <div class="row justify-content-evenly">
+                        <div class="col-6"> 
+                          <div class="card mt-5" style="width: 15rem;" id="card-l">
+                            <img class="card-img-top mt-3" id="headsheet" src="/static/headsheets/headsheet2.png" alt="Headsheet, panels on the back of head">
+                                <div class="card-body">
+                                  <h3 class="card-title" id="card-title">Left Side</h3>
+                                    <div class="card-body">
+                                        <div>
+                                            <textarea name="left_side" id="left-panel" placeholder="                Notes">
+                                            </textarea>
+                                        </div>
+                                            <select name="tools_used" id="tools-used">
+                                                <option value="" disabled selected hidden>Tool used</option>
+                                                <option value="clippers">Clippers</option>
+                                                <option value="Shears">Shears</option>
+                                                <option value="thinning_shears">Thinning shears</option>
+                                                <option value="razor">Razor</option>
+                                                <option value="straight_blade">Straight blade</option>
+                                                <option value="trimmer">Trimmers</option>
+                                                <option value="texture_shears">Texture shears</option>
+                                                <option value="blowdryer">Blowdryer</option>
+                                                <option value="round-brush">Round Brush</option>
+                                                <option value="comb">Comb</option>
+                                            </select>
+                                    </div>
+                                </div>
+                          </div>
+                        </div>
+                          <div class="col-6"> 
+                            <div class="card mt-5" style="width: 15rem;" id="card-r">
+                              <img class="card-img-top mt-3" id="headsheet" src="/static/headsheets/headsheet5.png" alt="Headsheet, panels on the back of head">
+                                <div class="card-body">
+                                  <h3 class="card-title" id="card-title">Mohawk Section</h3>
+                                    <div class="card-body">
+                                      <div>
+                                        <textarea name="top_section" id="top-panel" placeholder="                Notes">
+                                        </textarea>
+                                      </div>
+                                        <select name="tools_used" id="tools-used">
+                                            <option value="" disabled selected hidden>Tool used</option>
+                                            <option value="clippers">Clippers</option>
+                                            <option value="Shears">Shears</option>
+                                            <option value="thinning_shears">Thinning shears</option>
+                                            <option value="razor">Razor</option>
+                                            <option value="straight_blade">Straight blade</option>
+                                            <option value="trimmer">Trimmers</option>
+                                            <option value="texture_shears">Texture shears</option>
+                                            <option value="blowdryer">Blowdryer</option>
+                                            <option value="round-brush">Round Brush</option>
+                                            <option value="comb">Comb</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                            <div class="row">
+                              <div class="col-12"> 
+                                <div class="row justify-content-evenly">
+                                  <div class="col-6"> 
+                                    <div class="card mt-5" style="width: 15rem;" id="card-l">
+                                      <img class="card-img-top mt-3" id="headsheet" src="/static/headsheets/headsheet2.png" alt="Headsheet, panels on the back of head">
+                                        <div class="card-body">
+                                          <h3 class="card-title" id="card-title">Fringe Section</h3>
+                                            <div class="card-body">
+                                              <div>
+                                                <textarea name="front_section" id="front-panel" placeholder="                Notes">
+                                                </textarea>
+                                              </div>
+                                                  <select name="tools_used" id="tools-used">
+                                                    <option value="" disabled selected hidden>Tool used</option>
+                                                    <option value="clippers">Clippers</option>
+                                                    <option value="Shears">Shears</option>
+                                                    <option value="thinning_shears">Thinning shears</option>
+                                                    <option value="razor">Razor</option>
+                                                    <option value="straight_blade">Straight blade</option>
+                                                    <option value="trimmer">Trimmers</option>
+                                                    <option value="texture_shears">Texture shears</option>
+                                                    <option value="blowdryer">Blowdryer</option>
+                                                    <option value="round-brush">Round Brush</option>
+                                                    <option value="comb">Comb</option>
+                                                  </select>
+                                            </div>
+                                          </div>
+                                        </div>
+                                  </div>
+                                      <div class="col-6"> 
+                                        <div class="card mt-5" style="width: 15rem;" id="card-personal">
+                                          <i class="fas fa-heart" id="heart"  style="color: rgba(209, 13, 13, 0.918); font-size: 3rem;"></i>
+                                             <div class="card-body">
+                                                <h3 class="card-title" id="card-title">Personal client details</h3>
+                                                  <div class="card-body">
+                                                    <div>
+                                                        <textarea name="personal_info" id="personal-notes" placeholder="enter details here"></textarea>
+                                                    </div>
+                                                  </div>
+                                              </div>
+                                        </div>
+                                      </div>
+                                </div>
+                              </div>
+                            </div>
+                              <div class="row">
+                                <div class="col-12">
+                                    <h4 id="upload-text"><i class="fas fa-camera-retro"></i>  Upload a picture of your work!</h4>
+                                  <div class="input-group bg-light mt-3" id="img-file"> 
+                                    <div class="custom-file">
+                                      <input type="file" name="file" action="/create_img" class="custom-file-input" id="inputGroupFile04" placeholder="Lookin good!">
+                                        <label class="custom-file-label" for="inputGroupFile04"></label>
+                                          </div>
+                                            <div class="input-group-append">
+                                            </div>
+                                  </div>
+                                </div>
+                              </div>
+                                  <div class="col-6">
+                                      <button type="submit" action="/create_new_appointment_rec" id="appt-created" class="btn btn-secondary mt-3" >Submit appointment</button>
+                                  </div>
+                                </div>
+
+
+            </form>
+{% endblock %}
+</body>
+{% block javascript %}
+<script src="/static/js/appointment_created.js"></script>  
+{% endblock %}
+</html>    
