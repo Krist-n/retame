@@ -503,6 +503,13 @@ def show_users():
 
 
 #<<< ------ get all clients ------ >>>#
+@app.route('/all_clients')
+def get_all_clients():
+    """Show all clients"""
+    clients = crud.get_all_clients()
+
+    return render_template("all_clients.html",
+                            clients=clients)
 
 @app.route('/clients')
 def get_client():    
@@ -521,8 +528,17 @@ def show_all_services():
     """Return all users"""
 
     services = crud.get_all_services()
+    user = session['current_user_id']
 
-    return render_template('all_services.html', services=services)
+    if user in session:
+        user_data = user
+        print(user_data)
+    else:
+        user_data = ''
+    
+    return render_template('all_services.html', 
+                            user_data=user_data,
+                            services=services)
 
 #<<< ------ get all appointment records ------ >>>#
 

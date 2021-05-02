@@ -18,7 +18,7 @@
           <a class="nav-link" href="/about" id="nav"><span class="fas fa-book"></span> About</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/user_homepage" tabindex="-1" id="nav"><span class="fas fa-air-freshener"></span> Services</a>
+          <a class="nav-link" href="/user_homepage" tabindex="-1" id="nav"><span class="far fa-user-circle"></span>Homepage</a>
        
         <li class="nav-item">
           <form method="POST" action="/logout">
@@ -42,8 +42,10 @@
 <div class="row">
   <div class="col-6">
     <img src="/static/img/allef-vinicius-img-unsplash.jpg" alt="Responsive image" style="width:600px;height:400px;" id="index-img">
-    <h8 id="img-credit-profile"><small id="img-credit-profile">photo by: Allef Vinicius, Unsplash</small></h8> 
-    <h4 class="p-2">Your most consistent client is        ◊ {{ max_key }}. </h4>
+    <h8 id="img-credit-profile"><small id="img-credit-profile">photo by: Allef Vinicius, Unsplash</small></h8>
+    <div class="row">
+    <h4 class="mt-5" id="most-seen">Your most consistent client is        ◊ {{ max_key }}. </h4>
+  </div> 
   </div> 
   <div class="col-6">
 
@@ -60,7 +62,7 @@
   
    
   
-    <h4 class="new-text"> New: </h4>
+    <h4 class="new-text"> New clients: </h4>
       <div id="card-new" class="card p-1" style="width: 18rem;">
         <ul  class="list-group list-group-flush"></ul>
         {% for client in new_clients %}

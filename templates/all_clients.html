@@ -14,3 +14,62 @@
 {% endblock %}
 
 
+
+{% extends 'base.html' %}
+<head>
+    {% block title %}New appointment record{% endblock %}
+</head>
+
+{% block body %}
+<div class="container"> 
+  <div class="row">
+    
+    <ul class="nav justify-content-left" id="nav">
+      <li class="nav-item" id="nav">
+        <a class="nav-link" href="/" id="nav"><span class="fas fa-cut fa-rotate-90" id="awesome-scissors"></span> Retame</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about" id="nav"><span class="fas fa-book"></span> About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/user_prof" id="nav"><span class="fas fa-book"></span> {{user_data.fname}} client data</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/user_homepage" id="nav"><span class="fas fa-book"></span> Homepage</a>
+      </li>
+      <li class="nav-item">
+        <form method="POST" action="/logout">
+          <button id="logout" type="submit" class="btn btn-link btn-logout">Log out</button>
+        </form>
+      </li>
+    </ul>
+  </header>
+</nav>
+</div>
+</div>
+<div class="containter">
+  <div class="row">
+    <div class="col-12">
+    <h1 id="service-intro" >All clients <span class="far fa-user-circle"></span></h1>
+
+
+    <ul class="list-group" >
+      {% for client in clients %}
+      <li id="clients" class="list-group-item">{{ client.fname }} - {{ client.lname }} <br>
+        {{ client.email }}
+      </li>
+    
+    </ul>
+  
+ 
+{% endfor %}
+</ul>
+</ul>
+</div>
+{% endblock %}
+
+</div>
+</div>
+</div>
+
+

@@ -148,17 +148,17 @@ form, h1, h2, h3, h5, a, em {
 }
 
 #client-name {
- margin-top: 100px;
+ 
  margin-left: 0;
- text-align: center;
+ text-align: left;
  /* padding: 20px; */
- width: 600px;
+ /* width: 600px; */
  height: 100px;
 }
 
 #client-name-icon {
   margin-top: 10px;
-  margin-left: -40px;
+  text-align: left;
 }
 
 #date {
@@ -175,6 +175,15 @@ form, h1, h2, h3, h5, a, em {
 
 #service-text  {
   margin-left: 125px;
+}
+
+#new-text {
+  margin-bottom: 20px; 
+  margin-top: -50px
+}
+
+#most-seen {
+  margin-top: 50px;
 }
 
 #product-text {

@@ -21,6 +21,9 @@
           <a class="nav-link" href="/services" tabindex="-1" id="nav"><span class="fas fa-air-freshener"></span> Services</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="/clients" tabindex="-1" id="nav"><span class=""></span> Services</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="/user_prof" tabindex="-1" id="nav"><span class="fas fa-book-dead"></span> {{user.fname}}'s client data</a>
         </li>
         <li class="nav-item">
@@ -40,7 +43,7 @@
           <div class="col-6"> 
 <!-- FIRST COLUMN FIRST ROW-->
             <form action="/create_new_appointment_rec" id="service-notes" method="POST" enctype="multipart/form-data">
-                <h3 id="client-name" class="border border-warning p-3">&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp <i id="client-name-icon" class="far fa-user-circle"></i>  Client: {{ client.fname }} {{ client.lname }}</h3>
+                <h2 id="client-name" class="border border-warning mt-3">&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp <i id="client-name-icon" class="far fa-user-circle"></i>  New notes for: {{ client.fname }} {{ client.lname }}</h2>
                 <h3><input type="date" name="date" required pattern="\d{4}-\d{2}-\d{2}" id="appt-date"></h3>
                   </div>
                     <div class="col-6">    
@@ -50,7 +53,7 @@
              
                <div class="row align-items-center">
                 <div class="col">
-                  <h3 id="service-text" class="mt-5"> • Service provided: </h3>
+                  <h3 id="service-text" class="mt-5">  Service provided: </h3>
                     <select name="services" id="service-id">
                       {% for service in services %}
                       <option value={{service.service_id}}> 
@@ -61,7 +64,7 @@
                 </div>
              <div class="col">
             <!-- FIRST COLUMN, SECOND ROW -->
-              <h3 id="product-text" class="mt-5"> • Product used: </h3>
+              <h3 id="product-text" class="mt-5">  Product used: </h3>
                 <select name="products" id="product-id">
                   {% for product in products %}
                   <option value={{product.product_id}}> 
