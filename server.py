@@ -79,7 +79,7 @@ def logged_in():
     if 'current_user_email' in session and 'current_client_id' not in session:
         user = crud.get_user_by_email(session['current_user_email'])
         
-        return f"{user.fname} {user.lname} logged in!"
+        return f"{user.fname} logged in!"
     else:
         return None
 
@@ -137,10 +137,15 @@ def log_out():
 
     return redirect('/')
 
+@app.route('/about')
+def show_developer_info():
+
+    return render_template('about.html')
+
 
 #<<< ------ Create an account for new user ------ >>>#
 
-@app.route('/create_users', methods=['POST'])
+@app.route('/create_user', methods=['POST'])
 def create_account():
     """create account"""
 
@@ -162,6 +167,8 @@ def create_account():
 
         session['current_user_id']=user.user_id
         return "Account created, please log in"
+
+
 
 
 #<<< ------ Check user password and login ------ >>>#

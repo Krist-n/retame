@@ -2,9 +2,16 @@ body {
   margin: 0;
   font-family: 'Domine', serif;
   font-weight: light;
-  background-color: #130606;
-  background-size: 1000px 900px;
-  background-repeat: no-repeat;
+  background-color: black;
+  
+  /* background-color: black; */
+  
+}
+
+#bio {
+
+  /* background-image: url("static/img/chester-wade-img-unsplash.jpg"); */
+  
 }
 
 #nav {
@@ -19,7 +26,7 @@ body {
 }
 
 #right, #left {
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 #awesome-scissors, label {
@@ -49,36 +56,32 @@ form, h1, h2, h3, h5, a, em {
   color: #eee4e4
 }
 
-#login-section {
- margin-left: -150px;
 
-}
 
-#new-account {
+
+#card-header, #card-header {
   font-family: 'Raleway', sans-serif;
-  border-radius: 30px;
-  background:#c5b691!important;
-  padding: 20px;
-  width: 200px;
-  height: 300px;
+  color: whitesmoke;
+  /* background-color:rgb(93, 93, 114) */
+
 }
 
 #fname, #lname, #new-account-email, #new-account-password, #new-client-fname, #new-client-lname, #new-client-email {
   font-family: 'Raleway', sans-serif;
-  width: 150px;
+  /* width: 150px;
   margin-top: 10px;
-  width: 150px;
+  width: 150px; */
   
   
 } 
 
 #login-form {
-  border-radius: 15px;
-  background:#c5b691!important;
+  /* border-radius: 15px;
+  background:#c5b691!important; */
   font-family: 'Raleway', sans-serif; 
-  padding: 10px;
+  /* padding: 10px;
   width: 182px;
-  height: 175px;
+  height: 175px; */
   
 }
 
@@ -88,21 +91,25 @@ form, h1, h2, h3, h5, a, em {
 }
 
 #login-button, #new-account-btn  {
-  color:whitesmoke;
+  /* color:whitesmoke;
   background-color:black;
-  text-align: center;
+  text-align: center; */
 }
 
-#new-client-btn, #client-details-btn {
+#new-client-btn {
   margin-top: 10px;
   color:whitesmoke;
-  background-color:black;
   text-align: center;
+  width: 100px;
+  margin-left: 50px
+}
+#new-client-fname, #new-client-lname, #new-client-email{
+  margin-left: 25px
 }
 
 #user-email, #user-password {
-  margin-top: 10px;
-  width: 150px;
+  /* margin-top: 10px;
+  width: 150px; */
 }
 
 #user_compliments {
@@ -113,20 +120,19 @@ form, h1, h2, h3, h5, a, em {
 
 #create_client {
   font-family: 'Raleway', sans-serif;
-  border-radius: 30px;
-  background:#c5b691!important;
-  padding: 20px;
-  width: 200px;
-  height: 200px; 
+
+  background-color: #c5b691!important;
+  width: 250px
 } 
 
 #current_client {
   font-family: 'Raleway', sans-serif;
-  border-radius: 30px;
+  background-color: #c5b691!important;
+  /* border-radius: 30px;
   background:#c5b691!important;
   padding: 20px;
   width: 230px;
-  height: 115px;
+  height: 115px; */
 }
 
 #new-clients {
@@ -136,8 +142,8 @@ form, h1, h2, h3, h5, a, em {
 
 #appt-img {
   border-radius: 50%;
-  max-width: 500px;
-  max-height: 500px;
+  max-width: 400px;
+  max-height: 400px;
   margin-top: 20px;
   margin-left: 100px;
 }
@@ -166,7 +172,14 @@ form, h1, h2, h3, h5, a, em {
   margin-left: 50px;
 }
 #technique {
-  margin-left: 50px;
+  margin-left: 225px;
+  width: 400px;
+  height: 50px;
+  padding: 10px
+
+}
+#card-details {
+  width: 500px;
 }
 
 #service-text, #service-id, #product-text, #product-id {
@@ -218,6 +231,8 @@ form, h1, h2, h3, h5, a, em {
 
 #notes-btn {
   margin-bottom: 10px;
+  margin-top: 10px;
+  margin-left: 225px;
 }
 
 #img-cred-index {
@@ -288,6 +303,7 @@ form, h1, h2, h3, h5, a, em {
   margin-left: 700px;
 }
 
+
 #services {
   width: 75%
 }
@@ -318,6 +334,19 @@ form, h1, h2, h3, h5, a, em {
 #card-reg {
   margin-right: -150px;
 }
+
+#user-name, #most-seen {
+  font-family: 'Raleway', sans-serif;
+}
+
+#bio {
+ padding: 25px;
+ 
+}
+
+
+ 
+
 
 
 

@@ -35,72 +35,95 @@
   <div class="row">
      <div class="col-6">
 
-     <div><h1 class="text-center" id="client-name">{{ client.fname }} {{ client.lname }}</h1>
+     <div><h1 class="text-center mt-4" id="client-name">{{ client.fname }} {{ client.lname }}</h1>
   <h5 id="client-email" class="text-center"><i class="far fa-address-book"></i>Email: {{client.email}}</h5>
   <div class="row">
   <div class="col-12">
 </div>
 </div>
-  <h3 class="text-center border p-5" id="technique">Technique:</h3>
+  <h3 class="text-center border border-5 p-5" id="technique">Technique:</h3>
      </div>
      </div>  
      <div class="col-6">
        <img src={{img_path}} alt="hair style photo" id="appt-img" class="mt-4">
      </div>
-<ul>
-     <li>
-      <p>
+
      <div class="row">
         {% for appt_rec_object in client.client_appt[-2:] %}
 
-        <h4 class="ml-5" id="date"> • Date: {{ appt_rec_object.appt_date.strftime('%m-%d-%y') }}</h4> 
+        <h3 class="ml-5" id="date">  Date: {{ appt_rec_object.appt_date.strftime('%m-%d-%y') }}</h3> 
         
-        <div class="row justify-content-around">
+        <div class="row justify-content-evenly">
           <div class="col-4">
-               <h4 class="mt-3"> Back panels </h4>
-               <div id="technique">{{ appt_rec_object.back_panels }}
-                    | Tool: {{ appt_rec_object.tools_used }}
-               </div>
+            
+            <h4 class="mt-3" id="notes"> Back panels </h4>
+              <div class="card" id="card-details">
+                <div class="card-body" id="card-details">
+                  {{ appt_rec_object.back_panels }}
+                  | Tool: {{ appt_rec_object.tools_used }}
+                </div>
+              </div>
           </div>
+          
           <div class="col-4">
-               <h4 class="mt-3"> Right panel </h4>
-               <div id="technique">{{ appt_rec_object.right_panel }}
-                    | Tool: {{ appt_rec_object.tools_used }} 
-               </div>
+            <h4 class="mt-3" id="notes"> Right panel </h4>
+              <div class="card" id="card-details">
+                <div class="card-body" id="card-details">
+                  {{ appt_rec_object.back_panels }}
+                  | Tool: {{ appt_rec_object.tools_used }}
+                </div>
+              </div>
           </div>
         </div>
-        <div class="row justify-content-around">
+
+        <div class="row justify-content-evenly">
           <div class="col-4">
-               <h4 class="mt-3"> Left panel </h4>
-               <div id="technique">{{ appt_rec_object.left_panel }}
-                    | Tool: {{ appt_rec_object.tools_used }}
-               </div> 
+               <h4 class="mt-3" id="notes"> Left panel </h4>
+               <div class="card" id="card-details">
+                <div class="card-body" id="card-details">
+                  {{ appt_rec_object.back_panels }}
+                  | Tool: {{ appt_rec_object.tools_used }}
+                </div>
+              </div>
           </div>
+        
           <div class="col-4">
-            <h4 class="mt-3"> Top panel </h4>
-            <div id="technique">{{ appt_rec_object.top_panel }}
-                 | Tool: {{ appt_rec_object.tools_used }}
+            <h4 class="mt-3" id="notes"> Top panel </h4>
+            <div class="card" id="card-details">
+              <div class="card-body" id="card-details">
+                {{ appt_rec_object.back_panels }}
+                | Tool: {{ appt_rec_object.tools_used }}
+              </div>
             </div>
-       </div>
-        </div>
-              
-        <div class="row justify-content-around">
-         <div class="col-4">
-          <h4 class="mt-3"> Front panel </h4>
-            <div id="technique">{{ appt_rec_object.front_panel }}
-                   | Tool: {{ appt_rec_object.tools_used }}
           </div>
-        </div>
+        </div> 
+
+        <div class="row justify-content-evenly">
           <div class="col-4">
-        <h4 class="mt-3"> Personal notes </h4>
-        <div id="technique">{{ appt_rec_object.personal_notes }}
+            <h4 class="mt-3" id="notes"> Front panel </h4>
+            <div class="card" id="card-details">
+              <div class="card-body" id="card-details">
+                {{ appt_rec_object.back_panels }}
+                | Tool: {{ appt_rec_object.tools_used }}
+              </div>
+            </div>
           </div>
-     </div>
-</div>
+
+          <div class="col-4">
+            <h4 class="mt-3" id="notes"> Personal notes </h4>
+            <div class="card" id="card-details">
+              <div class="card-body" id="card-details">
+                {{ appt_rec_object.back_panels }}
+                | Tool: {{ appt_rec_object.tools_used }}
+              </div>
+            </div>
+          </div>
+        </div>
+
      {% endfor %}
-    </p>
-  </li>      
-</ul> 
+    
+  <!-- </li>      
+</ul>  -->
      <div class="d-grid gap-2 col-6 mx-auto">
        <form action="/add_new_rec" id="new-appt-rec">
          <input id="notes-btn" class="btn-btn-secondary btn-lg p-3" type="submit" value="Create new appointment notes"></input>

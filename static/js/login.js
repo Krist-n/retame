@@ -8,7 +8,7 @@ $.get('/isloggedin', (res) => {
             
             text: res,
             duration: 8000,
-            // backgroundColor: "linear-gradient(to right, #2e8a, #ebccda",
+            backgroundColor: "linear-gradient(to right, #083248, #d4af37",
             newWindow: true,
             close: false,
 

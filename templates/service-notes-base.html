@@ -39,12 +39,12 @@
 <div class="container">
   <div class="row">
       <div class="col-12"> 
-        <div class="row ">
+        <div class="row align-items-center">
           <div class="col-6"> 
 <!-- FIRST COLUMN FIRST ROW-->
             <form action="/create_new_appointment_rec" id="service-notes" method="POST" enctype="multipart/form-data">
-                <h2 id="client-name" class="border border-warning mt-3">&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp <i id="client-name-icon" class="far fa-user-circle"></i>  New notes for: {{ client.fname }} {{ client.lname }}</h2>
-                <h3><input type="date" name="date" required pattern="\d{4}-\d{2}-\d{2}" id="appt-date"></h3>
+                <h3 id="client-name" class="border border-5 p-3">&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp <i id="client-name-icon" class="far fa-user-circle"></i>  New notes for: {{ client.fname }} {{ client.lname }}</h3>
+              <h3><input type="date" name="date" required pattern="\d{4}-\d{2}-\d{2}" id="appt-date"></h3>
                   </div>
                     <div class="col-6">    
                       <img src="/static/img/patrick-tomasso-img-unsplash.jpg" alt="Responsive image" style="width:600px;height:400px;" id="index-img">

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+<head>
+    {% block title %}New appointment record {% endblock %} 
+    <style> 
+    #bio {
+     background-image: url("static/img/chester-wade-img-unsplash.jpg") 
+    }
+    </style>
+    
+       
+</head>
+<body id="bio">
+{% block body %}
+<div class="container"> 
+  <div class="row">
+    
+    <ul class="nav justify-content-left" id="nav">
+      <li class="nav-item" id="nav">
+        <a class="nav-link" href="/" id="nav"><span class="fas fa-cut fa-rotate-90" id="awesome-scissors"></span> Retame</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/services" tabindex="-1" id="nav"><span class="fas fa-air-freshener"></span> Services</a>
+      </li>
+      <li class="nav-item">
+        <form method="POST" action="/logout">
+          <button id="logout" type="submit" class="btn btn-link btn-logout">Log out</button>
+        </form>
+      </li>
+    </ul>
+  </header>
+</nav>
+</div>
+</div>
+
+<div class="containter">
+  <div class="row justify-content-center">
+     <div class="col-6">
+
+     <div><h3 class="text-center mt-5" id="developer-name">Kristen Sutherland</h3>
+  <h5 id="dev-email" class="text-center"><i class="far fa-address-book"></i>Email: kristen.sutherland120@gmail.com</h5>
+  <div class="row">
+  <div class="col-12">
+</div>
+</div>
+  <h3 class="text-center border border-5 p-5 mt-5" id="technique">About the developer: <br>
+    <h5> </h3>
+     </div>
+     </div>  
+     <div class="col-6">
+       <img src='static/img/hair8.png' alt="hair style photo" id="appt-img" class="mt-4 mb-4">
+     </div>
+     <div class="col-6">
+     <div class="card " id="bio">
+        <div class="card-body border " id="bio">
+            Kristen is from Boston and moved to the California Bay area in 2017. 
+            She now lives in a community of like minded individuals focused on inclusion, accessibiliy and human rights.
+            She spends her free time focused on fitness, reading, coding and studying psychology. 
+            Pre pandemic she spent most of her free time dancing and 
+            orchestrated all womxn/female identifying contact jams in the Oakland area.
+            <br></br>
+                After 15 years as a stylist, team lead and national educator, she
+            made the choice to enroll at Hackbright Academy in 
+            Feb. Years of working alongside software engineers inspired her and presented an
+            opportunity to make a wider change in her community and challenge herself in something new. 
+            <br></br>
+                Retame was created as a way to support her fellow stylists and barbers.
+            The all too familiar question, "Do you remember what you did last time?" 
+            Though the memory of many stylists and barbers are incredible, a little support
+            would provide more consistency for the client and the service provider while also being able 
+            to track your success. 
+            
+            
+                   
+   
+
+
+        </div>
+      </div>
+  </div>
+</div>
+
+ {% endblock %}
+
+ {% block after_body %}{% endblock %}
+  </body>   
+</html>

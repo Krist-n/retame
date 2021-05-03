@@ -18,8 +18,11 @@
           <a class="nav-link" href="/about" id="nav"><span class="fas fa-book"></span> About</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/user_homepage" tabindex="-1" id="nav"><span class="far fa-user-circle"></span>Homepage</a>
-       
+          <a class="nav-link" href="/user_homepage" tabindex="-1" id="nav"><span class="far fa-user-circle"></span> Homepage</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/all_clients" tabindex="-1" id="nav"> View all clients</a>
+        </li>
         <li class="nav-item">
           <form method="POST" action="/logout">
             <button id="logout" type="submit" class="btn btn-link btn-logout">Log out</button>
@@ -36,7 +39,7 @@
           <div class="col-6">
 
   <span>
-    <h1>Client data <i id="awesome-scissors" class="fas fa-cut"></i> <h4 class="p-3">{{user.fname}}</h4></h1>
+    <h1>Client data <i id="awesome-scissors" class="fas fa-cut"></i> <h4 id="user-name" class="p-3">{{user.fname}}</h4></h1>
   </span>
 </div>
 <div class="row">

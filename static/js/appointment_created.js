@@ -1,7 +1,7 @@
 'use strict'
 const apptCreated = document.getElementById('appt-created')
 apptCreated.addEventListener('click', (evt) => {
-    evt.preventDefault();
+    // evt.preventDefault();
     console.log("hiiiiiiiiiii")
     $.get('/appointment_created', (res) => {
 
@@ -12,7 +12,7 @@ apptCreated.addEventListener('click', (evt) => {
 
                 text: res,
                 duration: 3000,
-                // backgroundColor: "linear-gradient(to right, #f22e8a, #ebccda",
+                backgroundColor: "linear-gradient(to right, #083248, #d4af37",
                 newWindow: true,
                 close: false
 

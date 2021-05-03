@@ -8,7 +8,7 @@ $.get('/attempted_login', (res) => {
 
             text: res,
             duration: 5000,
-            // backgroundColor: "linear-gradient(to right, #f22e8a, #ebccda",
+            backgroundColor: "linear-gradient(to right, #083248, #d4af37",
             newWindow: true,
             close: true
 
